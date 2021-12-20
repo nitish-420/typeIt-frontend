@@ -1,15 +1,24 @@
-import {React,useRef,useEffect} from 'react'
+import {React} from 'react'
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import EnglishEditor from "./EnglishEditor"
+import CEditor from "./CEditor"
+import PythonEditor from "./PythonEditor"
+import JavaEditor from "./JavaEditor"
+import JavascriptEditor from "./JavascriptEditor"
 
 export default function Home() {
 
-    const triggerTextArea=useRef(null)
+    let languageState=useSelector((state)=>{
+        return state.handleLanguageState
+    })
+
+
 
     const guestState=useSelector((state)=>{
         return state.handleGuestState
     })
-    
+
 
     let history=useHistory();
     
@@ -17,16 +26,16 @@ export default function Home() {
         history.push("/login")
     }
 
-    useEffect(()=>{
-        triggerTextArea.current.focus()
-        console.log("triggred")
-    },[])
+
 
     return (
         <>
-            <textarea className='w-100 textArea' ref={triggerTextArea} spellCheck={false} >
-                This is the sentence given to me by this 
-            </textarea>
+            
+            {languageState==="English" && <EnglishEditor/>}
+            {languageState==="Python" && <PythonEditor/>}
+            {languageState==="C" && <CEditor/>}
+            {languageState==="Java" && <JavaEditor/>}
+            {languageState==="Javascript" && <JavascriptEditor/>}
         </>
     )
 }

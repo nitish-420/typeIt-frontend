@@ -351,7 +351,8 @@ h6 span {
 }
 
 .textArea {
-    height: 400px;
+    height: 300px;
+    width: 100%;
     background-color: #212529;
     border: 0px;
     outline: none;
