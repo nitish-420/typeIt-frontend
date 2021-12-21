@@ -1,6 +1,6 @@
 import {words} from "../helpers/words.json"
 
-const handleWordState=async(state=[],action)=>{
+const handleWordState=(state=[],action)=>{
     const data=[]
 
     let idx=Math.floor(Math.random() * (10000 + 1));

@@ -45,6 +45,7 @@ export const getWords=()=>dispatch=>{
 export const startTest=(time)=>dispatch=>{
     dispatch({type:"STARTTEST"})
     setTimeout(()=>{dispatch({type:"STOPTEST"})},time*1000)
+    dispatch({type:"TESTCOMPLETED"})
 }
 
 export const stopTest=()=>dispatch=>{
@@ -58,5 +59,17 @@ export const nextActiveWord=()=>dispatch=>{
 
 export const nextActiveChar=()=>dispatch=>{
     dispatch({type:"ACTIVENEXTCHAR"})
+}
+
+export const prevActiveWord=()=>dispatch=>{
+    dispatch({type:"ACTIVEPREVWORD"})
+}
+
+export const prevActiveChar=()=>dispatch=>{
+    dispatch({type:"ACTIVEPREVCHAR"})
+}
+
+export const resetActiveState=()=>dispatch=>{
+    dispatch({type:"RESETACTIVESTATE"})
 }
 

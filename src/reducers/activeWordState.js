@@ -13,6 +13,18 @@ const handleActiveWordState=(state=activeState,action)=>{
         case "ACTIVENEXTCHAR":
             final.char+=1
             return final;
+        case "ACTIVEPREVWORD":
+            final.word-=1
+            final.char=0
+            // Will decide later to add this or not 
+            return final;
+        case "ACTIVEPREVCHAR":
+            final.char-=1
+            return final;
+        
+        case "RESETACTIVESTATE":
+            return activeState;
+        
         default : return state;
     }
 }

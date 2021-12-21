@@ -1,6 +1,6 @@
 import React from 'react'
-import { offRestart,stopTest } from '../actions'
-import { useDispatch } from 'react-redux'
+import { offRestart,stopTest,resetActiveState,getWords } from '../actions'
+import { useDispatch} from 'react-redux'
 
 export default function Restart() {
     
@@ -22,9 +22,16 @@ export default function Restart() {
         }
     }
 
+    const restartClicked=()=>{
+        dispatch(stopTest())
+        dispatch(resetActiveState())
+        dispatch(getWords())
+        
+    }
+
     return (
         <div>
-            <button onClick={()=>dispatch(stopTest()) }>Restart</button>
+            <button onClick={()=>restartClicked() }>Restart</button>
         </div>
     )
 }

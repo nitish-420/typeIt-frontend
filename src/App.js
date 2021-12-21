@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-
 import Alert from "./components/Alert";
 import Navbar from "./components/Navbar";
 import Home from "./components/Home"
@@ -15,6 +14,7 @@ function App() {
 	const testState=useSelector((state)=>{
 		return state.handleTestState
 	})
+
 
 	return (
 		<div className="root bg-dark container">

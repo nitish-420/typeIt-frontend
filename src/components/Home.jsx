@@ -8,7 +8,7 @@ import JavaEditor from "./JavaEditor"
 import JavascriptEditor from "./JavascriptEditor"
 import Restart from './Restart';
 import { useDispatch } from 'react-redux';
-import {onRestart,startTest} from "../actions/index"
+import {onRestart,startTest,nextActiveChar,nextActiveWord,prevActiveChar} from "../actions/index"
 
 
 export default function Home() {
@@ -30,21 +30,26 @@ export default function Home() {
     const testState=useSelector((state)=>{
         return state.handleTestState
     })
-
+    
     const timeState=useSelector((state)=>{
         return state.handleTimeState
     })
-
+    
     const activeWordState=useSelector((state)=>{
         return state.handleActiveWordState
     })
-
+    
     let history=useHistory();
     
     if(!localStorage.getItem("token") && !guestState){
         history.push("/login")
     }
-
+    
+    const words=useSelector((state)=>{
+        return state.handleWordState
+    })
+    let area=document.getElementById("activeWord")
+    
     window.onkeydown=(e)=>{
         switch(e.key){
             case "Tab":
@@ -54,16 +59,42 @@ export default function Home() {
             case "Escape":
                 e.preventDefault()
                 break
+            case " ":
+                e.preventDefault()
+                if(activeWordState.char!==0){
+                    dispatch(nextActiveWord())
+                }
+                area=document.getElementById("activeWord")
+                if(area !==null){
+                    area.scrollIntoView({
+                        block:"center"
+                    })
+                }
+                break
+            case "Backspace":
+                e.preventDefault()
+                if(activeWordState.char!==0){
+                    dispatch(prevActiveChar())
+                }
+                break
             default :
+                e.preventDefault()
                 if(!testState){
                     dispatch(startTest(timeState))
                 }
+                let key=e.key
+                if(key===words[activeWordState.word][activeWordState.char]){
+                    console.log("success")
+                    dispatch(nextActiveChar())
+                }
+                else{
+                    console.log("danger")
+                    dispatch(nextActiveChar())
+                }
 
-                
 
         }
     }
-
 
 
     return (
