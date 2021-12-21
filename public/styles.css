@@ -362,4 +362,41 @@ h6 span {
 	outline: none;
 	color: white;
 	overflow: hidden;
+    word-break: break-all;
+    white-space: normal;
+}
+
+.everyChar{
+    font-size: 30px;
+    margin-left: 1px;
+    margin-right: 1px;
+    /* padding-left: 1px; */
+}
+
+.activeChar::before {
+    content: '';
+    width: 3px;
+    height: 30px;
+    background: rgb(16, 147, 255);
+    opacity: 0;
+    display: inline-block;
+    animation: blink 0.5s linear infinite alternate;
+}
+  
+@keyframes blink {
+50% {
+    opacity: 0;
+}
+100% {
+    opacity: 1;
+}
+}
+
+.testBox{
+    overflow: hidden;
+}
+
+.word{
+    margin-left: 7px;
+    display: inline-block;
 }

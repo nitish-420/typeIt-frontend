@@ -36,6 +36,7 @@ function Navbar(props) {
                 <Link className={`m-0 p-0  nav-link text-light navbar-brand`} data-toggle="tooltip" style={{fontSize:"1.1rem"}} title="TypeIt" to="/">TypeIt</Link>
                 <Link className={`m-0 p-0  nav-link ${location.pathname==="/" ? "text-light navbar-brand" : "text-muted"}`} aria-current="page" to="/"  >Home</Link>
                 <Link className={`m-0 p-0  nav-link ${location.pathname==="/about" ? "text-light navbar-brand" : "text-muted"}`} to="/about" >About</Link>
+                <Link className={`m-0 p-0  nav-link ${location.pathname==="/user" ? "text-light navbar-brand" : "text-muted"}`} to="/user" >User</Link>
                 {!localStorage.getItem("token") ?
                 
                 <Link className={`m-0 p-0 nav-link ${location.pathname==="/login" ? "text-light navbar-brand" : "text-muted"}`} to="/login" >Login</Link>

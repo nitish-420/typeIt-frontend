@@ -27,3 +27,36 @@ export const setLanguage=(lang)=>dispatch=>{
 export const getLanguage=()=>dispatch=>{
     dispatch({type:"GETLANGUAGE"})
 }
+
+
+export const onRestart=()=>dispatch=>{
+    dispatch({type:"ONRESTART"})
+}
+
+export const offRestart=()=>dispatch=>{
+    dispatch({type:"OFFRESTART"})
+}
+
+export const getWords=()=>dispatch=>{
+    dispatch({type:"GETWORDS"})
+}
+
+
+export const startTest=(time)=>dispatch=>{
+    dispatch({type:"STARTTEST"})
+    setTimeout(()=>{dispatch({type:"STOPTEST"})},time*1000)
+}
+
+export const stopTest=()=>dispatch=>{
+    dispatch({type:"STOPTEST"})
+    dispatch({type:"OFFRESTART"})
+}
+
+export const nextActiveWord=()=>dispatch=>{
+    dispatch({type:"ACTIVENEXTWORD"})
+}
+
+export const nextActiveChar=()=>dispatch=>{
+    dispatch({type:"ACTIVENEXTCHAR"})
+}
+
