@@ -43,9 +43,17 @@ export const getWords=()=>dispatch=>{
 
 
 export const startTest=(time)=>dispatch=>{
+    dispatch({type:"INCOMPLETETEST"})
     dispatch({type:"STARTTEST"})
-    setTimeout(()=>{dispatch({type:"STOPTEST"})},time*1000)
-    dispatch({type:"TESTCOMPLETED"})
+    setTimeout(()=>{
+        dispatch({type:"STOPTEST"})
+        dispatch({type:"COMPLETETEST"})
+    },time*1000)
+}
+
+export const resetCompleteTestState=()=>dispatch=>{
+    dispatch({type:"INCOMPLETETEST"})
+
 }
 
 export const stopTest=()=>dispatch=>{
@@ -72,4 +80,17 @@ export const prevActiveChar=()=>dispatch=>{
 export const resetActiveState=()=>dispatch=>{
     dispatch({type:"RESETACTIVESTATE"})
 }
+
+export const addCorrectCharacter=(wordIdx,charIdx)=>dispatch=>{
+    dispatch({type:"ADDCORRECTCHARACTER",payload:{wordIdx,charIdx}})
+}
+export const removeCorrectCharacter=(wordIdx,charIdx)=>dispatch=>{
+    dispatch({type:"REMOVECORRECTCHARACTER",payload:{wordIdx,charIdx}})
+}
+
+
+export const resetCorrectCharacter=()=>dispatch=>{
+    dispatch({type:"RESETCORRECTCHARACTER"})
+}
+
 

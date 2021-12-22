@@ -438,3 +438,10 @@ h6 span {
 #activeWord{
     margin-left: -9px;
 }
+
+.rightCharacter{
+    color: greenyellow;
+}
+.wrongCharacter{
+    color: red;
+}

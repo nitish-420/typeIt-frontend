@@ -7,14 +7,24 @@ import PythonEditor from "./PythonEditor"
 import JavaEditor from "./JavaEditor"
 import JavascriptEditor from "./JavascriptEditor"
 import Restart from './Restart';
+import TestComplete from './TestComplete';
 import { useDispatch } from 'react-redux';
-import {onRestart,startTest,nextActiveChar,nextActiveWord,prevActiveChar} from "../actions/index"
+import {onRestart,startTest,nextActiveChar,nextActiveWord,prevActiveChar,addCorrectCharacter,removeCorrectCharacter} from "../actions/index"
 
 
 export default function Home() {
-
+    
     const dispatch=useDispatch()
+    
+    let history=useHistory();
+    
+    const guestState=useSelector((state)=>{
+        return state.handleGuestState
+    })
 
+    if(!localStorage.getItem("token") && !guestState){
+        history.push("/login")
+    }
     let languageState=useSelector((state)=>{
         return state.handleLanguageState
     })
@@ -23,9 +33,6 @@ export default function Home() {
         return state.handleRestartState
     })
 
-    const guestState=useSelector((state)=>{
-        return state.handleGuestState
-    })
 
     const testState=useSelector((state)=>{
         return state.handleTestState
@@ -38,12 +45,11 @@ export default function Home() {
     const activeWordState=useSelector((state)=>{
         return state.handleActiveWordState
     })
+
+    const testCompleteState=useSelector((state)=>{
+        return state.handleTestCompleteState
+    })
     
-    let history=useHistory();
-    
-    if(!localStorage.getItem("token") && !guestState){
-        history.push("/login")
-    }
     
     const words=useSelector((state)=>{
         return state.handleWordState
@@ -74,6 +80,7 @@ export default function Home() {
             case "Backspace":
                 e.preventDefault()
                 if(activeWordState.char!==0){
+                    dispatch(removeCorrectCharacter(activeWordState.word,activeWordState.char))
                     dispatch(prevActiveChar())
                 }
                 break
@@ -84,7 +91,7 @@ export default function Home() {
                 }
                 let key=e.key
                 if(key===words[activeWordState.word][activeWordState.char]){
-                    console.log("success")
+                    dispatch(addCorrectCharacter(activeWordState.word,activeWordState.char))
                     dispatch(nextActiveChar())
                 }
                 else{
@@ -100,12 +107,14 @@ export default function Home() {
     return (
         <>
             
-            {languageState==="English" && !restartState && <EnglishEditor/>}
-            {languageState==="Python" && !restartState && <PythonEditor/>}
-            {languageState==="C" && !restartState && <CEditor/>}
-            {languageState==="Java" && !restartState && <JavaEditor/>}
-            {languageState==="Javascript" && !restartState && <JavascriptEditor/>}
-            {restartState && <Restart/>}
+            {languageState==="English" && !restartState &&!testCompleteState && <EnglishEditor/>}
+            {languageState==="Python" && !restartState &&!testCompleteState && <PythonEditor/>}
+            {languageState==="C" && !restartState &&!testCompleteState && <CEditor/>}
+            {languageState==="Java" && !restartState &&!testCompleteState && <JavaEditor/>}
+            {languageState==="Javascript" && !restartState &&!testCompleteState && <JavascriptEditor/>}
+            {restartState &&!testCompleteState && <Restart/>}
+            {testCompleteState && <TestComplete/>}
+
         </>
     )
 }
