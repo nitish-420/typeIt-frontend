@@ -5,7 +5,7 @@ const handleWordState=(state=[],action)=>{
 
     let idx=Math.floor(Math.random() * (10000 + 1));
     
-    for(let i=idx;i<idx+250;i++){
+    for(let i=idx;i<idx+100;i++){
         data.push(words[i])
     }
 

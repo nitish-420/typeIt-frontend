@@ -2,6 +2,10 @@ import {React} from "react";
 import { useSelector,useDispatch } from "react-redux";
 import { getWords } from "../actions";
 import Word from "./Word";
+import Timer from "./Timer"
+import LiveWPM from "./LiveWPM"
+import LiveAccuracy from "./LiveAccuracy";
+
 
 export default function EnglishEditor(){
 
@@ -20,12 +24,17 @@ export default function EnglishEditor(){
  
 
     return (
-        <div className="textArea" id="area" >
-            {words.map((word,idx)=>{
-                return (
-                    <Word word={word} key={idx} idx={idx} />
-                )
-        })}
-        </div>
+        <>
+            <Timer/>
+            <LiveWPM/>
+            <LiveAccuracy/>
+            <div className="textArea" id="area" >
+                {words.map((word,idx)=>{
+                    return (
+                        <Word word={word} key={idx} idx={idx} />
+                    )
+                })}
+            </div>
+        </>
     )
 }

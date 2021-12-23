@@ -1,5 +1,5 @@
 import React from 'react'
-import { offRestart,stopTest,resetActiveState,getWords,resetCorrectCharacter,resetCompleteTestState } from '../actions'
+import { offRestart,stopTest,resetActiveState,getWords,resetCorrectCharacter,resetCompleteTestState,resetRunningTimeState ,resetWrongCharacter, resetLiveAccuracy, resetLiveWpm} from '../actions'
 import { useDispatch} from 'react-redux'
 
 export default function Restart() {
@@ -23,14 +23,17 @@ export default function Restart() {
     }
 
     const restartClicked=()=>{
+        dispatch(offRestart())
         dispatch(stopTest())
+        dispatch(resetRunningTimeState())
         dispatch(resetActiveState())
         dispatch(resetCorrectCharacter())
+        dispatch(resetWrongCharacter())
+        dispatch(resetLiveAccuracy())
+        dispatch(resetLiveWpm())
         dispatch(resetCompleteTestState())
         dispatch(getWords())
-
-
-        
+    
     }
 
     return (

@@ -9,7 +9,7 @@ import JavascriptEditor from "./JavascriptEditor"
 import Restart from './Restart';
 import TestComplete from './TestComplete';
 import { useDispatch } from 'react-redux';
-import {onRestart,startTest,nextActiveChar,nextActiveWord,prevActiveChar,addCorrectCharacter,removeCorrectCharacter} from "../actions/index"
+import {onRestart,startTest,nextActiveChar,nextActiveWord,prevActiveChar,addCorrectCharacter,removeCorrectCharacter,setCompleteTestState,startRunningTime,stopTest,removeWrongCharacter,addWrongCharacter} from "../actions/index"
 
 
 export default function Home() {
@@ -18,7 +18,7 @@ export default function Home() {
     
     let history=useHistory();
     
-    const guestState=useSelector((state)=>{
+    let guestState=useSelector((state)=>{
         return state.handleGuestState
     })
 
@@ -34,24 +34,28 @@ export default function Home() {
     })
 
 
-    const testState=useSelector((state)=>{
+    let testState=useSelector((state)=>{
         return state.handleTestState
     })
     
-    const timeState=useSelector((state)=>{
+    let timeState=useSelector((state)=>{
         return state.handleTimeState
     })
     
-    const activeWordState=useSelector((state)=>{
+    let activeWordState=useSelector((state)=>{
         return state.handleActiveWordState
     })
 
-    const testCompleteState=useSelector((state)=>{
+    let testCompleteState=useSelector((state)=>{
         return state.handleTestCompleteState
+    })
+
+    let runningTimeState=useSelector((state)=>{
+        return state.handleRunningTimeState
     })
     
     
-    const words=useSelector((state)=>{
+    let words=useSelector((state)=>{
         return state.handleWordState
     })
     let area=document.getElementById("activeWord")
@@ -68,6 +72,9 @@ export default function Home() {
             case " ":
                 e.preventDefault()
                 if(activeWordState.char!==0){
+                    for(let ii=activeWordState.char;ii<words[activeWordState.word].length;ii++){
+                        dispatch(addWrongCharacter(activeWordState.word,ii))
+                    }
                     dispatch(nextActiveWord())
                 }
                 area=document.getElementById("activeWord")
@@ -81,13 +88,15 @@ export default function Home() {
                 e.preventDefault()
                 if(activeWordState.char!==0){
                     dispatch(removeCorrectCharacter(activeWordState.word,activeWordState.char))
+                    dispatch(removeWrongCharacter(activeWordState.word,activeWordState.char))
                     dispatch(prevActiveChar())
                 }
                 break
             default :
                 e.preventDefault()
                 if(!testState){
-                    dispatch(startTest(timeState))
+                    dispatch(startTest())
+                    dispatch(startRunningTime())
                 }
                 let key=e.key
                 if(key===words[activeWordState.word][activeWordState.char]){
@@ -95,7 +104,7 @@ export default function Home() {
                     dispatch(nextActiveChar())
                 }
                 else{
-                    console.log("danger")
+                    dispatch(addWrongCharacter(activeWordState.word,activeWordState.char))
                     dispatch(nextActiveChar())
                 }
 
@@ -103,17 +112,24 @@ export default function Home() {
         }
     }
 
+    // setInterval(()=>{
+    //     if(runningTimeState!==null && Date.now()-runningTimeState>=timeState*1000  && testCompleteState===false){
+    //         dispatch(setCompleteTestState())
+    //         dispatch(stopTest())
+    //     }
+    // },1000)
+
 
     return (
         <>
             
-            {languageState==="English" && !restartState &&!testCompleteState && <EnglishEditor/>}
-            {languageState==="Python" && !restartState &&!testCompleteState && <PythonEditor/>}
-            {languageState==="C" && !restartState &&!testCompleteState && <CEditor/>}
-            {languageState==="Java" && !restartState &&!testCompleteState && <JavaEditor/>}
-            {languageState==="Javascript" && !restartState &&!testCompleteState && <JavascriptEditor/>}
-            {restartState &&!testCompleteState && <Restart/>}
-            {testCompleteState && <TestComplete/>}
+            {languageState==="English"  && !restartState && !testCompleteState && <EnglishEditor/>}
+            {languageState==="Python"  && !restartState && !testCompleteState && <PythonEditor/>}
+            {languageState==="C"  && !restartState && !testCompleteState && <CEditor/>}
+            {languageState==="Java"  && !restartState && !testCompleteState && <JavaEditor/>}
+            {languageState==="Javascript" && !restartState && !testCompleteState && <JavascriptEditor/>}
+            {restartState && !testCompleteState && <Restart/>}
+            {/* {testCompleteState && !testState && <TestComplete/>} */}
 
         </>
     )

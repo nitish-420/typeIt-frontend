@@ -1,6 +1,6 @@
-let testState=false
+// let testState=false
 
-const handleTestState=(state=testState,action)=>{
+const handleTestState=(state=false,action)=>{
     switch(action.type){
         case "STARTTEST": return true;
         case "STOPTEST": return false;

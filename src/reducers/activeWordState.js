@@ -23,7 +23,9 @@ const handleActiveWordState=(state=activeState,action)=>{
             return final;
         
         case "RESETACTIVESTATE":
-            return activeState;
+            final.word=0
+            final.char=0
+            return final;
         
         default : return state;
     }

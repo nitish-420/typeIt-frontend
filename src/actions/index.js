@@ -42,13 +42,14 @@ export const getWords=()=>dispatch=>{
 }
 
 
-export const startTest=(time)=>dispatch=>{
+export const startTest=()=>dispatch=>{
     dispatch({type:"INCOMPLETETEST"})
     dispatch({type:"STARTTEST"})
-    setTimeout(()=>{
-        dispatch({type:"STOPTEST"})
-        dispatch({type:"COMPLETETEST"})
-    },time*1000)
+}
+
+export const setCompleteTestState=()=>dispatch=>{
+    dispatch({type:"COMPLETETEST"})
+
 }
 
 export const resetCompleteTestState=()=>dispatch=>{
@@ -58,7 +59,6 @@ export const resetCompleteTestState=()=>dispatch=>{
 
 export const stopTest=()=>dispatch=>{
     dispatch({type:"STOPTEST"})
-    dispatch({type:"OFFRESTART"})
 }
 
 export const nextActiveWord=()=>dispatch=>{
@@ -91,6 +91,42 @@ export const removeCorrectCharacter=(wordIdx,charIdx)=>dispatch=>{
 
 export const resetCorrectCharacter=()=>dispatch=>{
     dispatch({type:"RESETCORRECTCHARACTER"})
+}
+
+export const addWrongCharacter=(wordIdx,charIdx)=>dispatch=>{
+    dispatch({type:"ADDWRONGCHARACTER",payload:{wordIdx,charIdx}})
+}
+export const removeWrongCharacter=(wordIdx,charIdx)=>dispatch=>{
+    dispatch({type:"REMOVEWRONGCHARACTER",payload:{wordIdx,charIdx}})
+}
+
+
+export const resetWrongCharacter=()=>dispatch=>{
+    dispatch({type:"RESETWRONGCHARACTER"})
+}
+
+
+export const resetRunningTimeState=()=>dispatch=>{
+    console.log("resetrunning time ")
+    dispatch({type:"RESETTIMESTATE"})
+}
+
+export const startRunningTime=()=>dispatch=>{
+    dispatch({type:"STARTTIMESTATE"})
+}
+
+export const setLiveWpm=(speed)=>dispatch=>{
+    dispatch({type:"SETLIVEWPM",payload:speed})
+}
+export const resetLiveWpm=()=>dispatch=>{
+    dispatch({type:"RESETLIVEWPM"})
+}
+
+export const setLiveAccuracy=(acc)=>dispatch=>{
+    dispatch({type:"SETLIVEACCURACY",payload:acc})
+}
+export const resetLiveAccuracy=()=>dispatch=>{
+    dispatch({type:"RESETLIVEACCURACY"})
 }
 
 
