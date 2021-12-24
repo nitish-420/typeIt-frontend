@@ -29,14 +29,6 @@ export const getLanguage=()=>dispatch=>{
 }
 
 
-export const onRestart=()=>dispatch=>{
-    dispatch({type:"ONRESTART"})
-}
-
-export const offRestart=()=>dispatch=>{
-    dispatch({type:"OFFRESTART"})
-}
-
 export const getWords=()=>dispatch=>{
     dispatch({type:"GETWORDS"})
 }
@@ -105,16 +97,6 @@ export const resetWrongCharacter=()=>dispatch=>{
     dispatch({type:"RESETWRONGCHARACTER"})
 }
 
-
-export const resetRunningTimeState=()=>dispatch=>{
-    console.log("resetrunning time ")
-    dispatch({type:"RESETTIMESTATE"})
-}
-
-export const startRunningTime=()=>dispatch=>{
-    dispatch({type:"STARTTIMESTATE"})
-}
-
 export const setLiveWpm=(speed)=>dispatch=>{
     dispatch({type:"SETLIVEWPM",payload:speed})
 }
@@ -127,6 +109,13 @@ export const setLiveAccuracy=(acc)=>dispatch=>{
 }
 export const resetLiveAccuracy=()=>dispatch=>{
     dispatch({type:"RESETLIVEACCURACY"})
+}
+
+export const setLiveTimer=(time)=>dispatch=>{
+    dispatch({type:"SETLIVETIMER",payload:time})
+}
+export const resetLiveTimer=()=>dispatch=>{
+    dispatch({type:"RESETLIVETIMER"})
 }
 
 

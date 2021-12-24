@@ -47,18 +47,18 @@ function Navbar(props) {
                 {location.pathname==='/' &&
                 < >
                 
-                    <Link className={`mx-1 p-0  nav-link ${timeState===15 ? "text-light navbar-brand" : "text-muted"}`} onClick={()=>dispatch(setTime(15))} >15</Link>
-                    <Link className={`mx-1 p-0  nav-link ${timeState===30 ? "text-light navbar-brand" : "text-muted"}`} onClick={()=>dispatch(setTime(30))} >30</Link>
-                    <Link className={`mx-1 p-0  nav-link ${timeState===45 ? "text-light navbar-brand" : "text-muted"}`} onClick={()=>dispatch(setTime(45))} >45</Link>
-                    <Link className={`mx-1 p-0  nav-link ${timeState===60 ? "text-light navbar-brand" : "text-muted"}`} onClick={()=>dispatch(setTime(60))} >60</Link>
+                    <p className={`mx-1 p-0  nav-link ${timeState===15 ? "text-light navbar-brand" : "text-muted"}`} onClick={()=>dispatch(setTime(15))} >15</p>
+                    <p className={`mx-1 p-0  nav-link ${timeState===30 ? "text-light navbar-brand" : "text-muted"}`} onClick={()=>dispatch(setTime(30))} >30</p>
+                    <p className={`mx-1 p-0  nav-link ${timeState===45 ? "text-light navbar-brand" : "text-muted"}`} onClick={()=>dispatch(setTime(45))} >45</p>
+                    <p className={`mx-1 p-0  nav-link ${timeState===60 ? "text-light navbar-brand" : "text-muted"}`} onClick={()=>dispatch(setTime(60))} >60</p>
     
     
     
-                    <Link className={`mx-1 p-0  nav-link ${languageState==="English" ? "text-light navbar-brand" : "text-muted"}`} onClick={()=>dispatch(setLanguage("English"))} >English</Link>
-                    <Link className={`mx-1 p-0  nav-link ${languageState==="Python" ? "text-light navbar-brand" : "text-muted"}`} onClick={()=>dispatch(setLanguage("Python"))} >Python</Link>
-                    <Link className={`mx-1 p-0  nav-link ${languageState==="C" ? "text-light navbar-brand" : "text-muted"}`} onClick={()=>dispatch(setLanguage("C"))} >C</Link>
-                    <Link className={`mx-1 p-0  nav-link ${languageState==="Java" ? "text-light navbar-brand" : "text-muted"}`} onClick={()=>dispatch(setLanguage("Java"))} >Java</Link>
-                    <Link className={`mx-1 p-0  nav-link ${languageState==="Javascript" ? "text-light navbar-brand" : "text-muted"}`} onClick={()=>dispatch(setLanguage("Javascript"))} >Javascript</Link>
+                    <p className={`mx-1 p-0  nav-link ${languageState==="English" ? "text-light navbar-brand" : "text-muted"}`} onClick={()=>dispatch(setLanguage("English"))} >English</p>
+                    <p className={`mx-1 p-0  nav-link ${languageState==="Python" ? "text-light navbar-brand" : "text-muted"}`} onClick={()=>dispatch(setLanguage("Python"))} >Python</p>
+                    <p className={`mx-1 p-0  nav-link ${languageState==="C" ? "text-light navbar-brand" : "text-muted"}`} onClick={()=>dispatch(setLanguage("C"))} >C</p>
+                    <p className={`mx-1 p-0  nav-link ${languageState==="Java" ? "text-light navbar-brand" : "text-muted"}`} onClick={()=>dispatch(setLanguage("Java"))} >Java</p>
+                    <p className={`mx-1 p-0  nav-link ${languageState==="Javascript" ? "text-light navbar-brand" : "text-muted"}`} onClick={()=>dispatch(setLanguage("Javascript"))} >Javascript</p>
                     
                 </> }  
                 

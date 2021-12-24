@@ -2,7 +2,6 @@ import {React} from "react";
 import { useSelector,useDispatch } from "react-redux";
 import { getWords } from "../actions";
 import Word from "./Word";
-import Timer from "./Timer"
 import LiveWPM from "./LiveWPM"
 import LiveAccuracy from "./LiveAccuracy";
 
@@ -18,14 +17,9 @@ export default function EnglishEditor(){
         dispatch(getWords())
     }
     
-    // const activeWordState=useSelector((state)=>{
-    //     return state.handleActiveWordState
-    // })
- 
 
     return (
         <>
-            <Timer/>
             <LiveWPM/>
             <LiveAccuracy/>
             <div className="textArea" id="area" >
