@@ -1,4 +1,4 @@
-import {React} from 'react'
+import {React,useEffect} from 'react'
 import Character from "./Character";
 import { useSelector } from 'react-redux';
 import Caret from "./Caret";
@@ -8,7 +8,11 @@ export default function Word(props) {
     const activeWordState=useSelector((state)=>{
         return state.handleActiveWordState
     })
-    
+
+
+    useEffect(()=>{
+        document.getElementsByClassName("word")[0].scrollIntoView();
+    },[])
     
     return (
 

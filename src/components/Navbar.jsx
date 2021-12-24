@@ -21,6 +21,10 @@ function Navbar(props) {
         return state.handleLanguageState
     })
 
+    const testState=useSelector((state)=>{
+		return state.handleTestState
+	})
+
 
     const handleLogout=()=>{
         localStorage.removeItem("token")
@@ -31,8 +35,8 @@ function Navbar(props) {
 
 
     return (
-        <nav className="navbar navbar-expand-lg navbar-dark bg-dark my-0 py-0">
-            <div className="d-flex p-0 m-0 mb-1 align-items-center col-12 col-sm-6 col-md-5 justify-content-evenly">
+        <nav className="navbar navbar-expand-lg navbar-dark bg-dark my-0 py-0" style={{height:"50px"}}>
+            <div className={`${testState ? "d-none" : "d-flex"} p-0 m-0 mb-1 align-items-center col-12 col-sm-6 col-md-5 justify-content-evenly`}>
                 <Link className={`m-0 p-0  nav-link text-light navbar-brand`} data-toggle="tooltip" style={{fontSize:"1.1rem"}} title="TypeIt" to="/">TypeIt</Link>
                 <Link className={`m-0 p-0  nav-link ${location.pathname==="/" ? "text-light navbar-brand" : "text-muted"}`} aria-current="page" to="/"  >Home</Link>
                 <Link className={`m-0 p-0  nav-link ${location.pathname==="/about" ? "text-light navbar-brand" : "text-muted"}`} to="/about" >About</Link>

@@ -355,7 +355,7 @@ h6 span {
 
 .textArea {
     font-family: monospace;
-    height: 300px;
+    height: 270px;
     width: 100%;
     background-color: #212529;
     border: 0px;
@@ -415,11 +415,12 @@ h6 span {
     right: -10px;
     font-size: 40px;
 	color: rgb(16, 147, 255);
-    animation: blink 2s linear infinite alternate;
-    transition: right 0.1s ease;
+    transition: all 0.2s ease;
 }
 
-
+.blink{
+    animation: blink 2s linear infinite alternate;
+}
   
 @keyframes blink {
     0%,100% {

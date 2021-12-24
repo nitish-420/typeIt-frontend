@@ -2,8 +2,6 @@ import {React} from "react";
 import { useSelector,useDispatch } from "react-redux";
 import { getWords } from "../actions";
 import Word from "./Word";
-import LiveWPM from "./LiveWPM"
-import LiveAccuracy from "./LiveAccuracy";
 
 
 export default function EnglishEditor(){
@@ -20,8 +18,6 @@ export default function EnglishEditor(){
 
     return (
         <>
-            <LiveWPM/>
-            <LiveAccuracy/>
             <div className="textArea" id="area" >
                 {words.map((word,idx)=>{
                     return (

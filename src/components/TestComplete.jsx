@@ -1,12 +1,22 @@
-import React from 'react'
-import Restart from './Restart'
+import {React,useRef,useEffect} from 'react'
 
-export default function TestComplete() {
+export default function TestComplete(props) {
     
+    const {resetLiveTest}=props
+
+    const resetButton=useRef(null)
+
+    useEffect(()=>{
+        if(resetButton){
+            resetButton.current.focus()
+        }
+    },[resetButton])
+
 
     return (
         <div>
-            <Restart/>
+            Test completed !!!
+            <button ref={resetButton} onClick={()=>{resetLiveTest()}}>Restart </button>
         </div>
     )
 }

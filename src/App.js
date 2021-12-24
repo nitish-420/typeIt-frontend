@@ -5,22 +5,15 @@ import Home from "./components/Home"
 import Login from "./components/Login";
 import About from "./components/About"
 import User from "./components/User"
-import { useSelector } from "react-redux";
 
 function App() {
-
-	
-
-	const testState=useSelector((state)=>{
-		return state.handleTestState
-	})
 
 
 	return (
 		<div className="root bg-dark container">
 			<Router>
 			<div>
-				{!testState && <Navbar />}
+				<Navbar />
 				<Alert />
 					<Switch>
 

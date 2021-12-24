@@ -7,11 +7,7 @@ import handleTestState from "./startTest";
 import handleWordState from "./getWords";
 import handleActiveWordState from "./activeWordState";
 import handleRightCharacterState from "./rightCharacter"
-import handleTestCompleteState from "./testComplete";
-import handleLiveWpmState from "./liveWpm";
 import handleWrongCharacterState from "./wrongCharacter";
-import handleLiveAccuracyState from "./liveAccuracy";
-import handleLiveTimerState from "./liveTimer";
 
 const rootReducer=combineReducers({
     showTheAlert,
@@ -22,11 +18,7 @@ const rootReducer=combineReducers({
     handleWordState,
     handleActiveWordState,
     handleRightCharacterState,
-    handleTestCompleteState,
-    handleLiveWpmState,
-    handleWrongCharacterState,
-    handleLiveAccuracyState,
-    handleLiveTimerState
+    handleWrongCharacterState
 });
 
 export default rootReducer

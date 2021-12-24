@@ -8,7 +8,7 @@ export default function Caret(props) {
  
 
     return (
-        <span id='caret' style={{right:(-10-20*Math.min(props.len,activeWordState.char))}}>
+        <span id='caret' className='blink' style={{right:(-10-20*Math.min(props.len,activeWordState.char))}}>
             |
         </span>
     )
