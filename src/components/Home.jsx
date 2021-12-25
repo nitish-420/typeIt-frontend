@@ -1,4 +1,4 @@
-import {React,useState,useEffect} from 'react'
+import {React,useState,useEffect,useRef,useCallback} from 'react'
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import EnglishEditor from "./EnglishEditor"
@@ -111,15 +111,33 @@ export default function Home() {
         })
     }
 
+
+    const areaRef = useRef();
+    
+    // The scroll listener
+    const handleScroll = useCallback(() => {
+      console.log("scrolling");
+    }, []);
+
     useEffect(()=>{
         let area=document.getElementById("activeWord")
         if(area !==null){
+            const div = areaRef.current;
+            div.addEventListener('scroll', handleScroll);
             area.scrollIntoView({
-                block:"center"
+                behavior:"smooth",
+                block:"start"
+                // block:"center"
             })
+            // div.removeEventListener('scroll',handleScroll)
         }
-    },[activeWordState])
+    },[activeWordState,handleScroll])
 
+
+  
+    // // Attach the scroll listener to the div
+    // useEffect(() => {
+    // }, [handleScroll]);
 
 
     
@@ -157,12 +175,6 @@ export default function Home() {
                     }
                     dispatch(nextActiveWord())
                 }
-                // area=document.getElementById("activeWord")
-                // if(area !==null){
-                //     area.scrollIntoView({
-                //         block:"center"
-                //     })
-                // }
                 break
             case "Backspace":
                 e.preventDefault()
@@ -191,6 +203,9 @@ export default function Home() {
         }
     }
 
+        
+
+
 
     return (
         <>
@@ -201,14 +216,17 @@ export default function Home() {
                 {liveWpm}
             </div>
             <div>
-                {liveAccuracy}
+                {liveAccuracy}%
             </div>
-            {languageState==="English"  && !testCompleteState && <EnglishEditor/>}
-            {languageState==="Python"  && !testCompleteState && <PythonEditor/>}
-            {languageState==="C"  && !testCompleteState && <CEditor/>}
-            {languageState==="Java"  && !testCompleteState && <JavaEditor/>}
-            {languageState==="Javascript" && !testCompleteState && <JavascriptEditor/>}
-            {testCompleteState && <TestComplete resetLiveTest={resetLiveTest} />}
+            <div >
+                {languageState==="English"  && !testCompleteState && <EnglishEditor areaRef={areaRef}/>}
+                {languageState==="Python"  && !testCompleteState && <PythonEditor/>}
+                {languageState==="C"  && !testCompleteState && <CEditor/>}
+                {languageState==="Java"  && !testCompleteState && <JavaEditor/>}
+                {languageState==="Javascript" && !testCompleteState && <JavascriptEditor/>}
+                {testCompleteState && <TestComplete resetLiveTest={resetLiveTest} />}
+
+            </div>
 
         </>
     )

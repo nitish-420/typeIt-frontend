@@ -4,7 +4,7 @@ import { getWords } from "../actions";
 import Word from "./Word";
 
 
-export default function EnglishEditor(){
+export default function EnglishEditor(props){
 
     const dispatch=useDispatch()
     
@@ -14,11 +14,10 @@ export default function EnglishEditor(){
     if(words.length===0){
         dispatch(getWords())
     }
-    
 
     return (
         <>
-            <div className="textArea" id="area" >
+            <div className="textArea" id="area"  ref={props.areaRef} >
                 {words.map((word,idx)=>{
                     return (
                         <Word word={word} key={idx} idx={idx} />

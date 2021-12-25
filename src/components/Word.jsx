@@ -3,7 +3,7 @@ import Character from "./Character";
 import { useSelector } from 'react-redux';
 import Caret from "./Caret";
 
-export default function Word(props) {
+export  default function Word(props){
 
     const activeWordState=useSelector((state)=>{
         return state.handleActiveWordState
@@ -23,4 +23,4 @@ export default function Word(props) {
             })}
         </div>
     )
-}
+};
