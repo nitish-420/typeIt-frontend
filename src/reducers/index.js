@@ -8,6 +8,7 @@ import handleWordState from "./getWords";
 import handleActiveWordState from "./activeWordState";
 import handleRightCharacterState from "./rightCharacter"
 import handleWrongCharacterState from "./wrongCharacter";
+import handleCurrWordState from "./currWordState";
 
 const rootReducer=combineReducers({
     showTheAlert,
@@ -18,7 +19,8 @@ const rootReducer=combineReducers({
     handleWordState,
     handleActiveWordState,
     handleRightCharacterState,
-    handleWrongCharacterState
+    handleWrongCharacterState,
+    handleCurrWordState
 });
 
 export default rootReducer

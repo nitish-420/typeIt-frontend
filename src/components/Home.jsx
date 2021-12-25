@@ -8,7 +8,7 @@ import JavaEditor from "./JavaEditor"
 import JavascriptEditor from "./JavascriptEditor"
 import { useDispatch } from 'react-redux';
 import TestComplete from "./TestComplete"
-import {startTest,nextActiveChar,nextActiveWord,prevActiveChar,addCorrectCharacter,removeCorrectCharacter,stopTest,removeWrongCharacter,addWrongCharacter, resetActiveState, resetCorrectCharacter, resetWrongCharacter, getWords} from "../actions/index"
+import {startTest,nextActiveChar,nextActiveWord,prevActiveChar,addCorrectCharacter,removeCorrectCharacter,stopTest,removeWrongCharacter,addWrongCharacter, resetActiveState, resetCorrectCharacter, resetWrongCharacter, getWords, setCurrWord} from "../actions/index"
 
 var rightCharacterState;
 var wrongCharacterState;
@@ -17,18 +17,40 @@ var tempLiveTimer;
 var presentTestTimeState;
 
 export default function Home() {
-    
-    const dispatch=useDispatch()
+
     
     let history=useHistory();
     
     let guestState=useSelector((state)=>{
         return state.handleGuestState
     })
-
+    
     if(!localStorage.getItem("token") && !guestState){
         history.push("/login")
     }
+
+    const dispatch=useDispatch()
+
+    let words=useSelector((state)=>{
+        return state.handleWordState
+    })
+    if(words.length===0){
+        dispatch(getWords())
+    }
+
+    let currWord=useSelector((state)=>{
+        return state.handleCurrWordState
+    })
+    
+    if(words.length!==0){
+        dispatch(setCurrWord(words[0]))
+    }
+    
+    const [wordState,setWordState]=useState({
+        typedWord:"",
+        typedHistory:[]
+    })
+    
     let languageState=useSelector((state)=>{
         return state.handleLanguageState
     })
@@ -49,9 +71,6 @@ export default function Home() {
         return state.handleWrongCharacterState
     })
     
-    let words=useSelector((state)=>{
-        return state.handleWordState
-    })
     
     rightCharacterState=useSelector((state)=>{
         return state.handleRightCharacterState
@@ -71,6 +90,8 @@ export default function Home() {
 
 
     let resetLiveTest=()=>{
+        document.querySelectorAll(".wrong, .right").forEach((el)=>el.classList.remove("wrong","right"))
+        dispatch(getWords())
         setTestCompleteState(false)
         if(intervalState){
             clearInterval(intervalState)
@@ -83,7 +104,13 @@ export default function Home() {
         dispatch(resetWrongCharacter())
         setLiveWpm(0)
         setLiveAccuracy(0)
-        dispatch(getWords())
+        dispatch(setCurrWord(words[0]))
+        setWordState((prev)=>{
+            return {
+                typedWord:"",
+                typedHistory:[]
+            }
+        })
         
     }
         
@@ -129,15 +156,8 @@ export default function Home() {
                 block:"start"
                 // block:"center"
             })
-            // div.removeEventListener('scroll',handleScroll)
         }
     },[activeWordState,handleScroll])
-
-
-  
-    // // Attach the scroll listener to the div
-    // useEffect(() => {
-    // }, [handleScroll]);
 
 
     
@@ -160,6 +180,10 @@ export default function Home() {
             }
             return ;
         }
+        const currIdx=words.indexOf(currWord)
+        const currWordElement= document.getElementById("activeWord")
+        let {typedWord}=wordState
+        // const caret=document.getElementById("caret")
         switch(e.key){
             case "Tab":
                 e.preventDefault()
@@ -169,19 +193,64 @@ export default function Home() {
                 break
             case " ":
                 e.preventDefault()
-                if(activeWordState.char!==0){
-                    for(let ii=activeWordState.char;ii<words[activeWordState.word].length;ii++){
-                        dispatch(addWrongCharacter(activeWordState.word,ii))
+                if(typedWord==="") return ;
+                currWordElement.classList.add(typedWord===currWord ? "right" : "wrong")
+                setWordState((prev)=>{
+                    return {
+                        typedWord:"",
+                        typedHistory:[...prev.typedHistory,typedWord]
                     }
-                    dispatch(nextActiveWord())
-                }
+                })
+                dispatch(setCurrWord(words[currIdx+1]))
                 break
             case "Backspace":
                 e.preventDefault()
-                if(activeWordState.char!==0){
-                    dispatch(removeCorrectCharacter(activeWordState.word,activeWordState.char))
-                    dispatch(removeWrongCharacter(activeWordState.word,activeWordState.char))
-                    dispatch(prevActiveChar())
+                if(typedWord.length===0 && wordState.typedHistory[currIdx-1]!==words[currIdx-1]){
+                    dispatch(setCurrWord(words[currIdx-1]))
+                    setWordState((prev)=>{
+                        return {
+                            typedWord:!e.ctrlKey ? prev.typedHistory[currIdx-1]:"",
+                            typedHistory:prev.typedHistory.splice(0,currIdx-1)
+                        }
+                    })
+                    currWordElement.previousElementSibling.classList.remove("right","wrong")
+
+                    if(e.ctrlKey){
+                        currWordElement.previousElementSibling.childNodes.forEach((char)=>{
+                            if(char instanceof HTMLSpanElement){
+                                char.classList.remove("wrong","right")
+                            }
+                        })
+                    }
+                }
+                else{
+                    if(e.ctrlKey){
+                        setWordState((prev)=>{
+                            return {
+                                ...prev,
+                                typedWord:""
+                            }
+                        })
+                        currWordElement.childNodes.forEach((char) => {
+							if (char instanceof HTMLSpanElement)
+								char.classList.remove("wrong", "right");
+						});
+
+                    }
+                    else{
+                        setWordState((prev)=>{
+                            typedWord.slice(0,typedWord.length-1)
+                            let idx=typedWord.length
+                            if(idx<currWord.length){
+                                currWordElement.children[idx+1].classList.remove("wrong","right")
+                            }
+
+                            return {
+                                ...prev,
+                                typedWord:typedWord
+                            }
+                        })
+                    }
                 }
                 break
             default :
@@ -190,14 +259,17 @@ export default function Home() {
                     dispatch(startTest())
                 }
                 let key=e.key
-                if(key===words[activeWordState.word][activeWordState.char]){
-                    dispatch(addCorrectCharacter(activeWordState.word,activeWordState.char))
-                    dispatch(nextActiveChar())
-                }
-                else{
-                    dispatch(addWrongCharacter(activeWordState.word,activeWordState.char))
-                    dispatch(nextActiveChar())
-                }
+                setWordState((prev)=>{
+                    typedWord+=key
+                    let idx=typedWord.length-1
+                    currWordElement.children[idx+1].classList.add(
+                        currWord[idx]===typedWord[idx] ? "right" : "wrong"
+                    )
+                    return {
+                        ...prev,
+                        typedWord:typedWord
+                    }
+                })
 
 
         }
@@ -219,7 +291,7 @@ export default function Home() {
                 {liveAccuracy}%
             </div>
             <div >
-                {languageState==="English"  && !testCompleteState && <EnglishEditor areaRef={areaRef}/>}
+                {languageState==="English"  && !testCompleteState && <EnglishEditor areaRef={areaRef} />}
                 {languageState==="Python"  && !testCompleteState && <PythonEditor/>}
                 {languageState==="C"  && !testCompleteState && <CEditor/>}
                 {languageState==="Java"  && !testCompleteState && <JavaEditor/>}

@@ -440,9 +440,10 @@ h6 span {
     margin-left: -9px;
 }
 
-.rightCharacter{
+.right{
     color: greenyellow;
 }
-.wrongCharacter{
+.wrong{
     color: red;
+    
 }

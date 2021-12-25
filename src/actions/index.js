@@ -87,4 +87,11 @@ export const resetWrongCharacter=()=>dispatch=>{
 }
 
 
+export const setCurrWord=(word)=>dispatch=>{
+    dispatch({type:"SETCURRWORD",payload:word})
+}
+
+export const resetCurrWord=()=>dispatch=>{
+    dispatch({type:"RESETCURRWORD"})
+}
 

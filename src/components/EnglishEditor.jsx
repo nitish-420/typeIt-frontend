@@ -1,19 +1,14 @@
 import {React} from "react";
-import { useSelector,useDispatch } from "react-redux";
-import { getWords } from "../actions";
+import { useSelector } from "react-redux";
 import Word from "./Word";
 
 
 export default function EnglishEditor(props){
 
-    const dispatch=useDispatch()
-    
     const words=useSelector((state)=>{
         return state.handleWordState
     })
-    if(words.length===0){
-        dispatch(getWords())
-    }
+
 
     return (
         <>
