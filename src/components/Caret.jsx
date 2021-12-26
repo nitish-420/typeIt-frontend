@@ -12,7 +12,7 @@ export default function Caret(props) {
 
 
     return (
-        <ScrollIntoView  options={{block:"start",scrollMode:"always",behavior:"smooth"}} style={{display:"inline"}} alignToTop={true} >
+        <ScrollIntoView  options={{block:"start",scrollMode:"always",behavior:"smooth"}} style={{display:"inline"}}  >
             <span id='caret'  style={{right:(-10-20*Math.min(props.len,activeWordState.char))}} >
                 |
             </span>
