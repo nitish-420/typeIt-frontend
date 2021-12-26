@@ -1,6 +1,3 @@
-// let rightCharacterState=new Set();
-
-
 const handleRightCharacterState=(state=new Set(),action)=>{
     switch(action.type){
         case "ADDCORRECTCHARACTER":

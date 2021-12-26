@@ -1,18 +1,30 @@
 import {words} from "../helpers/updatedWords.json"
 
+var index;
 
 const handleWordState=(state=[],action)=>{
 
-    // let idx=Math.floor(Math.random() * (10000 + 1));
-    
-    // for(let i=idx;i<idx+50;i++){
-    //     data.push(words[i])
-    // }
-
+    let data=[]
+    let idx
     switch(action.type){
         case "GETWORDS":
-            words.sort(()=>Math.random()-0.5)
-            return [...words]
+            idx=Math.floor(Math.random() * (words.length));
+            for(let i=idx;i<idx+25;i++){
+                data.push(words[i])
+            }
+            index=idx+20
+            return data
+        case "UPDATEWORDS":
+            idx=action.payload
+            for(let i=idx;i<state.length;i++){
+                data.push(state[i])
+            }
+            for(let i=0;i<idx;i++){
+                data.push(words[index])
+                index=(index+1)%words.length;
+            }
+
+            return data
         default : return state;
     }
 }

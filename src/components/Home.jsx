@@ -1,4 +1,4 @@
-import {React,useState,useEffect,useRef,useCallback} from 'react'
+import {React,useState} from 'react'
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import EnglishEditor from "./EnglishEditor"
@@ -8,13 +8,15 @@ import JavaEditor from "./JavaEditor"
 import JavascriptEditor from "./JavascriptEditor"
 import { useDispatch } from 'react-redux';
 import TestComplete from "./TestComplete"
-import {startTest,nextActiveChar,nextActiveWord,prevActiveChar,addCorrectCharacter,removeCorrectCharacter,stopTest,removeWrongCharacter,addWrongCharacter, resetActiveState, resetCorrectCharacter, resetWrongCharacter, getWords} from "../actions/index"
 
-var rightCharacterState;
-var wrongCharacterState;
+import {startTest,nextActiveChar,nextActiveWord,prevActiveChar,addCorrectCharacter,removeCorrectCharacter,stopTest, resetActiveState, resetCorrectCharacter, getWords, updateWords, resetWrongCount, resetRightCount, changeRightCount, changeWrongCount, resetPresentWord} from "../actions/index"
+
+var rightCount;
+var wrongCount;
 var timeState;
 var tempLiveTimer;
 var presentTestTimeState;
+var rightCharacterState;
 
 export default function Home() {
     
@@ -44,19 +46,23 @@ export default function Home() {
     let activeWordState=useSelector((state)=>{
         return state.handleActiveWordState
     })
-
-    wrongCharacterState=useSelector((state)=>{
-        return state.handleWrongCharacterState
-    })
     
     let words=useSelector((state)=>{
         return state.handleWordState
     })
+
+    rightCount=useSelector((state)=>{
+        return state.handleRightCountState
+    })
     
+    wrongCount=useSelector((state)=>{
+        return state.handleWrongCountState
+    })
+
     rightCharacterState=useSelector((state)=>{
         return state.handleRightCharacterState
     })
-    
+
     
 
     let [liveTimer,setLiveTimer]=useState(null)
@@ -69,7 +75,6 @@ export default function Home() {
 
     let [testCompleteState,setTestCompleteState]=useState(false)
 
-
     let resetLiveTest=()=>{
         setTestCompleteState(false)
         if(intervalState){
@@ -80,10 +85,11 @@ export default function Home() {
         dispatch(stopTest())
         dispatch(resetActiveState())
         dispatch(resetCorrectCharacter())
-        dispatch(resetWrongCharacter())
         setLiveWpm(0)
         setLiveAccuracy(0)
         dispatch(getWords())
+        dispatch(resetWrongCount())
+        dispatch(resetRightCount())
         
     }
         
@@ -93,10 +99,14 @@ export default function Home() {
                 tempLiveTimer=prev-1
                 return prev-1
             })
-            setLiveWpm(Math.ceil((rightCharacterState.size*12)/(timeState-tempLiveTimer)))
-            if(rightCharacterState.size){
-                setLiveAccuracy(Math.ceil((rightCharacterState.size*100)/(rightCharacterState.size+wrongCharacterState.size)))
+            setLiveWpm(Math.ceil(((rightCount)*12)/(timeState-tempLiveTimer)))
+            if(rightCount!==0){
+                setLiveAccuracy(Math.ceil(((rightCount)*100)/(wrongCount+rightCount)))
             }
+            // else{
+            //     setLiveAccuracy(0)
+                    //can add this so that on backspace accuracy will change but there is no need
+            // }
             if(tempLiveTimer===0 && intervalId){
                 clearInterval(intervalId)
                 setLiveTimer(null)
@@ -106,40 +116,27 @@ export default function Home() {
             }
         },1000)
 
-        setIntervalState((prev)=>{
+        setIntervalState(()=>{
             return intervalId
         })
     }
-
-
-    const areaRef = useRef();
     
-    // The scroll listener
-    const handleScroll = useCallback(() => {
-      console.log("scrolling");
-    }, []);
-
-    useEffect(()=>{
-        let area=document.getElementById("activeWord")
-        if(area !==null){
-            const div = areaRef.current;
-            div.addEventListener('scroll', handleScroll);
-            area.scrollIntoView({
-                behavior:"smooth",
-                block:"start"
-                // block:"center"
-            })
-            // div.removeEventListener('scroll',handleScroll)
+    const [flag,setFlag]=useState(true)
+    
+    const handleScroll = () => {
+        if(flag && activeWordState.word!==0){
+            setFlag(()=> false)
+            dispatch(updateWords(activeWordState.word))
+            dispatch(resetActiveState())
+            dispatch(resetCorrectCharacter())
+            
+            setTimeout(()=>{
+                setFlag(()=>true)
+            },200)
+            
         }
-    },[activeWordState,handleScroll])
-
-
-  
-    // // Attach the scroll listener to the div
-    // useEffect(() => {
-    // }, [handleScroll]);
-
-
+    }
+    
     
     window.onkeydown=(e)=>{
 
@@ -170,18 +167,40 @@ export default function Home() {
             case " ":
                 e.preventDefault()
                 if(activeWordState.char!==0){
-                    for(let ii=activeWordState.char;ii<words[activeWordState.word].length;ii++){
-                        dispatch(addWrongCharacter(activeWordState.word,ii))
-                    }
+                    dispatch(changeRightCount(1))
+                    dispatch(changeWrongCount(words[activeWordState.word].length-activeWordState.char))
                     dispatch(nextActiveWord())
                 }
                 break
             case "Backspace":
                 e.preventDefault()
                 if(activeWordState.char!==0){
-                    dispatch(removeCorrectCharacter(activeWordState.word,activeWordState.char))
-                    dispatch(removeWrongCharacter(activeWordState.word,activeWordState.char))
-                    dispatch(prevActiveChar())
+                    if(e.ctrlKey){
+                        let tempRight=0,tempWrong=0;
+                        for(let i=0;i<activeWordState.char;i++){
+                            if(rightCharacterState.has(activeWordState.word*100+i)){
+                                tempRight++;
+                                dispatch(removeCorrectCharacter(activeWordState.word,i))
+                            }
+                            else{
+                                tempWrong++;
+                            }
+                        }
+                        dispatch(changeWrongCount(-tempWrong))
+                        dispatch(changeRightCount(-tempRight))
+                        dispatch(resetPresentWord())
+
+                    }
+                    else{
+                        if(rightCharacterState.has(activeWordState.word*100+activeWordState.char-1)){
+                            dispatch(changeRightCount(-1))
+                        }
+                        else{
+                            dispatch(changeWrongCount(-1))
+                        }
+                        dispatch(removeCorrectCharacter(activeWordState.word,activeWordState.char))
+                        dispatch(prevActiveChar())
+                    }
                 }
                 break
             default :
@@ -193,19 +212,15 @@ export default function Home() {
                 if(key===words[activeWordState.word][activeWordState.char]){
                     dispatch(addCorrectCharacter(activeWordState.word,activeWordState.char))
                     dispatch(nextActiveChar())
+                    dispatch(changeRightCount(1))
                 }
                 else{
-                    dispatch(addWrongCharacter(activeWordState.word,activeWordState.char))
                     dispatch(nextActiveChar())
+                    dispatch(changeWrongCount(1))
                 }
-
-
         }
     }
-
-        
-
-
+    
 
     return (
         <>
@@ -218,15 +233,16 @@ export default function Home() {
             <div>
                 {liveAccuracy}%
             </div>
-            <div >
-                {languageState==="English"  && !testCompleteState && <EnglishEditor areaRef={areaRef}/>}
-                {languageState==="Python"  && !testCompleteState && <PythonEditor/>}
-                {languageState==="C"  && !testCompleteState && <CEditor/>}
-                {languageState==="Java"  && !testCompleteState && <JavaEditor/>}
-                {languageState==="Javascript" && !testCompleteState && <JavascriptEditor/>}
-                {testCompleteState && <TestComplete resetLiveTest={resetLiveTest} />}
 
-            </div>
+                <div >
+                    {languageState==="English"  && !testCompleteState && <EnglishEditor handleScroll={handleScroll} />}
+                    {languageState==="Python"  && !testCompleteState && <PythonEditor/>}
+                    {languageState==="C"  && !testCompleteState && <CEditor/>}
+                    {languageState==="Java"  && !testCompleteState && <JavaEditor/>}
+                    {languageState==="Javascript" && !testCompleteState && <JavascriptEditor/>}
+                    {testCompleteState && <TestComplete resetLiveTest={resetLiveTest} />}
+
+                </div>
 
         </>
     )

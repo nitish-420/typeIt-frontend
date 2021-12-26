@@ -21,7 +21,11 @@ const handleActiveWordState=(state=activeState,action)=>{
         case "ACTIVEPREVCHAR":
             final.char-=1
             return final;
-        
+
+        case "RESETPRESENTWORD":
+            final.char=0
+            return final;
+
         case "RESETACTIVESTATE":
             final.word=0
             final.char=0

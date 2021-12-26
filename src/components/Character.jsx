@@ -7,10 +7,6 @@ export default function Character(props) {
         return state.handleActiveWordState
     })
 
-    // const words=useSelector((state)=>{
-    //     return state.handleWordState
-    // })
-    
     const rightCharacter=useSelector((state)=>{
         return state.handleRightCharacterState
     })

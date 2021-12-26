@@ -33,6 +33,10 @@ export const getWords=()=>dispatch=>{
     dispatch({type:"GETWORDS"})
 }
 
+export const updateWords=(idx)=>dispatch=>{
+    dispatch({type:"UPDATEWORDS",payload:idx})
+}
+
 
 export const startTest=()=>dispatch=>{
     dispatch({type:"STARTTEST"})
@@ -58,6 +62,11 @@ export const prevActiveWord=()=>dispatch=>{
 export const prevActiveChar=()=>dispatch=>{
     dispatch({type:"ACTIVEPREVCHAR"})
 }
+export const resetPresentWord=()=>dispatch=>{
+    dispatch({type:"RESETPRESENTWORD"})
+}
+
+
 
 export const resetActiveState=()=>dispatch=>{
     dispatch({type:"RESETACTIVESTATE"})
@@ -75,16 +84,18 @@ export const resetCorrectCharacter=()=>dispatch=>{
     dispatch({type:"RESETCORRECTCHARACTER"})
 }
 
-export const addWrongCharacter=(wordIdx,charIdx)=>dispatch=>{
-    dispatch({type:"ADDWRONGCHARACTER",payload:{wordIdx,charIdx}})
-}
-export const removeWrongCharacter=(wordIdx,charIdx)=>dispatch=>{
-    dispatch({type:"REMOVEWRONGCHARACTER",payload:{wordIdx,charIdx}})
+export const changeRightCount=(change)=>dispatch=>{
+    dispatch({type:"CHANGERIGHTCOUNT",payload:change})
 }
 
-export const resetWrongCharacter=()=>dispatch=>{
-    dispatch({type:"RESETWRONGCHARACTER"})
+export const resetRightCount=()=>dispatch=>{
+    dispatch({type:"RESETRIGHTCOUNT"})
 }
 
+export const changeWrongCount=(change)=>dispatch=>{
+    dispatch({type:"CHANGEWRONGCOUNT",payload:change})
+}
 
-
+export const resetWrongCount=()=>dispatch=>{
+    dispatch({type:"RESETWRONGCOUNT"})
+}

@@ -13,10 +13,12 @@ export  default function Word(props){
     useEffect(()=>{
         document.getElementsByClassName("word")[0].scrollIntoView();
     },[])
+
+
     
     return (
 
-        <div className='word' id={`${props.idx===activeWordState.word ? "activeWord":"" }`}>
+        <div className='word' id={`${props.idx===activeWordState.word ? "activeWord":"" }`} >
             {activeWordState.word===props.idx ? <Caret len={props.word.length}/>:null}
             {props.word.split("").map((char,idx)=>{
                 return <Character char={char} key={idx} idx={idx} wordIdx={props.idx}/>
