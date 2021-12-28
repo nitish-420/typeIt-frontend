@@ -1,0 +1,17 @@
+{
+    "javaLines":[
+        "import java.util.*;",
+        "public class Main{",
+        "public static void main(String[] args){",
+        "Scanner sc = new Scanner(System.in);",
+        "int n = sc.nextInt();",
+        "while(n != 0){",
+        "System.out.println(\"Hello World\");",
+        "for(i = 0 ; i < count ; ++i){",
+        "static int a=0, b=1, c=0;",
+        "import java.io.*;",
+        "static long[] factorial = new int[]{1,1,2,6};",
+        "int digit = n % 10;",
+        "int arr[] = new int[len];"
+    ]
+}

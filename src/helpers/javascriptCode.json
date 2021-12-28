@@ -1,0 +1,17 @@
+{
+    "javascriptLines":[
+        "function Main(){",
+        "import React from \"react\";",
+        "const mongoose = require('mongoose');",
+        "const app = express();",
+        "const funcName = () =>{",
+        "console.log('Hello World');",
+        "var n = null;",
+        "var canv = document.getElementById(\"root\");",
+        "alert(\"Hello There\");",
+        "let search = document.querySelector(\"#s\");",
+        "axios.get(url, params)",
+        "ul.classList.add(\"list\");",
+        "console.log(`${youName} is amazing`);"
+    ]
+}

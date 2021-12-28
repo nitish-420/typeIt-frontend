@@ -23,6 +23,10 @@ const handleActiveWordState=(state=activeState,action)=>{
             final.char-=1
             return final;
 
+        case "ACTIVEWORDEND":
+            final.char=action.payload
+            return final
+            
         case "ACTIVENEXTLINE":
             final.line+=1
             final.char=0

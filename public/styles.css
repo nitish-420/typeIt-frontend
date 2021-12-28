@@ -374,7 +374,7 @@ h6 span {
 .textAreaCode{
     font-family: monospace;
     height: 110px;
-    width: 60%;
+    width: 80%;
     max-width: 900px;
     margin: auto;
     background-color: #212529;
@@ -395,10 +395,7 @@ h6 span {
     width: 0;  /* Remove scrollbar space */
     background: transparent;  /* Optional: just make scrollbar invisible */
 }
-/* Optional: show position indicator in red */
-/* ::-webkit-scrollbar-thumb {
-    background: #000000;
-} */
+
 
 .everyChar{
     font-size: 30px;

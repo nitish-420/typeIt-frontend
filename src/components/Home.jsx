@@ -5,7 +5,7 @@ import EnglishEditor from "./EnglishEditor"
 import { useDispatch } from 'react-redux';
 import TestComplete from "./TestComplete"
 
-import {startTest,nextActiveChar,nextActiveWord,prevActiveChar,addCorrectCharacter,removeCorrectCharacter,stopTest, resetActiveState, resetCorrectCharacter, getWords, updateWords, resetWrongCount, resetRightCount, changeRightCount, changeWrongCount, resetPresentWord, nextActiveLine, getLanguageWords, updateLanguageWords} from "../actions/index"
+import {startTest,nextActiveChar,nextActiveWord,prevActiveChar,addCorrectCharacter,removeCorrectCharacter,stopTest, resetActiveState, resetCorrectCharacter, getWords, updateWords, resetWrongCount, resetRightCount, changeRightCount, changeWrongCount, resetPresentWord, nextActiveLine, getLanguageWords, updateLanguageWords, activeWordEnd} from "../actions/index"
 import OtherLanguageEditor from './OtherLanguageEditor';
 
 var rightCount;
@@ -75,6 +75,12 @@ export default function Home() {
 
     let [testCompleteState,setTestCompleteState]=useState(false)
 
+    let [focusedOnRestartButton,setFocusedStateOnRestartButton]=useState(false)
+
+    useEffect(()=>{
+
+    },[setFocusedStateOnRestartButton])
+
     const getProperWords=()=>{
         if(languageState==="English"){
             dispatch(getWords())
@@ -112,6 +118,7 @@ export default function Home() {
         dispatch(resetRightCount())
         if(restartButton.current){
             restartButton.current.blur()
+            setFocusedStateOnRestartButton(false)
         }
         
     }
@@ -122,11 +129,12 @@ export default function Home() {
                 tempLiveTimer=prev-1
                 return prev-1
             })
-            setLiveWpm(Math.ceil(((rightCount)*12)/(timeState-tempLiveTimer)))
-            if(rightCount!==0){
+            if(rightCount>0){
+                setLiveWpm(Math.ceil(((rightCount)*12)/(timeState-tempLiveTimer)))
                 setLiveAccuracy(Math.ceil(((rightCount)*100)/(wrongCount+rightCount)))
             }
             else{
+                setLiveWpm(0)
                 setLiveAccuracy(0)
             }
             if(tempLiveTimer===0 && intervalId){
@@ -150,8 +158,8 @@ export default function Home() {
         if(flag && (activeWordState.word+activeWordState.line!==0)){
             setFlag(()=> false)
             
-            updateProperWords()
             dispatch(resetActiveState())
+            updateProperWords()
             dispatch(resetCorrectCharacter())
             
             setTimeout(()=>{
@@ -169,26 +177,19 @@ export default function Home() {
         else{
             codeLineWords=[]
         }
-    },[words,languageState,activeWordState])
+    },[activeWordState,words,languageState])
     
-    const isKeyPressedRight=(key)=>{
-        if(languageState==="English"){
-            if(key===words[activeWordState.word][activeWordState.char]){
-                return true
-            }
-            return false
-        }
-        else{
-            if(key===codeLineWords[activeWordState.word][activeWordState.char]){
-                return true
-            }
-            return false
-        }   
-    }
     
     window.onkeydown=(e)=>{
 
-        if((e.key.length>1 && e.key!=="Tab" && e.key!=="Backspace")|| testCompleteState ){
+        if(testCompleteState){
+            if(e.key===" "){
+                e.preventDefault()
+            }
+            return ;
+        }
+
+        if((e.key.length>1 && e.key!=="Tab" && e.key!=="Backspace" && e.key!=="Enter")){
             return ;
         }
 
@@ -200,43 +201,61 @@ export default function Home() {
         if(liveTimer===0){
 
             if(e.key==="Tab"){
-                if(restartButton){
+                if(restartButton.current){
                     restartButton.current.focus()
+                    setFocusedStateOnRestartButton(true)
                 }
                 e.preventDefault()
             }
             return ;
         }
-        if(restartButton){
+        if(restartButton.current && e.key!=="Enter"){
             restartButton.current.blur()
+            setFocusedStateOnRestartButton(false)
         }
         switch(e.key){
             case "Tab":
                 e.preventDefault()
-                if(restartButton){
+                if(restartButton.current){
                     restartButton.current.focus()
+                    setFocusedStateOnRestartButton(true)
                 }
                 break
             case " ":
                 e.preventDefault()
                 if(activeWordState.char!==0){
-                    dispatch(changeRightCount(1))
                     if(languageState==="English"){
+                        dispatch(changeRightCount(1))
                         dispatch(nextActiveWord())
                         dispatch(changeWrongCount(words[activeWordState.word].length-activeWordState.char))
                     }
                     else{
-                        dispatch(changeWrongCount(codeLineWords[activeWordState.word].length-activeWordState.char))
                         if(codeLineWords.length===activeWordState.word+1){
-                            dispatch(nextActiveLine())
+                            dispatch(activeWordEnd(codeLineWords[activeWordState.word].length))
                         }
                         else{
+                            dispatch(changeRightCount(1))
                             dispatch(nextActiveWord())
                         }
+                        dispatch(changeWrongCount(codeLineWords[activeWordState.word].length-activeWordState.char))
                     }
                     
                 }
                 break
+            
+            case "Enter":
+                e.preventDefault()
+                if(languageState!=="English" && ((activeWordState.word+1)===codeLineWords.length) && activeWordState.char===codeLineWords[activeWordState.word].length){
+                    dispatch(changeRightCount(1))                    
+                    dispatch(nextActiveLine())
+                }
+
+                if(focusedOnRestartButton && restartButton.current){
+                    restartButton.current.click()
+                }
+                
+                break
+            
             case "Backspace":
                 e.preventDefault()
                 if(activeWordState.char!==0){
@@ -273,16 +292,39 @@ export default function Home() {
                 if(!testState){
                     dispatch(startTest())
                 }
+
                 let key=e.key
-                if(isKeyPressedRight(key)){
-                    dispatch(addCorrectCharacter(activeWordState.word,activeWordState.char))
-                    dispatch(nextActiveChar())
-                    dispatch(changeRightCount(1))
+
+                if(languageState==="English"){
+                    if(key===words[activeWordState.word][activeWordState.char]){
+                        dispatch(addCorrectCharacter(activeWordState.word,activeWordState.char))
+                        dispatch(nextActiveChar())
+                        dispatch(changeRightCount(1))
+                    }
+                    else if(words[activeWordState.word].length===activeWordState.char){
+                        //
+                    }
+                    else{
+                        dispatch(nextActiveChar())
+                        dispatch(changeWrongCount(1))
+                    }
+                    
                 }
                 else{
-                    dispatch(nextActiveChar())
-                    dispatch(changeWrongCount(1))
+                    if(key===codeLineWords[activeWordState.word][activeWordState.char]){
+                        dispatch(addCorrectCharacter(activeWordState.word,activeWordState.char))
+                        dispatch(nextActiveChar())
+                        dispatch(changeRightCount(1)) 
+                    }
+                    else if(codeLineWords[activeWordState.word].length===activeWordState.char){
+                        //
+                    }
+                    else{
+                        dispatch(nextActiveChar())
+                        dispatch(changeWrongCount(1))
+                    }
                 }
+
         }
     }
     

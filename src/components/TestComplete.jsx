@@ -7,7 +7,7 @@ export default function TestComplete(props) {
     const resetButton=useRef(null)
 
     useEffect(()=>{
-        if(resetButton){
+        if(resetButton.current){
             resetButton.current.focus()
         }
     },[resetButton])
@@ -16,7 +16,8 @@ export default function TestComplete(props) {
     return (
         <div>
             Test completed !!!
-            <button ref={resetButton} onClick={()=>{resetLiveTest()}}>Restart </button>
+            <hr/>
+            <button className='btn btn-warning' ref={resetButton} onClick={()=>{resetLiveTest()}}>Next Test </button>
         </div>
     )
 }

@@ -66,6 +66,10 @@ export const nextActiveWord=()=>dispatch=>{
     dispatch({type:"ACTIVENEXTWORD"})
 }
 
+export const activeWordEnd=(presentWordLength)=>dispatch=>{
+    dispatch({type:"ACTIVEWORDEND",payload:presentWordLength})
+}
+
 export const nextActiveChar=()=>dispatch=>{
     dispatch({type:"ACTIVENEXTCHAR"})
 }
