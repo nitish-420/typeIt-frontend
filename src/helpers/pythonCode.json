@@ -1,5 +1,33 @@
 {
-    "python":[
-        
+    "pythonLines":[
+        "class Heap():",
+        "def __init__(self):",
+        "for i in range(n):",
+        "if i<10:",
+        "print('hello world')",
+        "global i",
+        "a,b = b,a",
+        "a,b,*c = [1,2,3,4,5]",
+        "print(a,b,c)",
+        "s = sum([i for i in arr if i%2 == 0])",
+        "a = [1,2,3,4,5]",
+        "del a[1::2]",
+        "l = list(map(int, input().split()))",
+        "l = [i for i in range(0,10)]",
+        "l = list(map(int,input().split()))",
+        "ispalindrome = text == text[::-1]",
+        "sq = lambda x: x * x",
+        "if n in arr:",
+        "import math",
+        "fact = math.factorial(n)",
+        "transpose = [list(i) for i in zip(*a)]",
+        "import random",
+        "random.choice(['Head','Tail'])",
+        "fact = reduce(lambda x, y: x * y, range(1, n+1))",
+        "import sys",
+        "def main():",
+        "if __name__ == '__main__':",
+        "if any(arr):",
+        "from collections import Counter"
     ]
 }

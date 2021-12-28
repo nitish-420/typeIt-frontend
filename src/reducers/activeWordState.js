@@ -1,4 +1,5 @@
 let activeState={
+    line:0,
     word:0,
     char:0
 };
@@ -22,11 +23,18 @@ const handleActiveWordState=(state=activeState,action)=>{
             final.char-=1
             return final;
 
+        case "ACTIVENEXTLINE":
+            final.line+=1
+            final.char=0
+            final.word=0
+            return final;
+
         case "RESETPRESENTWORD":
             final.char=0
             return final;
 
         case "RESETACTIVESTATE":
+            final.line=0
             final.word=0
             final.char=0
             return final;

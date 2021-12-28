@@ -1,15 +1,12 @@
-import {React,useState} from 'react'
+import {React,useState,useEffect,useRef} from 'react'
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import EnglishEditor from "./EnglishEditor"
-import CEditor from "./CEditor"
-import PythonEditor from "./PythonEditor"
-import JavaEditor from "./JavaEditor"
-import JavascriptEditor from "./JavascriptEditor"
 import { useDispatch } from 'react-redux';
 import TestComplete from "./TestComplete"
 
-import {startTest,nextActiveChar,nextActiveWord,prevActiveChar,addCorrectCharacter,removeCorrectCharacter,stopTest, resetActiveState, resetCorrectCharacter, getWords, updateWords, resetWrongCount, resetRightCount, changeRightCount, changeWrongCount, resetPresentWord} from "../actions/index"
+import {startTest,nextActiveChar,nextActiveWord,prevActiveChar,addCorrectCharacter,removeCorrectCharacter,stopTest, resetActiveState, resetCorrectCharacter, getWords, updateWords, resetWrongCount, resetRightCount, changeRightCount, changeWrongCount, resetPresentWord, nextActiveLine, getLanguageWords, updateLanguageWords} from "../actions/index"
+import OtherLanguageEditor from './OtherLanguageEditor';
 
 var rightCount;
 var wrongCount;
@@ -17,6 +14,7 @@ var timeState;
 var tempLiveTimer;
 var presentTestTimeState;
 var rightCharacterState;
+var codeLineWords
 
 export default function Home() {
     
@@ -31,6 +29,9 @@ export default function Home() {
     if(!localStorage.getItem("token") && !guestState){
         history.push("/login")
     }
+
+    const restartButton=useRef(null)
+
     let languageState=useSelector((state)=>{
         return state.handleLanguageState
     })
@@ -62,7 +63,6 @@ export default function Home() {
     rightCharacterState=useSelector((state)=>{
         return state.handleRightCharacterState
     })
-
     
 
     let [liveTimer,setLiveTimer]=useState(null)
@@ -75,7 +75,28 @@ export default function Home() {
 
     let [testCompleteState,setTestCompleteState]=useState(false)
 
+    const getProperWords=()=>{
+        if(languageState==="English"){
+            dispatch(getWords())
+        }
+        else {
+            dispatch(getLanguageWords(languageState))
+        }
+    }
+
+    const updateProperWords=()=>{
+        
+        if(languageState==="English"){
+            dispatch(updateWords(activeWordState.word))
+        }
+        else{
+            
+            dispatch(updateLanguageWords(languageState))
+        }
+    }
+
     let resetLiveTest=()=>{
+        getProperWords()
         setTestCompleteState(false)
         if(intervalState){
             clearInterval(intervalState)
@@ -87,9 +108,11 @@ export default function Home() {
         dispatch(resetCorrectCharacter())
         setLiveWpm(0)
         setLiveAccuracy(0)
-        dispatch(getWords())
         dispatch(resetWrongCount())
         dispatch(resetRightCount())
+        if(restartButton.current){
+            restartButton.current.blur()
+        }
         
     }
         
@@ -103,10 +126,9 @@ export default function Home() {
             if(rightCount!==0){
                 setLiveAccuracy(Math.ceil(((rightCount)*100)/(wrongCount+rightCount)))
             }
-            // else{
-            //     setLiveAccuracy(0)
-                    //can add this so that on backspace accuracy will change but there is no need
-            // }
+            else{
+                setLiveAccuracy(0)
+            }
             if(tempLiveTimer===0 && intervalId){
                 clearInterval(intervalId)
                 setLiveTimer(null)
@@ -122,11 +144,13 @@ export default function Home() {
     }
     
     const [flag,setFlag]=useState(true)
-    
+
     const handleScroll = () => {
-        if(flag && activeWordState.word!==0){
+        
+        if(flag && (activeWordState.word+activeWordState.line!==0)){
             setFlag(()=> false)
-            dispatch(updateWords(activeWordState.word))
+            
+            updateProperWords()
             dispatch(resetActiveState())
             dispatch(resetCorrectCharacter())
             
@@ -135,12 +159,36 @@ export default function Home() {
             },200)
             
         }
+
     }
+
+    useEffect(()=>{
+        if(languageState!=="English" && words.length!==0){
+            codeLineWords=words[activeWordState.line].split(" ")
+        }
+        else{
+            codeLineWords=[]
+        }
+    },[words,languageState,activeWordState])
     
+    const isKeyPressedRight=(key)=>{
+        if(languageState==="English"){
+            if(key===words[activeWordState.word][activeWordState.char]){
+                return true
+            }
+            return false
+        }
+        else{
+            if(key===codeLineWords[activeWordState.word][activeWordState.char]){
+                return true
+            }
+            return false
+        }   
+    }
     
     window.onkeydown=(e)=>{
 
-        if((e.key.length>1 && e.key!=="Tab" && e.key!=="Backspace")|| testCompleteState){
+        if((e.key.length>1 && e.key!=="Tab" && e.key!=="Backspace")|| testCompleteState ){
             return ;
         }
 
@@ -152,24 +200,41 @@ export default function Home() {
         if(liveTimer===0){
 
             if(e.key==="Tab"){
-                resetLiveTest()
+                if(restartButton){
+                    restartButton.current.focus()
+                }
                 e.preventDefault()
             }
             return ;
         }
+        if(restartButton){
+            restartButton.current.blur()
+        }
         switch(e.key){
             case "Tab":
                 e.preventDefault()
-                if(liveTimer!==timeState){
-                    resetLiveTest()
+                if(restartButton){
+                    restartButton.current.focus()
                 }
                 break
             case " ":
                 e.preventDefault()
                 if(activeWordState.char!==0){
                     dispatch(changeRightCount(1))
-                    dispatch(changeWrongCount(words[activeWordState.word].length-activeWordState.char))
-                    dispatch(nextActiveWord())
+                    if(languageState==="English"){
+                        dispatch(nextActiveWord())
+                        dispatch(changeWrongCount(words[activeWordState.word].length-activeWordState.char))
+                    }
+                    else{
+                        dispatch(changeWrongCount(codeLineWords[activeWordState.word].length-activeWordState.char))
+                        if(codeLineWords.length===activeWordState.word+1){
+                            dispatch(nextActiveLine())
+                        }
+                        else{
+                            dispatch(nextActiveWord())
+                        }
+                    }
+                    
                 }
                 break
             case "Backspace":
@@ -209,7 +274,7 @@ export default function Home() {
                     dispatch(startTest())
                 }
                 let key=e.key
-                if(key===words[activeWordState.word][activeWordState.char]){
+                if(isKeyPressedRight(key)){
                     dispatch(addCorrectCharacter(activeWordState.word,activeWordState.char))
                     dispatch(nextActiveChar())
                     dispatch(changeRightCount(1))
@@ -234,15 +299,16 @@ export default function Home() {
                 {liveAccuracy}%
             </div>
 
-                <div >
-                    {languageState==="English"  && !testCompleteState && <EnglishEditor handleScroll={handleScroll} />}
-                    {languageState==="Python"  && !testCompleteState && <PythonEditor/>}
-                    {languageState==="C"  && !testCompleteState && <CEditor/>}
-                    {languageState==="Java"  && !testCompleteState && <JavaEditor/>}
-                    {languageState==="Javascript" && !testCompleteState && <JavascriptEditor/>}
-                    {testCompleteState && <TestComplete resetLiveTest={resetLiveTest} />}
+            <div>
+                {languageState==="English"  && !testCompleteState && <EnglishEditor handleScroll={handleScroll} getProperWords={getProperWords}/>}
+                {languageState!=="English"  && !testCompleteState && <OtherLanguageEditor handleScroll={handleScroll} getProperWords={getProperWords} />}
+                {testCompleteState && <TestComplete resetLiveTest={resetLiveTest} />}
 
-                </div>
+            </div>
+            <div className='restartButton'>
+
+                {!testCompleteState && <button className='btn btn-warning' ref={restartButton} onClick={()=>{resetLiveTest()}}>Restart</button>}
+            </div>
 
         </>
     )

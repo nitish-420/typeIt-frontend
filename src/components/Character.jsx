@@ -12,7 +12,7 @@ export default function Character(props) {
     })
 
     return (
-        <span className={`everyChar  ${(props.wordIdx<activeWordState.word || (props.wordIdx===activeWordState.word && props.idx<activeWordState.char)) && ((rightCharacter.has(props.wordIdx*100+props.idx)) ? "rightCharacter" : "wrongCharacter")}`}>
+        <span className={`everyChar  ${(props.wordIdx<activeWordState.word || (props.wordIdx===activeWordState.word && props.idx<activeWordState.char)) && (props.lineIdx<=activeWordState.line) &&  ((rightCharacter.has(props.wordIdx*100+props.idx)) ? "rightCharacter" : "wrongCharacter")}`}>
             {props.char}
         </span>
     )

@@ -20,6 +20,7 @@
     "react-scripts": "4.0.3",
     "react-scroll-into-view": "^1.10.1",
     "react-scroll-into-view-if-needed": "^3.0.1",
+    "react-use-scroll-direction": "^0.1.0",
     "react-window": "^1.8.6",
     "redux": "^4.1.2",
     "redux-devtools-extension": "^2.13.9",

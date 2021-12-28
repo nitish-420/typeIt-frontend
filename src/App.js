@@ -5,6 +5,7 @@ import Home from "./components/Home"
 import Login from "./components/Login";
 import About from "./components/About"
 import User from "./components/User"
+import Footer from "./components/Footer";
 
 function App() {
 
@@ -30,6 +31,7 @@ function App() {
 							<User/>
 						</Route>
 					</Switch>
+				<Footer/>
 			</div>
 			</Router>
 		</div>
