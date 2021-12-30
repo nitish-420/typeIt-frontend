@@ -1,4 +1,4 @@
-export const showAlert=(message,alertType,timeOut=500)=>dispatch=>{
+export const showAlert=(message,alertType,timeOut=1000)=>dispatch=>{
     dispatch({type:"SETALERT",payload:{message,alertType}})
     setTimeout(()=>{dispatch({type:"REMOVEALERT"})},timeOut)
 }
@@ -120,3 +120,14 @@ export const changeWrongCount=(change)=>dispatch=>{
 export const resetWrongCount=()=>dispatch=>{
     dispatch({type:"RESETWRONGCOUNT"})
 }
+
+export const setCurrentUser=(user)=> dispatch=>{
+    dispatch({type:"SETUSER",payload:user})
+
+}
+
+export const resetCurrentUser=(user)=> dispatch=>{
+    dispatch({type:"RESETUSER"})
+
+}
+

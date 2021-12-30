@@ -3,7 +3,7 @@ import {Link,useLocation,useHistory} from "react-router-dom"
 import { useDispatch ,useSelector} from "react-redux";
 
 
-import { showAlert,setTime,setLanguage } from "../actions";
+import { showAlert,setTime,setLanguage,resetCurrentUser } from "../actions";
 
 
 function Navbar(props) {
@@ -29,6 +29,7 @@ function Navbar(props) {
     const handleLogout=()=>{
         localStorage.removeItem("token")
         dispatch(showAlert("Good Bye","danger"))
+        dispatch(resetCurrentUser())
         history.push("/login")
     }
     
@@ -45,7 +46,7 @@ function Navbar(props) {
                 
                 <Link className={`m-0 p-0 nav-link ${location.pathname==="/login" ? "text-light navbar-brand" : "text-muted"}`} to="/login" >Login</Link>
                 :
-                <Link onClick={handleLogout} className={`m-0 p-0 text-muted nav-link `} to="/login"  >LogOut</Link>
+                <Link onClick={()=>handleLogout()} className={`m-0 p-0 text-muted nav-link `} to="/login"  >LogOut</Link>
                 
                 }
                 {location.pathname==='/' &&

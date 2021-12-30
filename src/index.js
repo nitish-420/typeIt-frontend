@@ -4,13 +4,14 @@ import App from "./App";
 import store from "./store"
 import {Provider} from "react-redux"
 
-store.subscribe(()=> console.log(store.getState()));
+// store.subscribe(()=> console.log(store.getState()));
 
 ReactDOM.render(
-	<React.StrictMode>
+	// <React.StrictMode> 
+	//removing this Strict mode as it was showing some error.
 		<Provider store={store}>
 			<App />
-		</Provider>
-	</React.StrictMode>,
+		</Provider>,
+	// </React.StrictMode>,
 	document.getElementById("root")
 );

@@ -1,26 +1,29 @@
 import {React,useState,useEffect,useRef} from 'react'
-import { useHistory } from 'react-router-dom';
+import { useHistory,useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import EnglishEditor from "./EnglishEditor"
 import { useDispatch } from 'react-redux';
 import TestComplete from "./TestComplete"
+import Loader from "react-loader"
 
-import {startTest,nextActiveChar,nextActiveWord,prevActiveChar,addCorrectCharacter,removeCorrectCharacter,stopTest, resetActiveState, resetCorrectCharacter, getWords, updateWords, resetWrongCount, resetRightCount, changeRightCount, changeWrongCount, resetPresentWord, nextActiveLine, getLanguageWords, updateLanguageWords, activeWordEnd} from "../actions/index"
+import {startTest,nextActiveChar,nextActiveWord,prevActiveChar,addCorrectCharacter,removeCorrectCharacter,stopTest, resetActiveState, resetCorrectCharacter, getWords, updateWords, resetWrongCount, resetRightCount, changeRightCount, changeWrongCount, resetPresentWord, nextActiveLine, getLanguageWords, updateLanguageWords, activeWordEnd, setCurrentUser, showAlert} from "../actions/index"
 import OtherLanguageEditor from './OtherLanguageEditor';
 
 var rightCount;
 var wrongCount;
 var timeState;
 var tempLiveTimer;
-var presentTestTimeState;
 var rightCharacterState;
 var codeLineWords
+var userState
 
 export default function Home() {
     
     const dispatch=useDispatch()
     
     let history=useHistory();
+
+    const location=useLocation();
     
     let guestState=useSelector((state)=>{
         return state.handleGuestState
@@ -64,6 +67,9 @@ export default function Home() {
         return state.handleRightCharacterState
     })
     
+    userState=useSelector((state)=>{
+        return state.handleUserState
+    })
 
     let [liveTimer,setLiveTimer]=useState(null)
     
@@ -77,9 +83,48 @@ export default function Home() {
 
     let [focusedOnRestartButton,setFocusedStateOnRestartButton]=useState(false)
 
-    useEffect(()=>{
+    const [loaderState,setLoaderState]=useState(true)
 
-    },[setFocusedStateOnRestartButton])
+    
+    useEffect(()=>{
+        
+        const getCurrentUser = async()=>{
+            try{
+                setLoaderState(false)
+                const response=await fetch("http://localhost:5000/api/auth/getuser",{
+                    method:"POST",
+                    headers:{
+                        "Content-Type":"application/json",
+                        "auth-token":`${localStorage.getItem("token")}`
+                    },
+                    
+                })  
+                const json=await response.json()
+                if(json.success){
+                    dispatch(setCurrentUser(json.user))
+                }
+                else{
+                    dispatch(showAlert(json.error,"danger"))
+                    history.push("/login")
+                }
+                setLoaderState(true)
+            }
+            catch(e){
+                history.push("/login")
+                dispatch(showAlert("Please login or select to play as a guest !","danger"))
+
+            }
+        }
+        if(userState.id==null && !guestState){
+            getCurrentUser()
+        }
+        
+        return ()=>{
+            //adding return will work as componentWillUnmount() ie. it will run when this component will unmount
+            window.onkeydown=null;
+            setLoaderState(true)
+        }
+    },[dispatch,guestState,history])
 
     const getProperWords=()=>{
         if(languageState==="English"){
@@ -150,6 +195,7 @@ export default function Home() {
             return intervalId
         })
     }
+
     
     const [flag,setFlag]=useState(true)
 
@@ -169,6 +215,7 @@ export default function Home() {
         }
 
     }
+    
 
     useEffect(()=>{
         if(languageState!=="English" && words.length!==0){
@@ -182,6 +229,10 @@ export default function Home() {
     
     window.onkeydown=(e)=>{
 
+        if(!e.key || location.pathname!=="/" ){
+            return ;
+        }
+
         if(testCompleteState){
             if(e.key===" "){
                 e.preventDefault()
@@ -189,13 +240,13 @@ export default function Home() {
             return ;
         }
 
+
         if((e.key.length>1 && e.key!=="Tab" && e.key!=="Backspace" && e.key!=="Enter")){
             return ;
         }
 
         if(liveTimer===null && e.key!=="Tab"){
             setLiveTimer(timeState)
-            presentTestTimeState=timeState
             startLiveTimer()
         }
         if(liveTimer===0){
@@ -325,32 +376,39 @@ export default function Home() {
                     }
                 }
 
+            }
         }
-    }
-    
+        
+        
+        return (
+            <>
+            <Loader loaded={loaderState} className="spinner" color="#FFF" radius={10} width={3} trail={60} speed={1} top="30%"/>
+            {loaderState && <div>
+                {!testCompleteState ? <div>
+                    <div>
+                        {liveTimer ? liveTimer : timeState}
+                    </div>
+                    <div>
+                        {liveWpm}
+                    </div>
+                    <div>
+                        {liveAccuracy}%
+                    </div>
 
-    return (
-        <>
-            <div>
-                {liveTimer ? liveTimer:(testCompleteState ? presentTestTimeState : timeState)}
-            </div>
-            <div>
-                {liveWpm}
-            </div>
-            <div>
-                {liveAccuracy}%
-            </div>
-
-            <div>
-                {languageState==="English"  && !testCompleteState && <EnglishEditor handleScroll={handleScroll} getProperWords={getProperWords}/>}
-                {languageState!=="English"  && !testCompleteState && <OtherLanguageEditor handleScroll={handleScroll} getProperWords={getProperWords} />}
-                {testCompleteState && <TestComplete resetLiveTest={resetLiveTest} />}
-
-            </div>
-            <div className='restartButton'>
-
-                {!testCompleteState && <button className='btn btn-warning' ref={restartButton} onClick={()=>{resetLiveTest()}}>Restart</button>}
-            </div>
+                    <div>
+                        {languageState==="English"  && <EnglishEditor handleScroll={handleScroll} getProperWords={getProperWords}/>}
+                        {languageState!=="English"  &&  <OtherLanguageEditor handleScroll={handleScroll} getProperWords={getProperWords} />}
+                    </div>
+                    <div className='restartButton'>
+                        <button className='btn btn-warning' ref={restartButton} onClick={()=>{resetLiveTest()}}>Restart</button>
+                    </div>
+                </div>
+                :
+                <div>
+                    <TestComplete resetLiveTest={resetLiveTest} testTime={timeState} speed={liveWpm} accuracy={liveAccuracy} language={languageState} />
+                </div> 
+                }
+            </div>}
 
         </>
     )
