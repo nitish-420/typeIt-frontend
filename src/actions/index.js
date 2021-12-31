@@ -105,21 +105,6 @@ export const resetCorrectCharacter=()=>dispatch=>{
     dispatch({type:"RESETCORRECTCHARACTER"})
 }
 
-export const changeRightCount=(change)=>dispatch=>{
-    dispatch({type:"CHANGERIGHTCOUNT",payload:change})
-}
-
-export const resetRightCount=()=>dispatch=>{
-    dispatch({type:"RESETRIGHTCOUNT"})
-}
-
-export const changeWrongCount=(change)=>dispatch=>{
-    dispatch({type:"CHANGEWRONGCOUNT",payload:change})
-}
-
-export const resetWrongCount=()=>dispatch=>{
-    dispatch({type:"RESETWRONGCOUNT"})
-}
 
 export const setCurrentUser=(user)=> dispatch=>{
     dispatch({type:"SETUSER",payload:user})

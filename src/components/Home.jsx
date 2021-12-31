@@ -6,11 +6,11 @@ import { useDispatch } from 'react-redux';
 import TestComplete from "./TestComplete"
 import Loader from "react-loader"
 
-import {startTest,nextActiveChar,nextActiveWord,prevActiveChar,addCorrectCharacter,removeCorrectCharacter,stopTest, resetActiveState, resetCorrectCharacter, getWords, updateWords, resetWrongCount, resetRightCount, changeRightCount, changeWrongCount, resetPresentWord, nextActiveLine, getLanguageWords, updateLanguageWords, activeWordEnd, setCurrentUser, showAlert} from "../actions/index"
+import {startTest,nextActiveChar,nextActiveWord,prevActiveChar,addCorrectCharacter,removeCorrectCharacter,stopTest, resetActiveState, resetCorrectCharacter, getWords, updateWords, resetPresentWord, nextActiveLine, getLanguageWords, updateLanguageWords, activeWordEnd, setCurrentUser, showAlert} from "../actions/index"
 import OtherLanguageEditor from './OtherLanguageEditor';
 
-var rightCount;
-var wrongCount;
+var rightCount=0;
+var wrongCount=0;
 var timeState;
 var tempLiveTimer;
 var rightCharacterState;
@@ -55,13 +55,6 @@ export default function Home() {
         return state.handleWordState
     })
 
-    rightCount=useSelector((state)=>{
-        return state.handleRightCountState
-    })
-    
-    wrongCount=useSelector((state)=>{
-        return state.handleWrongCountState
-    })
 
     rightCharacterState=useSelector((state)=>{
         return state.handleRightCharacterState
@@ -159,8 +152,10 @@ export default function Home() {
         dispatch(resetCorrectCharacter())
         setLiveWpm(0)
         setLiveAccuracy(0)
-        dispatch(resetWrongCount())
-        dispatch(resetRightCount())
+        // dispatch(resetWrongCount())
+        // dispatch(resetRightCount())
+        rightCount=0
+        wrongCount=0
         if(restartButton.current){
             restartButton.current.blur()
             setFocusedStateOnRestartButton(false)
@@ -276,19 +271,23 @@ export default function Home() {
                 e.preventDefault()
                 if(activeWordState.char!==0){
                     if(languageState==="English"){
-                        dispatch(changeRightCount(1))
+                        // dispatch(changeRightCount(1))
+                        rightCount+=1
                         dispatch(nextActiveWord())
-                        dispatch(changeWrongCount(words[activeWordState.word].length-activeWordState.char))
+                        // dispatch(changeWrongCount(words[activeWordState.word].length-activeWordState.char))
+                        wrongCount+=words[activeWordState.word].length-activeWordState.char
                     }
                     else{
                         if(codeLineWords.length===activeWordState.word+1){
                             dispatch(activeWordEnd(codeLineWords[activeWordState.word].length))
                         }
                         else{
-                            dispatch(changeRightCount(1))
+                            // dispatch(changeRightCount(1))
+                            rightCount+=1
                             dispatch(nextActiveWord())
                         }
-                        dispatch(changeWrongCount(codeLineWords[activeWordState.word].length-activeWordState.char))
+                        // dispatch(changeWrongCount(codeLineWords[activeWordState.word].length-activeWordState.char))
+                        wrongCount+=codeLineWords[activeWordState.word].length-activeWordState.char
                     }
                     
                 }
@@ -297,7 +296,8 @@ export default function Home() {
             case "Enter":
                 e.preventDefault()
                 if(languageState!=="English" && ((activeWordState.word+1)===codeLineWords.length) && activeWordState.char===codeLineWords[activeWordState.word].length){
-                    dispatch(changeRightCount(1))                    
+                    // dispatch(changeRightCount(1))                    
+                    rightCount+=1
                     dispatch(nextActiveLine())
                 }
 
@@ -321,17 +321,21 @@ export default function Home() {
                                 tempWrong++;
                             }
                         }
-                        dispatch(changeWrongCount(-tempWrong))
-                        dispatch(changeRightCount(-tempRight))
+                        // dispatch(changeWrongCount(-tempWrong))
+                        wrongCount-=tempWrong
+                        // dispatch(changeRightCount(-tempRight))
+                        rightCount-=tempRight
                         dispatch(resetPresentWord())
 
                     }
                     else{
                         if(rightCharacterState.has(activeWordState.word*100+activeWordState.char-1)){
-                            dispatch(changeRightCount(-1))
+                            // dispatch(changeRightCount(-1))
+                            rightCount-=1
                         }
                         else{
-                            dispatch(changeWrongCount(-1))
+                            // dispatch(changeWrongCount(-1))
+                            wrongCount-=1
                         }
                         dispatch(removeCorrectCharacter(activeWordState.word,activeWordState.char))
                         dispatch(prevActiveChar())
@@ -350,14 +354,16 @@ export default function Home() {
                     if(key===words[activeWordState.word][activeWordState.char]){
                         dispatch(addCorrectCharacter(activeWordState.word,activeWordState.char))
                         dispatch(nextActiveChar())
-                        dispatch(changeRightCount(1))
+                        // dispatch(changeRightCount(1))
+                        rightCount+=1
                     }
                     else if(words[activeWordState.word].length===activeWordState.char){
                         //
                     }
                     else{
                         dispatch(nextActiveChar())
-                        dispatch(changeWrongCount(1))
+                        // dispatch(changeWrongCount(1))
+                        wrongCount+=1
                     }
                     
                 }
@@ -365,14 +371,16 @@ export default function Home() {
                     if(key===codeLineWords[activeWordState.word][activeWordState.char]){
                         dispatch(addCorrectCharacter(activeWordState.word,activeWordState.char))
                         dispatch(nextActiveChar())
-                        dispatch(changeRightCount(1)) 
+                        // dispatch(changeRightCount(1)) 
+                        rightCount+=1
                     }
                     else if(codeLineWords[activeWordState.word].length===activeWordState.char){
                         //
                     }
                     else{
                         dispatch(nextActiveChar())
-                        dispatch(changeWrongCount(1))
+                        // dispatch(changeWrongCount(1))
+                        wrongCount+=1
                     }
                 }
 

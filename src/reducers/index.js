@@ -7,8 +7,6 @@ import handleTestState from "./startTest";
 import handleWordState from "./getWords";
 import handleActiveWordState from "./activeWordState";
 import handleRightCharacterState from "./rightCharacter"
-import handleRightCountState from "./rightCountState";
-import handleWrongCountState from "./wrongCountState";
 import handleUserState from "./userState";
 
 const rootReducer=combineReducers({
@@ -20,8 +18,6 @@ const rootReducer=combineReducers({
     handleWordState,
     handleActiveWordState,
     handleRightCharacterState,
-    handleRightCountState,
-    handleWrongCountState,
     handleUserState
 });
 
