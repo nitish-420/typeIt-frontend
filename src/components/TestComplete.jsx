@@ -93,15 +93,25 @@ export default function TestComplete(props) {
         }
     }
 
-    if(!guestState && savedThisTest===false){
+    const validTestCase=()=>{
+        if(props.speed*props.accuracy<100){
+            dispatch(showAlert("Invalid Test Case, It will not be stored in database","warning",2500))
+            return false
+        }
+        return true
+    }
+
+    if(!guestState && savedThisTest===false && validTestCase()){
         setSavedThisTest(true)
         saveCurrentTestCase()
     }
 
     useEffect(()=>{
-        if(resetButton.current){
-            resetButton.current.focus()
-        }
+        setTimeout(()=>{
+            if(resetButton.current){
+                resetButton.current.focus()
+            }
+        },500)
     },[resetButton])
 
     return (
@@ -119,7 +129,7 @@ export default function TestComplete(props) {
                 Test completed !!!
                 <hr/>
                 <button className='btn btn-warning' ref={resetButton} onClick={()=>{resetLiveTest()}}>Next Test </button>
-                
+
             </div>}
         </Loader>
     )

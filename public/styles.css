@@ -446,3 +446,9 @@ h6 span {
     color: red;
     text-decoration: underline;
 }
+
+.bestRecords{
+    border: 1px solid black;
+    color: white;
+
+}
