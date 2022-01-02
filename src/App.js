@@ -6,6 +6,7 @@ import Login from "./components/Login";
 import About from "./components/About"
 import User from "./components/User"
 import Footer from "./components/Footer";
+import Leaderboard from "./components/LeaderBoard"
 
 function App() {
 
@@ -29,6 +30,9 @@ function App() {
 						</Route>
 						<Route exact path="/user">
 							<User/>
+						</Route>
+						<Route exact path="/leaderboard">
+							<Leaderboard/>
 						</Route>
 					</Switch>
 				<Footer/>

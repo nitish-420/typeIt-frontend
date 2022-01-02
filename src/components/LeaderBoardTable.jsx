@@ -1,30 +1,47 @@
 import {React,useState} from 'react'
+import { useSelector } from 'react-redux';
+
+var userState
 
 export default function LeaderBoardTable(props) {
+
+    var userIdx=0;
 
     var regexForDate = new RegExp('/', 'g');
     
     const [showCount,setShowCount]=useState(10)
 
     const {leaderBoardData}=props
-    
 
+    userState=useSelector((state)=>{
+        return state.handleUserState
+    })
+
+    if(userState.id!==null){
+        for(let i=0;i<leaderBoardData.length;i++){
+            if(leaderBoardData[i].id===userState.id){
+                userIdx=i+1;
+                break;
+            }
+        }
+    }
     const getTimeString=(time)=>{
         var changedDate = (new Date(time).toLocaleString(undefined, {timeZone: 'Asia/Kolkata'})).replace(regexForDate,"-");
         return changedDate
+        // return changedDate.slice(0,changedDate.length-3)
     }
 
     return (
         <div>
-            <h1 className='text-center'>
-                {`${props.language}-----${props.time}s`}
-            </h1>
+            <h3 className='text-center'>
+                {`${props.language} ${props.time}s`}
+            </h3>
             <table className='table table-striped  table-dark table-hover '>
                 <thead>
 
                     <tr>
                         <th className='text-center'>Rank</th>
-                        <th className='text-center'>User Name</th>
+                        <th className='text-center'>By</th>
                         <th className='text-center'>Speed(wpm)</th>
                         <th className='text-center'>Accuracy</th>
                         <th className='text-center'>Date</th>
@@ -36,7 +53,7 @@ export default function LeaderBoardTable(props) {
                             return null
                         }
                         return (
-                            <tr key={idx}>
+                            <tr key={idx} className={`${idx+1===userIdx ? "text-warning":null}`}>
                                 <td className='text-center'>{idx+1}</td>
                                 <td className='text-center'>{data.userName}</td>
                                 <td className='text-center'>{data.speed}</td>
@@ -46,13 +63,34 @@ export default function LeaderBoardTable(props) {
                             )
                         })}
                 </tbody>
+                <tfoot >
+                    {
+                        userIdx!==0 
+                        ?
+                        <tr className='text-warning'>
+                            <td className='text-center'>{userIdx}</td>
+                            <td className='text-center'>{leaderBoardData[userIdx-1].userName}</td>
+                            <td className='text-center'>{leaderBoardData[userIdx-1].speed}</td>
+                            <td className='text-center'>{leaderBoardData[userIdx-1].accuracy} %</td>
+                            <td className='text-center'>{getTimeString(leaderBoardData[userIdx-1].timeOfTest)}</td>
+                        </tr>
+                        :
+                        <tr className='text-warning'>
+                            <td className='text-center'>#</td>
+                            <td className='text-center'>--</td>
+                            <td className='text-center'>--</td>
+                            <td className='text-center'>--</td>
+                            <td className='text-center'>--</td>
+                        </tr>
+                    }
+                </tfoot>
             </table>
-            {
+            {leaderBoardData.length>10 && (
                 showCount<leaderBoardData.length ?
                 <button  className='btn btn-light  w-100' onClick={()=>setShowCount((prev)=>prev+10)}>Load More </button>
                 :
                 <button  className='btn btn-light  w-100' onClick={()=>setShowCount(10)}>Show Less </button>
-                
+            )
             }
         </div>
     )

@@ -22,7 +22,7 @@ export default function UserAllTestTable(props) {
             {testData[0]===null?null:
             <div>
                 <h1 className='text-center'>
-                    Your last 100 test details here !!!
+                    Your all test details!!!
                 </h1>
                 <table className='table table-striped  table-dark table-hover '>
                     <thead>
@@ -53,11 +53,12 @@ export default function UserAllTestTable(props) {
                     </tbody>
                 </table>
                 {
+                    testData.length>10 && (
                     showCount<testData.length ?
                     <button  className='btn btn-light  w-100' onClick={()=>setShowCount((prev)=>prev+10)}>Load More </button>
                     :
                     <button  className='btn btn-light  w-100' onClick={()=>setShowCount(10)}>Show Less </button>
-                    
+                    )
                 }
             </div>
             }

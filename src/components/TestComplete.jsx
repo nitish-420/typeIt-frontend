@@ -53,6 +53,9 @@ export default function TestComplete(props) {
                     updatedUser.bestAccuracy=props.accuracy
                     updatedUser.bestSpeed=props.speed
                 }
+                else if (userState.bestSpeed===props.speed && updatedUser.bestAccuracy<props.accuracy){
+                    updatedUser.bestAccuracy=props.accuracy
+                }
                 updatedUser.averageSpeed=parseFloat((userState.averageSpeed*userState.numberOfTestsGiven+props.speed)/updatedUser.numberOfTestsGiven).toFixed(2)
                 updatedUser.averageAccuracy=parseFloat((userState.averageAccuracy*userState.numberOfTestsGiven+props.accuracy)/updatedUser.numberOfTestsGiven).toFixed(2)
                 

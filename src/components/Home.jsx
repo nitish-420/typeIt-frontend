@@ -115,6 +115,9 @@ export default function Home() {
             //adding return will work as componentWillUnmount() ie. it will run when this component will unmount
             window.onkeydown=null;
             setLoaderState(true)
+            liveWpm=0
+            liveAccuracy=0
+            typedWord=""
         }
     },[dispatch,guestState,history])
 
