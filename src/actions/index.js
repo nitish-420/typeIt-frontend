@@ -16,10 +16,6 @@ export const setTime=(time)=>dispatch=>{
     dispatch({type:`SET${time}`})
 }
 
-export const getTime=()=>dispatch=>{
-    dispatch({type:"GETTIMESTATE"})
-}
-
 export const setLanguage=(lang)=>dispatch=>{
     dispatch({type:`SET${lang}`})
     if(lang==="English"){
@@ -30,15 +26,9 @@ export const setLanguage=(lang)=>dispatch=>{
     }
 }
 
-export const getLanguage=()=>dispatch=>{
-    dispatch({type:"GETLANGUAGE"})
-}
-
-
 export const getWords=()=>dispatch=>{
     dispatch({type:"GETWORDS"})
 }
-
 
 export const getLanguageWords=(lang)=>dispatch=>{
     dispatch({type:`GET${lang.toUpperCase()}WORDS`})
@@ -70,16 +60,8 @@ export const activeWordEnd=(presentWordLength)=>dispatch=>{
     dispatch({type:"ACTIVEWORDEND",payload:presentWordLength})
 }
 
-export const nextActiveChar=()=>dispatch=>{
-    dispatch({type:"ACTIVENEXTCHAR"})
-}
-
 export const nextActiveLine=()=>dispatch=>{
     dispatch({type:"ACTIVENEXTLINE"})
-}
-
-export const prevActiveChar=()=>dispatch=>{
-    dispatch({type:"ACTIVEPREVCHAR"})
 }
 
 
@@ -92,18 +74,6 @@ export const resetActiveState=()=>dispatch=>{
     dispatch({type:"RESETACTIVESTATE"})
 }
 
-
-export const addCorrectCharacter=(wordIdx,charIdx)=>dispatch=>{
-    dispatch({type:"ADDCORRECTCHARACTER",payload:{wordIdx,charIdx}})
-}
-export const removeCorrectCharacter=(wordIdx,charIdx)=>dispatch=>{
-    dispatch({type:"REMOVECORRECTCHARACTER",payload:{wordIdx,charIdx}})
-}
-
-
-export const resetCorrectCharacter=()=>dispatch=>{
-    dispatch({type:"RESETCORRECTCHARACTER"})
-}
 
 
 export const setCurrentUser=(user)=> dispatch=>{

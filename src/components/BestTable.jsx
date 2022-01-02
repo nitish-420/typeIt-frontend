@@ -2,12 +2,14 @@ import React from 'react'
 
 export default function BestTable(props) {
 
+    var regexForDate = new RegExp('/', 'g');
+    
     const {language,bestData}=props
     const {time15,time30,time60,time120}=bestData
 
     const getTimeString=(time)=>{
-        const s=time.split("T")
-        return s[0]+" "+(s[1].split("."))[0]
+        var changedDate = (new Date(time).toLocaleString(undefined, {timeZone: 'Asia/Kolkata'})).replace(regexForDate,"-");
+        return changedDate
     }
 
     return (

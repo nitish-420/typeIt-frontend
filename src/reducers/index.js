@@ -6,7 +6,6 @@ import handleLanguageState from "./setLanguage";
 import handleTestState from "./startTest";
 import handleWordState from "./getWords";
 import handleActiveWordState from "./activeWordState";
-import handleRightCharacterState from "./rightCharacter"
 import handleUserState from "./userState";
 
 const rootReducer=combineReducers({
@@ -17,7 +16,6 @@ const rootReducer=combineReducers({
     handleTestState,
     handleWordState,
     handleActiveWordState,
-    handleRightCharacterState,
     handleUserState
 });
 

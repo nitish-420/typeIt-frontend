@@ -12,9 +12,9 @@ export  default function Word(props){
     return (
 
         <div className='word' id={`${(props.idx===activeWordState.word && props.lineIdx===activeWordState.line) ? "activeWord":"" }`} >
-            {(props.idx===activeWordState.word && props.lineIdx===activeWordState.line) ? <Caret len={props.word.length}/>:null}
+            {(props.idx===activeWordState.word && props.lineIdx===activeWordState.line) ? <Caret/>:null}
             {props.word.split("").map((char,idx)=>{
-                return <Character char={char} key={idx} idx={idx} wordIdx={props.idx} lineIdx={props.lineIdx}/>
+                return <Character char={char} key={idx} />
             })}
         </div>
     )

@@ -2,14 +2,16 @@ import {React,useState} from 'react'
 
 export default function UserAllTestTable(props) {
 
+    var regexForDate = new RegExp('/', 'g');
+    
     const [showCount,setShowCount]=useState(10)
 
     const {testData}=props
     
 
     const getTimeString=(time)=>{
-        const s=time.split("T")
-        return s[0]+" "+(s[1].split("."))[0]
+        var changedDate = (new Date(time).toLocaleString(undefined, {timeZone: 'Asia/Kolkata'})).replace(regexForDate,"-");
+        return changedDate
     }
 
 

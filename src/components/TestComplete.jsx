@@ -94,7 +94,7 @@ export default function TestComplete(props) {
     }
 
     const validTestCase=()=>{
-        if(props.speed*props.accuracy<100){
+        if(props.speed*props.accuracy<500){
             dispatch(showAlert("Invalid Test Case, It will not be stored in database","warning",2500))
             return false
         }

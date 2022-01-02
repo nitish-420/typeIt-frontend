@@ -2,6 +2,8 @@
 
 @import url("https://unicons.iconscout.com/release/v2.1.9/css/unicons.css");
 @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700,800,900');
+
+
 * {
     padding: 0px;
     margin: 0px;
@@ -412,7 +414,7 @@ h6 span {
     right: -10px;
     font-size: 40px;
 	color: rgb(16, 147, 255);
-    transition: all 0.15s ease;
+    transition: all 0.1s ease;
 }
 
 .blink{
@@ -447,8 +449,22 @@ h6 span {
     text-decoration: underline;
 }
 
+.right{
+    color: rgb(255, 195, 29);
+}
+
+.wrong{
+    color: red;
+    text-decoration: underline;
+}
+
 .bestRecords{
     border: 1px solid black;
     color: white;
 
 }
+
+.accordion-button::after{
+    background-image: url("./down-arrow.png");
+}
+

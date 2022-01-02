@@ -2,11 +2,11 @@ import React from 'react'
 
 const About = () => {
     return (
-        <div className="aboutBox container bg-dark">
-            <div className="accordion p-3" id="accordionFlushExample">
-                <div className="accordion-item">
+        <div className="aboutBox container text-white bg-dark">
+            <div className="accordion accordion-flush p-3 text-white bg-dark" id="accordionFlushExample">
+                <div className="accordion-item text-white bg-dark">
                     <h2 className="accordion-header" id="flush-headingOne">
-                        <button className="accordion-button  collapsed " type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                        <button className="accordion-button collapsed text-white bg-dark" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
                             About the App
                         </button>
                     </h2>
@@ -33,9 +33,9 @@ const About = () => {
                         </div>
                     </div>
                 </div>
-                <div className="accordion-item">
-                    <h2 className="accordion-header" id="flush-headingTwo">
-                        <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                <div className="accordion-item text-white bg-dark">
+                    <h2 className="accordion-header " id="flush-headingTwo">
+                        <button className="accordion-button collapsed text-white bg-dark " type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
                             About the maker
                         </button>
                     </h2>
@@ -50,9 +50,9 @@ const About = () => {
                         </div>
                     </div>
                 </div>
-                <div className="accordion-item">
+                <div className="accordion-item text-white bg-dark">
                     <h2 className="accordion-header" id="flush-headingThree">
-                        <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+                        <button className="accordion-button collapsed text-white bg-dark" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
                             Future insights
                         </button>
                     </h2>
