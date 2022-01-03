@@ -97,6 +97,7 @@ export default function Home() {
                     dispatch(showAlert(json.error,"danger"))
                     history.push("/login")
                 }
+
                 setLoaderState(true)
             }
             catch(e){
@@ -109,8 +110,6 @@ export default function Home() {
             getCurrentUser()
         }
 
-        
-        
         return ()=>{
             //adding return will work as componentWillUnmount() ie. it will run when this component will unmount
             window.onkeydown=null;
@@ -118,6 +117,8 @@ export default function Home() {
             liveWpm=0
             liveAccuracy=0
             typedWord=""
+            rightCount=0
+            wrongCount=0
         }
     },[dispatch,guestState,history])
 
@@ -136,15 +137,8 @@ export default function Home() {
             setCurrWord(codeLineWords[activeWordState.word])
         }
 
-        try{
-            
-            currWordElement= document.getElementById("activeWord")
-    
-            caret=document.getElementById('caret')
-        }
-        catch(e){
-            // console.log(e)
-        }
+        currWordElement= document.getElementById("activeWord")
+        caret=document.getElementById('caret')
 
 
     },[activeWordState,words,languageState])
@@ -212,8 +206,8 @@ export default function Home() {
                 return prev-1
             })
             if(rightCount>0){
-                liveWpm=Math.ceil(((rightCount)*12)/(timeState-tempLiveTimer))
-                liveAccuracy=Math.ceil(((rightCount)*100)/(wrongCount+rightCount))
+                liveWpm=Math.floor(((rightCount)*12)/(timeState-tempLiveTimer))
+                liveAccuracy=Math.floor(((rightCount)*100)/(wrongCount+rightCount))
             }
             else{
                 liveWpm=0
@@ -253,6 +247,9 @@ export default function Home() {
     }
 
     const changeCarretPosition=()=>{
+        if(caret===null){
+            caret=document.getElementById('caret')
+        }
         try{
             caret.style.right=`${-10-20*typedWord.length}px`;
         }
@@ -300,6 +297,10 @@ export default function Home() {
             restartButton.current.blur()
             setFocusedStateOnRestartButton(false)
         }
+
+        if(currWordElement===null){
+            currWordElement= document.getElementById("activeWord")
+        }
         
         switch(e.key){
             case "Tab":
@@ -313,7 +314,8 @@ export default function Home() {
                 e.preventDefault()
                 if(typedWord.length!==0){
                     if(languageState==="English"){
-                        rightCount+=1
+                        // rightCount+=1
+                        // removing counting of space as right character
                         dispatch(nextActiveWord())
                         currWordElement.classList.add(typedWord===currWord ? "right" : "wrong")
                         wrongCount+=(currWord.length-typedWord.length)
@@ -335,7 +337,7 @@ export default function Home() {
                             
                         }
                         else{
-                            rightCount+=1
+                            // rightCount+=1
                             dispatch(nextActiveWord())
                             wrongCount+=(currWord.length-typedWord.length)
                             typedWord=""
@@ -362,22 +364,23 @@ export default function Home() {
                 e.preventDefault()
                 if(typedWord.length!==0){
                     if(e.ctrlKey){
+                        let tempRight=0,tempWrong=0;
+                        for(let i=0;i<typedWord.length;i++){
+                            if(typedWord[i]===currWord[i]){
+                                ++tempRight;
+                            }
+                            else{
+                                ++tempWrong;
+                            }
+                        }
+                        wrongCount-=tempWrong
+                        rightCount-=tempRight
+
                         currWordElement.childNodes.forEach((char)=>{
                             if(char instanceof HTMLSpanElement){
                                 char.classList.remove("wrong","right")
                             }
                         })
-                        let tempRight=0,tempWrong=0;
-                        for(let i=0;i<typedWord.length;i++){
-                            if(typedWord[i]===currWord[i]){
-                                tempRight++;
-                            }
-                            else{
-                                tempWrong++;
-                            }
-                        }
-                        wrongCount-=tempWrong
-                        rightCount-=tempRight
                         dispatch(resetPresentWord())
                         typedWord=""
                         changeCarretPosition()
@@ -391,10 +394,10 @@ export default function Home() {
                         currWordElement.children[idx+1].classList.remove("wrong","right")
 
                         if(key===currWord[idx]){
-                            rightCount--;
+                            --rightCount;
                         }
                         else{
-                            wrongCount--;
+                            --wrongCount;
                         }
                     }
                     currWordElement.classList.remove("wrong")
@@ -419,16 +422,14 @@ export default function Home() {
                 )
 
                 if(key===currWord[idx]){
-                    rightCount+=1
+                    ++rightCount;
                     
                 }
                 else{
-                    wrongCount+=1
+                    ++wrongCount;
                 }
-                
 
-            }
-            
+            }            
         }
         
         
