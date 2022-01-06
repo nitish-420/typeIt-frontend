@@ -3,13 +3,15 @@
 @import url("https://unicons.iconscout.com/release/v2.1.9/css/unicons.css");
 @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700,800,900');
 
+@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400);
+
+
 
 * {
     padding: 0px;
     margin: 0px;
     box-sizing: border-box;
-    scroll-behavior: smooth;
-    
+    scroll-behavior: smooth;    
 }
 
 #root {
@@ -31,7 +33,7 @@ code {
 }
 
 .root {
-    background-color: #323437;
+    background-color: #212529;
 }
 
 .alert {
@@ -47,7 +49,7 @@ body {
     font-size: 15px;
     line-height: 1.7;
     color: #c4c3ca;
-    background-color: #1f2029;
+    background-color: #212529;
     overflow-x: hidden;
 }
 
@@ -70,8 +72,8 @@ a:hover {
 
 p {
     font-weight: 500;
-    font-size: 14px;
-    line-height: 1.7;
+    font-size: 10px;
+    line-height: 0.5;
 }
 
 h4 {
@@ -438,7 +440,7 @@ h6 span {
 }
 
 #activeWord{
-    margin-left: -9px;
+    margin-left: -10px;
 }
 
 .rightCharacter{
@@ -466,5 +468,149 @@ h6 span {
 
 .accordion-button::after{
     background-image: url("./down-arrow.png");
+}
+
+/* Navbar  */
+
+.nav-bar{
+    display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100px;
+}
+
+.logo-name{
+    cursor: pointer;
+}
+
+.time-item{
+    display: flex;
+    align-items: center;
+    margin-top: 70px;
+}
+
+.lang-item{
+    display: flex;
+    align-items: center;
+}
+
+.empty-items{
+    visibility: hidden;
+}
+
+.home-items{
+    position: relative;
+    top: -12px;
+    margin-left: 220px;
+}
+
+.navbar-brand-2{
+    padding-top: 0.3125rem;
+    padding-bottom: 0.3125rem;
+    margin-right: 1rem;
+    font-size: 0.8rem;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+/* ******* Footer ****** */
+
+.footer #button{
+	width:35px;
+	height:35px;
+	margin:0 auto;
+	position:relative;
+	-webkit-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    -ms-transition: all 1s ease;
+    transition: all 1s ease;
+}
+.footer #button:hover{
+	width:35px;
+	height:35px;
+	border: #3A3A3A 12px solid;
+	-webkit-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    -ms-transition: all 1s ease;
+    transition: all 1s ease;
+	position:relative;
+}
+.footer {
+	bottom:0;
+	left:0;
+	position:fixed;
+    width: 100%;
+    height: 2em;
+    overflow:hidden;
+    margin:0 auto;
+	-webkit-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    -ms-transition: all 1s ease;
+    transition: all 1s ease;
+	z-index:999;
+}
+.footer:hover {
+	-webkit-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    -ms-transition: all 1s ease;
+    transition: all 1s ease;
+	height: 5.5em;
+}
+.footer #container{
+	margin-top:5px;
+	width:100%;
+height:100%;
+  position:relative;
+  top:0;
+  left:0;
+  background-color: #2a2b38;
+  background-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/1462889/pat.svg');
+}
+.footer #cont{
+  position:relative;
+  top:-45px;
+  right:190px;
+	width:150px;
+	height:auto;
+	margin:0 auto;
+}
+.footer_center{
+	width:500px;
+	float:left;
+  text-align:center;
+}
+.footer h3{
+	font-family: 'Helvetica';
+	font-size: 15px;
+	font-weight: 100;
+	margin-top:60px;
+	margin-left:40px;
+}
+
+/* 
+********** restart Button ********* */
+
+@import url('https://fonts.googleapis.com/css?family=Lato:100&display=swap');
+
+restartButton {
+  width: 400px;
+  height: 400px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.center {
+  width: 180px;
+  height: 60px;
+  position: absolute;
 }
 
