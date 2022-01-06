@@ -436,16 +436,19 @@ export default function Home() {
         return (
             <>
             <Loader loaded={loaderState} className="spinner" color="#FFF" radius={10} width={3} trail={60} speed={1} top="30%"/>
-            {loaderState && <div>
-                {!testCompleteState ? <div>
-                    <div>
-                        {liveTimer ? liveTimer : timeState}
-                    </div>
-                    <div>
-                        {liveWpm}
-                    </div>
-                    <div>
-                        {liveAccuracy}%
+            <div>
+                {!testCompleteState ? 
+                <div>
+                    <div className='d-flex flex-row justify-content-start mb-5 fs-4 text-warning align-items-center' style={{marginLeft:"15px"}}>
+                        <div className='me-3'>
+                            {liveTimer ? liveTimer : timeState}
+                        </div >
+                        <div className='me-3'>
+                            {liveWpm}
+                        </div>
+                        <div className='me-3'>
+                            {liveAccuracy}%
+                        </div>
                     </div>
 
                     <div>
@@ -453,7 +456,7 @@ export default function Home() {
                         {languageState!=="English"  &&  <OtherLanguageEditor handleScroll={handleScroll} getProperWords={getProperWords} />}
                     </div>
                     <div className='restartButton'>
-                        <button className='btn btn-warning' ref={restartButton} onClick={()=>{resetLiveTest()}}>Restart</button>
+                        <button className='btn btn-secondary' ref={restartButton} onClick={()=>{resetLiveTest()}}>Restart</button>
                     </div>
                 </div>
                 :
@@ -461,8 +464,7 @@ export default function Home() {
                     <TestComplete resetLiveTest={resetLiveTest} testTime={timeState} speed={liveWpm} accuracy={liveAccuracy} language={languageState} />
                 </div> 
                 }
-            </div>}
-
+            </div>
         </>
     )
 }

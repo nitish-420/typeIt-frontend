@@ -87,9 +87,9 @@ export default function LeaderBoardTable(props) {
             </table>
             {leaderBoardData.length>10 && (
                 showCount<leaderBoardData.length ?
-                <button  className='btn btn-light  w-100' onClick={()=>setShowCount((prev)=>prev+10)}>Load More </button>
+                <button  className='btn btn-outline-warning  w-100' onClick={()=>setShowCount((prev)=>prev+10)}>Load More </button>
                 :
-                <button  className='btn btn-light  w-100' onClick={()=>setShowCount(10)}>Show Less </button>
+                <button  className='btn btn-outline-warning  w-100' onClick={()=>setShowCount(10)}>Show Less </button>
             )
             }
         </div>

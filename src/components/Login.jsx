@@ -171,7 +171,7 @@ export default function Login() {
                                                         <input type="password" onChange={handleLoginChange} name="lpassword" className="form-style" placeholder="Your Password" id="lpassword"  value={loginData.lpassword} />
                                                         <i className="input-icon uil uil-lock-alt"></i>
                                                     </div>
-                                                    <button  className="btn mt-4"  onClick={clickedLogin} >Submit</button>
+                                                    <button  className="btn btn-outline-warning mt-4"  onClick={clickedLogin} >Submit</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -199,7 +199,7 @@ export default function Login() {
                                                         <input type="password" onChange={handleSignUpChange} name="password" className="form-style" placeholder="Your Password" id="password" value={signUpData.password}  />
                                                         <i className="input-icon uil uil-lock-alt"></i>
                                                     </div>
-                                                    <button className="btn mt-4" onClick={clickedSignUp} >Submit</button>
+                                                    <button className="btn btn-outline-warning mt-4" onClick={clickedSignUp} >Submit</button>
                                                 </div>
                                             </div>
                                         </div>

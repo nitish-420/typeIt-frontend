@@ -55,7 +55,7 @@ export default function LeaderBoard() {
                     <h1>Leader Board</h1>
                 </div>
                 <div className="dropdown col-12 col-md-3  p-3 text-center text-md-end">
-                    <button className="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                         {language}
                     </button>
                     <ul className="dropdown-menu bg-dark" aria-labelledby="dropdownMenuButton1" >

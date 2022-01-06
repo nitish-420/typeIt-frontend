@@ -1,9 +1,9 @@
 /* @import url("https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css"); */
-
+/* 
 @import url("https://unicons.iconscout.com/release/v2.1.9/css/unicons.css");
 @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700,800,900');
 
-@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400);
+@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400); */
 
 
 
@@ -300,7 +300,7 @@ h6 span {
     -webkit-transition: all 200ms linear;
     transition: all 200ms linear;
 }
-
+/* 
 .btn {
     border-radius: 4px;
     height: 44px;
@@ -328,7 +328,7 @@ h6 span {
     background-color: #ffeba7;
     color: #102770;
     box-shadow: 0 8px 24px 0 rgba(255, 235, 167, .2);
-}
+} 
 
 .btn:active,
 .btn:focus {
@@ -341,7 +341,8 @@ h6 span {
     background-color: #102770;
     color: #ffeba7;
     box-shadow: 0 8px 24px 0 rgba(16, 39, 112, .2);
-}
+} */
+
 
 .logo {
     position: absolute;
@@ -361,8 +362,8 @@ h6 span {
 .textArea {
     font-family: monospace;
     height: 100px;
-    width: 60%;
-    max-width: 700px;
+    /* width: 60%; */
+    /* max-width: 700px; */
     margin: auto;
     background-color: #212529;
     border: 0px;
@@ -379,8 +380,8 @@ h6 span {
 .textAreaCode{
     font-family: monospace;
     height: 100px;
-    width: 80%;
-    max-width: 900px;
+    /* width: 80%; */
+    /* max-width: 900px; */
     margin: auto;
     background-color: #212529;
     border: 0px;
@@ -459,7 +460,7 @@ h6 span {
 }
 
 /* Navbar  */
-
+/*
 .nav-bar{
     display: flex;
     justify-content: space-between;
@@ -499,6 +500,11 @@ h6 span {
     font-size: 0.8rem;
     text-decoration: none;
     white-space: nowrap;
+}
+
+*/
+#navbar{
+    height: 100px;
 }
 
 /* ******* Footer ****** */
@@ -584,6 +590,7 @@ height:100%;
 
 @import url('https://fonts.googleapis.com/css?family=Lato:100&display=swap');
 
+
 restartButton {
   width: 400px;
   height: 400px;
@@ -594,7 +601,9 @@ restartButton {
   display: flex;
   justify-content: center;
   align-items: center;
+
 }
+
 
 .center {
   width: 180px;

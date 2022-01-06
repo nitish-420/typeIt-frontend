@@ -131,7 +131,7 @@ export default function TestComplete(props) {
                 </div>
                 Test completed !!!
                 <hr/>
-                <button className='btn btn-warning' ref={resetButton} onClick={()=>{resetLiveTest()}}>Next Test </button>
+                <button className='btn btn-secondary' ref={resetButton} onClick={()=>{resetLiveTest()}}>Next Test </button>
 
             </div>}
         </Loader>

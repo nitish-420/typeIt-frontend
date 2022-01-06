@@ -5,8 +5,8 @@ import {javascriptLines} from "../helpers/javascriptCode.json"
 import {javaLines} from "../helpers/javaCode.json"
 
 var index;
-var wordsToRenderOnce=25
-var linesToRenderOnce=3
+var wordsToRenderOnce=30
+var linesToRenderOnce=2
 const handleWordState=(state=[],action)=>{
 
     let data=[]
