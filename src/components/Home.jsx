@@ -251,7 +251,7 @@ export default function Home() {
             caret=document.getElementById('caret')
         }
         try{
-            caret.style.right=`${-10-20*typedWord.length}px`;
+            caret.style.marginLeft=`${-13+20*typedWord.length}px`;
         }
         catch(e){
             // console.log(e)
