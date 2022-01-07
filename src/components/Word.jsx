@@ -11,7 +11,7 @@ export  default function Word(props){
 
     return (
 
-        <div className='word' id={`${(props.idx===activeWordState.word && props.lineIdx===activeWordState.line) ? "activeWord":"" }`} >
+        <div className='word ' id={`${(props.idx===activeWordState.word && props.lineIdx===activeWordState.line) ? "activeWord":"" }`} >
             {(props.idx===activeWordState.word && props.lineIdx===activeWordState.line) ? <Caret/>:null}
             {props.word.split("").map((char,idx)=>{
                 return <Character char={char} key={idx} />

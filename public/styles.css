@@ -359,10 +359,15 @@ h6 span {
     display: block;
 }
 
+.homePage{
+    width: 85%;
+    margin: auto;
+}
+
 .textArea {
     font-family: monospace;
     height: 100px;
-    /* width: 60%; */
+    /* width: 90%; */
     /* max-width: 700px; */
     margin: auto;
     background-color: #212529;
@@ -379,7 +384,7 @@ h6 span {
 }
 .textAreaCode{
     font-family: monospace;
-    height: 100px;
+    height: 110px;
     /* width: 80%; */
     /* max-width: 900px; */
     margin: auto;
@@ -387,7 +392,7 @@ h6 span {
     border: 0px;
     outline: none;
     resize: none;
-    /* caret-color: #ffff4e; */
+    caret-color: #ffff4e;
     font-size: 30px;
     outline: none;
     color: white;
@@ -413,12 +418,15 @@ h6 span {
 #caret{
     position: absolute;
     margin-left: -13px;
-    margin-top: -21px;
+    margin-top: -12px;
     transition: all 0.1s ease;
     font-size: 40px;
     font-family: monospace;
     color: rgb(16, 147, 255);
 }
+/* #caret::after{
+    content: "|";
+} */
 
 .blink{
     animation: blink 2s linear infinite alternate;
@@ -458,6 +466,23 @@ h6 span {
 .accordion-button::after{
     background-image: url("./down-arrow.png");
 }
+
+.navbar-dark .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.55%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+.nav-link:hover{
+    cursor: pointer;
+}
+
+/* 
+hr{
+    margin: 1rem 0;
+    color: white;
+    background-color: currentColor;
+    border: 0;
+    opacity: .25;
+} */
 
 /* Navbar  */
 /*

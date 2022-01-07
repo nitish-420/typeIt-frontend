@@ -8,6 +8,8 @@ export default function OtherLanguageEditor(props) {
 
     const {scrollDirection,scrollTargetRef} =useScrollDirection()
 
+    const {handleScroll}=props
+
     const lines=useSelector((state)=>{
         return state.handleWordState
     })
@@ -16,21 +18,20 @@ export default function OtherLanguageEditor(props) {
     }
 
     useEffect(()=>{
+
         if(scrollDirection==="DOWN"){
-            props.handleScroll()
+            handleScroll()
         }
-    },[scrollDirection,props])
+    },[scrollDirection,handleScroll])
 
 
     return (
-        <>
-            <div className="textAreaCode" id="area" ref={scrollTargetRef} >
-				{lines.map((line, idx) => {
-					return (
-                        <Line key={idx} lineIdx={idx} line={line} />
-					)
-				})}
-			</div>
-        </>
+        <div className="textAreaCode mt-4" id="area" ref={scrollTargetRef} style={{position:"relative"}}>
+            {lines.map((line, idx) => {
+                return (
+                    <Line key={idx} lineIdx={idx} line={line} />
+                )
+            })}
+        </div>
     )
 }

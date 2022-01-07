@@ -37,8 +37,8 @@ function Navbar(props) {
 
     return (
         <div className="container pt-4" id="navbar">
-            <div className="row">
-                <nav  className={` col-8 ${testState ? "d-none" : "d-flex"} flex-row p-0 m-0 align-items-center justify-content-between  navbar mx-0 navbar-dark bg-dark fs-5`}>
+            <nav className="row navbar navbar-expand-lg navbar-dark">
+                <div  className={` col-11 col-md-10 col-lg-8 ${testState ? "d-none" : "d-flex"} flex-row p-0 m-0 align-items-center justify-content-between  mx-0 bg-dark fs-5`}>
                     <div><Link className={`m-0 p-0 nav-link text-light `} data-toggle="tooltip" style={{fontSize:"2rem"}} title="TypeIt" to="/">TypeIt</Link></div>
                     <div><Link className={`m-0 p-0 nav-link ${location.pathname==="/" ? "text-light navbar-brand " : "text-muted"}`} aria-current="page" to="/"  >Home</Link></div>
                     <div><Link className={`m-0 p-0 nav-link ${location.pathname==="/about" ? "text-light navbar-brand " : "text-muted"}`} to="/about" >About</Link></div>
@@ -53,11 +53,35 @@ function Navbar(props) {
                         
                         }
                     </div>
-                </nav>
-                <div className="col-1">
-                        
                 </div>
-                <div className={`col-3 ${(!testState && location.pathname==='/') ? "d-flex" : "d-none"} flex-column justify-content-between`} style={{fontSize:"0.8rem"}}>
+                <div className="col-1">
+                    <div className={` ${(!testState && location.pathname==='/') ? "d-lg-none" : "d-none"} `}>
+                        <button className="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" aria-expanded="false" aria-label="Toggle navigation">
+                            <span className="navbar-toggler-icon "></span>
+                        </button>
+                        <div className="offcanvas offcanvas-end text-white bg-dark" tabIndex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+                            <div className="offcanvas-header">
+                                <h5 className="text-center" id="offcanvasRightLabel">Select Time and Language</h5>
+                                <button type="button" className="btn-close btn-close-white text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                            </div>
+                            <div className="offcanvas-body">
+                                <div className=" d-flex flex-column justify-content-center fs-3 align-items-center">
+                                    <div className={`mx-1 p-0  nav-link ${timeState===15 ? "text-light " : "text-muted"}`} onClick={()=>dispatch(setTime(15))} >15</div>
+                                    <div className={`mx-1 p-0  nav-link ${timeState===30 ? "text-light " : "text-muted"}`} onClick={()=>dispatch(setTime(30))} >30</div>
+                                    <div className={`mx-1 p-0  nav-link ${timeState===60 ? "text-light  " : "text-muted"}`} onClick={()=>dispatch(setTime(60))} >60</div>
+                                    <div className={`mx-1 p-0  nav-link ${timeState===120 ? "text-light  " : "text-muted"}`} onClick={()=>dispatch(setTime(120))} >120</div>
+                                    <hr className="w-100" style={{color:"white"}}/>
+                                    <div className={`mx-1 p-0  nav-link ${languageState==="English" ? "text-light " : "text-muted"}`} onClick={()=>dispatch(setLanguage("English"))} >English</div>
+                                    <div className={`mx-1 p-0  nav-link ${languageState==="Python" ? "text-light " : "text-muted"}`} onClick={()=>dispatch(setLanguage("Python"))} >Python</div>
+                                    <div className={`mx-1 p-0  nav-link ${languageState==="C" ? "text-light " : "text-muted"}`} onClick={()=>dispatch(setLanguage("C"))} >C</div>
+                                    <div className={`mx-1 p-0  nav-link ${languageState==="Javascript" ? "text-light " : "text-muted"}`} onClick={()=>dispatch(setLanguage("Javascript"))} >JavaScript</div>
+                                    <div className={`mx-1 p-0  nav-link ${languageState==="Java" ? "text-light " : "text-muted"}`} onClick={()=>dispatch(setLanguage("Java"))} >Java</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className={`col-3 ${(!testState && location.pathname==='/') ? "d-none d-lg-flex" : "d-none"} flex-column justify-content-between`} style={{fontSize:"0.8rem"}}>
                     <div className="d-flex flex-row justify-content-end align-items-center ">
                         <div className={`mx-1 p-0  nav-link ${timeState===15 ? "text-light fs-6" : "text-muted"}`} onClick={()=>dispatch(setTime(15))} >15</div>
                         <div className={`mx-1 p-0   nav-link ${timeState===30 ? "text-light fs-6" : "text-muted"}`} onClick={()=>dispatch(setTime(30))} >30</div>
@@ -72,7 +96,7 @@ function Navbar(props) {
                         <div className={`mx-1 p-0  nav-link ${languageState==="Java" ? "text-light fs-6" : "text-muted"}`} onClick={()=>dispatch(setLanguage("Java"))} >Java</div>
                     </div>
                 </div>
-            </div>
+            </nav>
         </div>
     )
 

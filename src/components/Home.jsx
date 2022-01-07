@@ -165,12 +165,7 @@ export default function Home() {
     }
 
     let resetLiveTest=()=>{
-        try{
-            caret.classList.add("blink")
-        }
-        catch(e){
-            // console.log(e)
-        }
+
         document.querySelectorAll(".wrong, .right").forEach((el)=>el.classList.remove("wrong","right"))
         getProperWords()
         setTestCompleteState(false)
@@ -191,6 +186,12 @@ export default function Home() {
         }
         typedWord=""
         changeCarretPosition()
+        try{
+            caret.classList.add("blink")
+        }
+        catch(e){
+            // console.log(e)
+        }
     }
         
     let startLiveTimer=()=>{
@@ -434,12 +435,11 @@ export default function Home() {
         
         
         return (
-            <>
-            <Loader loaded={loaderState} className="spinner" color="#FFF" radius={10} width={3} trail={60} speed={1} top="30%"/>
-            <div>
+            <Loader loaded={loaderState} className="spinner" color="#FFF" radius={10} width={3} trail={60} speed={1} top="30%">
+            <div className='homePage'>
                 {!testCompleteState ? 
                 <div>
-                    <div className='d-flex flex-row justify-content-start mb-5 fs-4 text-warning align-items-center' style={{marginLeft:"15px"}}>
+                    <div className='d-flex flex-row justify-content-start fs-4 text-warning align-items-center' style={{marginLeft:"15px"}}>
                         <div className='me-3'>
                             {liveTimer ? liveTimer : timeState}
                         </div >
@@ -451,7 +451,7 @@ export default function Home() {
                         </div>
                     </div>
 
-                    <div>
+                    <div >
                         {languageState==="English"  && <EnglishEditor handleScroll={handleScroll} getProperWords={getProperWords}/>}
                         {languageState!=="English"  &&  <OtherLanguageEditor handleScroll={handleScroll} getProperWords={getProperWords} />}
                     </div>
@@ -465,6 +465,6 @@ export default function Home() {
                 </div> 
                 }
             </div>
-        </>
+        </Loader>
     )
 }
