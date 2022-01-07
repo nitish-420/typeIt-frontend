@@ -2,15 +2,12 @@ import React from 'react'
 
 export default function Footer() {
     return (
-        <div className="footer">
-            <div id="button"></div>
-            <div id="container">
-                <div id="cont">
-                    <div className="footer_center">
-                        <h3>Copyright &copy; www.TypeIt.com. All Rights Reserved!</h3>
-                    </div>
-                </div>
-            </div>
-        </div>
+      <footer className="footer d-flex justify-content-between align-items-center bg-dark flex-wrap text-light py-2" >
+      <div className="mx-auto">
+          <h8>Copyright &copy; www.TypeIt.com. All Rights Reserved!</h8>
+      </div>
+
+  </footer>
+
     )
 }

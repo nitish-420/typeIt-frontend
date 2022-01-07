@@ -152,7 +152,7 @@ export default function Login() {
                 <div className="row full-height justify-content-center">
                     <div className="col-12 text-center align-self-center ">
                         <div className="section pt-sm-2 text-center">
-                            <Link className="btn btn-outline-warning mb-3" onClick={()=>dispatch(setGuest())} to="/"> Continue as a guest !</Link>
+                            <Link className="btn-2 no btn-2-outline-warning mb-3 text-decoration-none" onClick={()=>dispatch(setGuest())} to="/"> Continue as a guest !</Link>
                             <h6 className="mb-0 pb-3"><span>Log In </span><span>Sign Up</span></h6>
                             <input className="checkbox" type="checkbox" id="reg-log" name="reg-log" />
                             <label htmlFor="reg-log"></label>
@@ -165,13 +165,13 @@ export default function Login() {
                                                     <h4 className="mb-4 pb-3">Log In</h4>
                                                     <div className="form-group">
                                                         <input type="email" onChange={handleLoginChange} name="lemail" className="form-style" placeholder="Your Email" id="lemail" value={loginData.lemail} />
-                                                        <i className="input-icon uil uil-at"></i>
+                                                        <i className="input-icons uil uil-at"></i>
                                                     </div>
                                                     <div className="form-group mt-4">
                                                         <input type="password" onChange={handleLoginChange} name="lpassword" className="form-style" placeholder="Your Password" id="lpassword"  value={loginData.lpassword} />
-                                                        <i className="input-icon uil uil-lock-alt"></i>
+                                                        <i className="input-icons uil uil-lock-alt"></i>
                                                     </div>
-                                                    <button  className="btn btn-outline-warning mt-4"  onClick={clickedLogin} >Submit</button>
+                                                    <button  className="btn-2 btn-2-outline-warning mt-4"  onClick={clickedLogin} >Submit</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -181,25 +181,25 @@ export default function Login() {
                                                     <h4 className="mb-4 pb-3" >Sign Up</h4>
                                                     <div className="form-group">
                                                         <input type="text" onChange={handleSignUpChange} name="fName" className="form-style" placeholder="Your First Name" id="fName" value={signUpData.fName} />
-                                                        <i className="input-icon uil uil-user"></i>
+                                                        <i className="input-icons uil uil-user"></i>
                                                     </div>
                                                     <div className="form-group mt-2">
                                                         <input type="text" onChange={handleSignUpChange} name="lName" className="form-style" placeholder="Your Last Name" id="lName" value={signUpData.lName}  />
-                                                        <i className="input-icon uil uil-user"></i>
+                                                        <i className="input-icons uil uil-user"></i>
                                                     </div>
                                                     <div className="form-group mt-2">
                                                         <input type="text" onChange={handleSignUpChange} name="userName" className="form-style" placeholder="Your User Name" id="userName" value={signUpData.userName}  />
-                                                        <i className="input-icon uil uil-user"></i>
+                                                        <i className="input-icons uil uil-user"></i>
                                                     </div>
                                                     <div className="form-group mt-2">
                                                         <input type="email"  onChange={handleSignUpChange} name="email" className="form-style" placeholder="Your Email" id="email" value={signUpData.email}  />
-                                                        <i className="input-icon uil uil-at"></i>
+                                                        <i className="input-icons uil uil-at"></i>
                                                     </div>
                                                     <div className="form-group mt-2">
                                                         <input type="password" onChange={handleSignUpChange} name="password" className="form-style" placeholder="Your Password" id="password" value={signUpData.password}  />
-                                                        <i className="input-icon uil uil-lock-alt"></i>
+                                                        <i className="input-icons uil uil-lock-alt"></i>
                                                     </div>
-                                                    <button className="btn btn-outline-warning mt-4" onClick={clickedSignUp} >Submit</button>
+                                                    <button className="btn-2 btn-2-outline-warning mt-4" onClick={clickedSignUp} >Submit</button>
                                                 </div>
                                             </div>
                                         </div>

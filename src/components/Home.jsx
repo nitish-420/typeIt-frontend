@@ -9,6 +9,8 @@ import Loader from "react-loader"
 import {startTest,nextActiveWord,stopTest, resetActiveState, getWords, updateWords, resetPresentWord, nextActiveLine, getLanguageWords, updateLanguageWords, activeWordEnd, setCurrentUser, showAlert} from "../actions/index"
 import OtherLanguageEditor from './OtherLanguageEditor';
 
+import restart from '../Image/restart.png';
+
 var rightCount=0;
 var wrongCount=0;
 var timeState;
@@ -456,7 +458,7 @@ export default function Home() {
                         {languageState!=="English"  &&  <OtherLanguageEditor handleScroll={handleScroll} getProperWords={getProperWords} />}
                     </div>
                     <div className='restartButton'>
-                        <button className='btn btn-secondary' ref={restartButton} onClick={()=>{resetLiveTest()}}>Restart</button>
+                        <button type="button" className="btn btn-outline-secondary no-border"  ref={restartButton} onClick={()=>{resetLiveTest()}} ><img src={restart} width="20" height="20"/></button>
                     </div>
                 </div>
                 :

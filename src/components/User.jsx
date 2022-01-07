@@ -353,30 +353,42 @@ export default function User() {
         <Loader loaded={loaderState} className="spinner" color="#FFF" radius={10} width={3} trail={60} speed={1} position='relative' top='40'>
             {!guestState ? <div>
                 <div className='row d-flex flex-row justify-content-around'>
-                    <h2 className='col-12 text-center'>
+                    <h2 className='col-12 text-center text-animation'>
                         Hii {userState.fName+" "+userState.lName } go down to trace your journey !!!
                     </h2>
-                    <div>
+                    <div className="container p-5">
+                        <div className="row p-4">
+                            <div className="col text-center ">
+                            <h6 className="text-muted font-">Total Test Given</h6>
+                            <h2>{userState.numberOfTestsGiven}</h2>
+                            </div>
+                            <div className="col text-center">
+                            <h6 className="text-muted font-">Total Time Spends</h6>
+                            <h2>{userState.totalTimeSpend}</h2>              
+                            </div>
+                            <div className="col text-center">
+                            <h6 className="text-muted font-">Best Speed</h6>
+                            <h2>{userState.bestSpeed}</h2>   
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col text-center">
+                            <h6 className="text-muted font-">Acuuracy with Best Speed</h6>
+                            <h2>{userState.bestAccuracy}</h2>   
+                            </div>
+                            <div className="col text-center">
+                            <h6 className="text-muted font-">Average Speed</h6>
+                            <h2>{userState.averageSpeed}</h2> 
+                            </div>
+                            <div className="col text-center">
+                            <h6 className="text-muted font-">Average Accuracy</h6>
+                            <h2>{userState.averageAccuracy}</h2>  
+                            </div>
+                        </div>
+                        </div>
+                    {/* <div>
                         {userState.email} is your email
-                    </div>
-                    <div>
-                        {userState.numberOfTestsGiven} is number of test you have given
-                    </div>
-                    <div>
-                        {userState.totalTimeSpend} seconds is total time you have spend on this site 
-                    </div>
-                    <div>
-                        {userState.bestSpeed} is your best speed sofar
-                    </div>
-                    <div>
-                        {userState.bestAccuracy} is your accuracy in test with best speed
-                    </div>
-                    <div>
-                        {userState.averageSpeed} is your average wpm speed 
-                    </div>
-                    <div>
-                        {userState.averageAccuracy} is your average accuracy
-                    </div>
+                    </div> */}
                 </div>
 
                 <div className='row d-flex flex-row justify-content-around'>
