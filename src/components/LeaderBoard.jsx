@@ -1,19 +1,39 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import {React,useState,useEffect} from 'react'
+import { useSelector ,useDispatch} from 'react-redux'
 import Loader from "react-loader"
 import LeaderBoardTable from "./LeaderBoardTable"
+import { useHistory } from 'react-router-dom'
+import { setCurrentUser,showAlert } from '../actions/index'
+
+
+var userState
+var guestState
+var backendUrl="https://type-it-backend.herokuapp.com/"
 
 export default function LeaderBoard() {
+
+    const dispatch=useDispatch()
+
+    let history=useHistory();
 
     const [language,setLanguage]=useState("English")
 
     const [leaderBoardData,setLeaderBoardData]=useState({success:false})
 
+    guestState=useSelector((state)=>{
+        return state.handleGuestState
+    })
+    
+    userState=useSelector((state)=>{
+        return state.handleUserState
+    })
+
     useEffect(()=>{
 
         const getLeaderBoardForLanguage=async()=>{
             try{
-                const response= await fetch("http://localhost:5000/api/test/getall",{
+                const response= await fetch(`${backendUrl}api/test/getall`,{
                     method:"POST",
                     headers:{
                         "Content-Type":"application/json"
@@ -44,9 +64,46 @@ export default function LeaderBoard() {
                 setLeaderBoardData({success:false})
             }
         }
+
+
+        const getCurrentUser = async()=>{
+            try{
+                const response=await fetch(`${backendUrl}api/auth/getuser`,{
+                    method:"POST",
+                    headers:{
+                        "Content-Type":"application/json",
+                        "auth-token":`${localStorage.getItem("token")}`
+                    },
+                    
+                })  
+                const json=await response.json()
+                if(json.success){
+                    dispatch(setCurrentUser(json.user))
+                }
+                else{
+                    dispatch(showAlert(json.error,"danger"))
+                    history.push("/login")
+                }
+                getLeaderBoardForLanguage()
+            }
+            catch(e){
+                history.push("/login")
+    
+            }
+        }
+
         setLeaderBoardData({success:false})
-        getLeaderBoardForLanguage()
-    },[language])
+
+        if(userState.id===null && !guestState){
+            getCurrentUser()
+        }
+        else{
+            getLeaderBoardForLanguage()
+        }
+        
+
+
+    },[language,dispatch,history])
 
     return (
         <>
@@ -70,7 +127,7 @@ export default function LeaderBoard() {
 
             <div>
 
-                <Loader loaded={leaderBoardData.success} className="spinner" color="#FFF" radius={10} width={3} trail={60} speed={1} position='relative' top='80'>
+                <Loader loaded={leaderBoardData.success} className="spinner" color="#FFF" radius={10} width={3} trail={60} speed={1} position='relative' top='150px'>
                     <div className='row d-flex flex-row justify-content-around'>
                         <div className='col-10 col-lg-6 p-3'>
                             <LeaderBoardTable language={language} time={15} leaderBoardData={leaderBoardData.time15}/>

@@ -61,21 +61,26 @@ function Navbar(props) {
                         </button>
                         <div className="offcanvas offcanvas-end text-white bg-dark" tabIndex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
                             <div className="offcanvas-header">
-                                <h5 className="text-center" id="offcanvasRightLabel">Select Time and Language</h5>
-                                <button type="button" className="btn-close btn-close-white text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                                <h5 className="text-center ms-5 mt-2" id="offcanvasRightLabel">While( ! ( succeed = try() ) ); </h5>
+                                <button type="button" className="btn-close btn-close-white text-reset " data-bs-dismiss="offcanvas" aria-label="Close"></button>
                             </div>
                             <div className="offcanvas-body">
-                                <div className=" d-flex flex-column justify-content-center fs-3 align-items-center">
+                                <div className=" h-100 d-flex flex-column justify-content-start fs-4 align-items-center">
+                                    <div className="fs-3">Select Time</div>
                                     <div className={`mx-1 p-0  nav-link ${timeState===15 ? "text-light " : "text-muted"}`} onClick={()=>dispatch(setTime(15))} >15</div>
                                     <div className={`mx-1 p-0  nav-link ${timeState===30 ? "text-light " : "text-muted"}`} onClick={()=>dispatch(setTime(30))} >30</div>
                                     <div className={`mx-1 p-0  nav-link ${timeState===60 ? "text-light  " : "text-muted"}`} onClick={()=>dispatch(setTime(60))} >60</div>
                                     <div className={`mx-1 p-0  nav-link ${timeState===120 ? "text-light  " : "text-muted"}`} onClick={()=>dispatch(setTime(120))} >120</div>
                                     <hr className="w-100" style={{color:"white"}}/>
+                                    <div className="fs-3">Select Language</div>
+
                                     <div className={`mx-1 p-0  nav-link ${languageState==="English" ? "text-light " : "text-muted"}`} onClick={()=>dispatch(setLanguage("English"))} >English</div>
                                     <div className={`mx-1 p-0  nav-link ${languageState==="Python" ? "text-light " : "text-muted"}`} onClick={()=>dispatch(setLanguage("Python"))} >Python</div>
                                     <div className={`mx-1 p-0  nav-link ${languageState==="C" ? "text-light " : "text-muted"}`} onClick={()=>dispatch(setLanguage("C"))} >C</div>
                                     <div className={`mx-1 p-0  nav-link ${languageState==="Javascript" ? "text-light " : "text-muted"}`} onClick={()=>dispatch(setLanguage("Javascript"))} >JavaScript</div>
                                     <div className={`mx-1 p-0  nav-link ${languageState==="Java" ? "text-light " : "text-muted"}`} onClick={()=>dispatch(setLanguage("Java"))} >Java</div>
+                                    <div className="mt-auto p-2" style={{fontSize:"0.9rem"}}>For best experience use big screen</div>
+                                    <div className="" style={{fontSize:"0.9rem"}}>Speciall for Non English Languages</div>
                                 </div>
                             </div>
                         </div>

@@ -15,6 +15,7 @@ var initialBestState={
     time60:null,
     time120:null
 }
+var backendUrl="https://type-it-backend.herokuapp.com/"
 
 export default function User() {
     
@@ -46,7 +47,7 @@ export default function User() {
     const getBestForEnglish=async()=>{
         try{
             
-            const response= await fetch("http://localhost:5000/api/test/getbest",{
+            const response= await fetch(`${backendUrl}api/test/getbest`,{
                 method:"POST",
                 headers:{
                     "Content-Type":"application/json",
@@ -90,7 +91,7 @@ export default function User() {
     const getBestForPython=async()=>{
         try{
             
-            const response= await fetch("http://localhost:5000/api/test/getbest",{
+            const response= await fetch(`${backendUrl}api/test/getbest`,{
                 method:"POST",
                 headers:{
                     "Content-Type":"application/json",
@@ -134,7 +135,7 @@ export default function User() {
     }
     const getBestForC=async()=>{
         try{
-            const response= await fetch("http://localhost:5000/api/test/getbest",{
+            const response= await fetch(`${backendUrl}api/test/getbest`,{
                 method:"POST",
                 headers:{
                     "Content-Type":"application/json",
@@ -179,7 +180,7 @@ export default function User() {
 
     const getBestForJava=async()=>{
         try{
-            const response= await fetch("http://localhost:5000/api/test/getbest",{
+            const response= await fetch(`${backendUrl}api/test/getbest`,{
                 method:"POST",
                 headers:{
                     "Content-Type":"application/json",
@@ -218,7 +219,7 @@ export default function User() {
 
     const getBestForJavaScript=async()=>{
         try{
-            const response= await fetch("http://localhost:5000/api/test/getbest",{
+            const response= await fetch(`${backendUrl}api/test/getbest`,{
                 method:"POST",
                 headers:{
                     "Content-Type":"application/json",
@@ -258,7 +259,7 @@ export default function User() {
     const getAllTestDetailOfUser= async ()=>{
         
         try{
-            const response= await fetch("http://localhost:5000/api/test/getuserall",{
+            const response= await fetch(`${backendUrl}api/test/getuserall`,{
                 method:"POST",
                 headers:{
                     "Content-Type":"application/json",
@@ -290,19 +291,24 @@ export default function User() {
 
 
 
-    const getBestForAll=()=>{
-        getBestForEnglish()
-        getBestForPython()
-        getBestForC()
-        getBestForJava()
-        getBestForJavaScript()
+    const getBestForAll=async()=>{
+        await getBestForEnglish()
+        await getBestForPython()
+        await getBestForC()
+        await getBestForJava()
+        await getBestForJavaScript()
 
+    }
+
+    const makeAllRequests = async()=>{
+        await getBestForAll()
+        await getAllTestDetailOfUser()
     }
 
     const getCurrentUser = async()=>{
         try{
             setLoaderState(false)
-            const response=await fetch("http://localhost:5000/api/auth/getuser",{
+            const response=await fetch(`${backendUrl}api/auth/getuser`,{
                 method:"POST",
                 headers:{
                     "Content-Type":"application/json",
@@ -319,8 +325,7 @@ export default function User() {
                 history.push("/login")
             }
             setLoaderState(true)
-            getBestForAll()
-            getAllTestDetailOfUser()
+            makeAllRequests()
         }
         catch(e){
             history.push("/login")
@@ -330,19 +335,18 @@ export default function User() {
     
     if(madeAllRequest===false){
         setMadeAllRequest(true)
-        if(userState.id==null && !guestState){
+        if(userState.id===null && !guestState){
             getCurrentUser()
         }
         else if (!guestState){
-            getBestForAll()
-            getAllTestDetailOfUser()
+            makeAllRequests()
         }
         
     }
         
         return ()=>{
             //adding return will work as componentWillUnmount() ie. it will run when this component will unmount
-            setLoaderState(true)
+            // setLoaderState(true)
         }
     },[dispatch,history,madeAllRequest])
 
@@ -350,8 +354,8 @@ export default function User() {
 
 
     return (
-        <Loader loaded={loaderState} className="spinner" color="#FFF" radius={10} width={3} trail={60} speed={1} position='relative' top='40'>
-            {!guestState ? <div>
+        <Loader loaded={loaderState} className="spinner " color="#FFF" radius={10} width={3} trail={60} speed={1} position='relative' top='175px'>
+            {!guestState ? <div className='mb-3'>
                 <div className='row d-flex flex-row justify-content-around'>
                     <h2 className='col-12 text-center text-animation'>
                         Hii {userState.fName+" "+userState.lName } go down to trace your journey !!!
@@ -393,39 +397,53 @@ export default function User() {
 
                 <div className='row d-flex flex-row justify-content-around'>
 
-                    <div className='col-10 col-lg-12 p-3'>
-                        <Loader loaded={englishBest.success} className="spinner" color="#FFF" radius={10} width={3} trail={60} speed={1} position='relative' top='40'>
-                            <BestTable language={"English"} bestData={englishBest}/>
-                        </Loader>
+                    <div className='col-10 col-lg-12 p-3' style={{minHeight:"300px"}}>
+                        <h1 className='text-center'>
+                            English
+                        </h1>
+                        <Loader loaded={englishBest.success} className="spinner" color="#FFF" radius={10} width={3} trail={60} speed={1} position='relative' top='100px'/>
+                            <BestTable  bestData={englishBest}/>
+                        {/* </Loader> */}
                     </div>
-                    <div className='col-10 col-lg-6 p-3'>
-                        
-                        <Loader loaded={pythonBest.success} className="spinner" color="#FFF" radius={10} width={3} trail={60} speed={1} position='relative' top='40'>
-                            <BestTable language={"Python"} bestData={pythonBest}/>
-                        </Loader>
+                    <div className='col-10 col-lg-6 p-3' style={{minHeight:"300px"}}>
+                        <h1 className='text-center'>
+                            Python
+                        </h1>
+                        <Loader loaded={pythonBest.success} className="spinner" color="#FFF" radius={10} width={3} trail={60} speed={1} position='relative' top='100px'/>
+                            <BestTable  bestData={pythonBest}/>
+                        {/* </Loader> */}
                     </div>
-                    <div className='col-10 col-lg-6 p-3'>
+                    <div className='col-10 col-lg-6 p-3' style={{minHeight:"300px"}}>
+                        <h1 className='text-center'>
+                            C
+                        </h1>
 
-                        <Loader loaded={cBest.success} className="spinner" color="#FFF" radius={10} width={3} trail={60} speed={1} position='relative' top='40'>
-                            <BestTable language={"C"} bestData={cBest}/>
-                        </Loader>
+                        <Loader loaded={cBest.success} className="spinner" color="#FFF" radius={10} width={3} trail={60} speed={1} position='relative' top='100px'/>
+                            <BestTable  bestData={cBest}/>
+                        {/* </Loader> */}
                     </div>
-                    <div className='col-10 col-lg-6 p-3'>
-                        <Loader loaded={javaBest.success} className="spinner" color="#FFF" radius={10} width={3} trail={60} speed={1} position='relative' top='40'>
-                            <BestTable language={"Java"} bestData={javaBest}/>
-                        </Loader>
+                    <div className='col-10 col-lg-6 p-3' style={{minHeight:"300px"}}>
+                        <h1 className='text-center'>
+                            Java
+                        </h1>
+                        <Loader loaded={javaBest.success} className="spinner" color="#FFF" radius={10} width={3} trail={60} speed={1} position='relative' top='100px'/>
+                            <BestTable  bestData={javaBest}/>
+                        {/* </Loader> */}
                     </div>
-                    <div className='col-10 col-lg-6 p-3'>
-                        <Loader loaded={javascriptBest.success} className="spinner" color="#FFF" radius={10} width={3} trail={60} speed={1} position='relative' top='40'>
-                            <BestTable language={"JavaScript"} bestData={javascriptBest}/>
-                        </Loader>
+                    <div className='col-10 col-lg-6 p-3' style={{minHeight:"300px"}}>
+                        <h1 className='text-center'>
+                            JavaScript
+                        </h1>
+                        <Loader loaded={javascriptBest.success} className="spinner" color="#FFF" radius={10} width={3} trail={60} speed={1} position='relative' top='100px'/>
+                            <BestTable  bestData={javascriptBest}/>
+                        {/* </Loader> */}
 
                     </div>
                 </div>
-                <div className='p-4'>
-                    <Loader loaded={allTests.length!==0} className="spinner" color="#FFF" radius={10} width={3} trail={60} speed={1} position='relative' top='40'  >
+                <div className='p-4' style={{minHeight:"300px"}}>
+                    <Loader loaded={allTests.length!==0} className="spinner" color="#FFF" radius={10} width={3} trail={60} speed={1} position='relative' top='200px'  />
                         <UserAllTestTable  testData={allTests}/>
-                    </Loader>
+                    {/* </Loader> */}
                 </div>
             </div> :
             <div>

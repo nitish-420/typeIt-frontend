@@ -2,7 +2,7 @@ import {React,useState} from 'react'
 
 export default function UserAllTestTable(props) {
 
-    var regexForDate = new RegExp('/', 'g');
+    // var regexForDate = new RegExp('/', 'g');
     
     const [showCount,setShowCount]=useState(10)
 
@@ -10,16 +10,20 @@ export default function UserAllTestTable(props) {
     
 
     const getTimeString=(time)=>{
-        var changedDate = (new Date(time).toLocaleString(undefined, {timeZone: 'Asia/Kolkata'})).replace(regexForDate,"-");
-        return changedDate
+        var date=new Date(time)
+        // date.setMinutes(date.getMinutes()+30)
+        // date.setHours(date.getHours()+5);
+
+        let partsArray=(new Date(date).toString()).split(" ")
+
+        return  partsArray[1]+" "+partsArray[2]+" "+partsArray[3]+" "+partsArray[4];
     }
-
-
 
 
     return (
         <>
-            {testData[0]===null?null:
+            { (testData.length===0 || testData[0]===null)
+            ?
             <div>
                 <h1 className='text-center'>
                     Your all test details!!!
@@ -27,6 +31,32 @@ export default function UserAllTestTable(props) {
                 <table className='table table-striped  table-dark table-hover '>
                     <thead>
 
+                        <tr>
+                            <th className='text-center'>Language</th>
+                            <th className='text-center'>Time </th>
+                            <th className='text-center'>Speed(wpm)</th>
+                            <th className='text-center'>Accuracy</th>
+                            <th className='text-center'>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td className='text-center'>--</td>
+                            <td className='text-center'>--</td>
+                            <td className='text-center'>--</td>
+                            <td className='text-center'>--</td>
+                            <td className='text-center'>--</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            :
+            <div>
+                <h1 className='text-center'>
+                    Your all test details!!!
+                </h1>
+                <table className='table table-striped  table-dark table-hover '>
+                    <thead>
                         <tr>
                             <th className='text-center'>Language</th>
                             <th className='text-center'>Time </th>

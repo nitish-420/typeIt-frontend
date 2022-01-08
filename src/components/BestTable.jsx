@@ -2,21 +2,24 @@ import React from 'react'
 
 export default function BestTable(props) {
 
-    var regexForDate = new RegExp('/', 'g');
+    // var regexForDate = new RegExp('/', 'g');
     
-    const {language,bestData}=props
+    const {bestData}=props
     const {time15,time30,time60,time120}=bestData
 
     const getTimeString=(time)=>{
-        var changedDate = (new Date(time).toLocaleString(undefined, {timeZone: 'Asia/Kolkata'})).replace(regexForDate,"-");
-        return changedDate
+        var date=new Date(time)
+        // date.setMinutes(date.getMinutes()+30)
+        // date.setHours(date.getHours()+5);
+        //no need to add 5.5 hours like done above because local timezone feature is added database
+
+        let partsArray=(new Date(date).toString()).split(" ")
+
+        return  partsArray[1]+" "+partsArray[2]+" "+partsArray[3]+" "+partsArray[4];
     }
 
     return (
         <div>
-            <h1 className='text-center'>
-                {language}
-            </h1>
             <table className='table table-striped  table-dark table-hover '>
                 <thead>
 

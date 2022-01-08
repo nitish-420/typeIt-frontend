@@ -5,6 +5,8 @@ import { setCurrentUser, showAlert } from '../actions'
 
 var userState
 var guestState
+var backendUrl="https://type-it-backend.herokuapp.com/"
+
 export default function TestComplete(props) {
     
     const {resetLiveTest}=props
@@ -28,7 +30,7 @@ export default function TestComplete(props) {
     const saveCurrentTestCase=async ()=>{
         try{
             setLoaderState(false)
-            let response=await fetch("http://localhost:5000/api/test/createtest",{
+            let response=await fetch(`${backendUrl}api/test/createtest`,{
                 method:"POST",
                 headers:{
                     "Content-Type":"application/json",
@@ -59,7 +61,7 @@ export default function TestComplete(props) {
                 updatedUser.averageSpeed=parseFloat((userState.averageSpeed*userState.numberOfTestsGiven+props.speed)/updatedUser.numberOfTestsGiven).toFixed(2)
                 updatedUser.averageAccuracy=parseFloat((userState.averageAccuracy*userState.numberOfTestsGiven+props.accuracy)/updatedUser.numberOfTestsGiven).toFixed(2)
                 
-                response=await fetch("http://localhost:5000/api/auth/updateuser",{
+                response=await fetch(`${backendUrl}api/auth/updateuser`,{
                     method:"POST",
                     headers:{
                         "Content-Type":"application/json",

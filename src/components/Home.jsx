@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 import {React,useState,useEffect,useRef} from 'react'
 import { useHistory,useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -22,6 +23,8 @@ var typedWord=""
 var caret
 var liveAccuracy=0
 var liveWpm=0
+var backendUrl="https://type-it-backend.herokuapp.com/"
+
 
 export default function Home() {
     
@@ -35,9 +38,7 @@ export default function Home() {
         return state.handleGuestState
     })
 
-    if(!localStorage.getItem("token") && !guestState){
-        history.push("/login")
-    }
+
 
     const restartButton=useRef(null)
 
@@ -80,10 +81,16 @@ export default function Home() {
 
     
     useEffect(()=>{
+
+        if(!localStorage.getItem("token") && !guestState){
+            
+            history.push("/login")
+        }
+
         const getCurrentUser = async()=>{
             try{
                 setLoaderState(false)
-                const response=await fetch("http://localhost:5000/api/auth/getuser",{
+                const response=await fetch(`${backendUrl}api/auth/getuser`,{
                     method:"POST",
                     headers:{
                         "Content-Type":"application/json",

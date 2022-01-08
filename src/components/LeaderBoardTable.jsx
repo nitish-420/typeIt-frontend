@@ -7,7 +7,7 @@ export default function LeaderBoardTable(props) {
 
     var userIdx=0;
 
-    var regexForDate = new RegExp('/', 'g');
+    // var regexForDate = new RegExp('/', 'g');
     
     const [showCount,setShowCount]=useState(10)
 
@@ -26,10 +26,15 @@ export default function LeaderBoardTable(props) {
         }
     }
     const getTimeString=(time)=>{
-        var changedDate = (new Date(time).toLocaleString(undefined, {timeZone: 'Asia/Kolkata'})).replace(regexForDate,"-");
-        return changedDate
-        // return changedDate.slice(0,changedDate.length-3)
+        var date=new Date(time)
+        // date.setMinutes(date.getMinutes()+30)
+        // date.setHours(date.getHours()+5);
+
+        let partsArray=(new Date(date).toString()).split(" ")
+
+        return  partsArray[1]+" "+partsArray[2]+" "+partsArray[3]+" "+partsArray[4];
     }
+
 
     return (
         <div>
