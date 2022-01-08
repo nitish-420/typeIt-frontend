@@ -12,32 +12,29 @@ const About = () => {
                     </h2>
                     <div id="flush-collapseOne" className="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
                         <div className="accordion-body">
-                            Typeit is a simple and a helpful typing test website build around the concept of testing user's typing speed. It currently consists of typing tests of various time category in English, C, Python, JAVA and JavaScript. It also has an account system to save and view user's typing test history and a Leaderboard to see the overall best results in each category. It is a very helpful website to improve a programmer's typing speed in various languages including the native language-English.
-                            With some unique features -
+                            <p>
+                                Typeit is a simple and a helpful typing test website build around the concept of testing user's typing speed. It currently consists of typing tests of various time category in English, Python, C, JAVA and JavaScript. It also has an account system to save and view user's typing test history and a Leaderboard to see the overall best results in each category. It is a very helpful website to improve a programmer's typing speed in various languages including the native language-English.
+                            </p>
                             <ul>
-                            <p></p>
-                                <li>RESULTS SCREEN
-                                    <p></p>
-                                    After completing a test you will be able to see your wpm, raw wpm, accuracy, character stats, test length, leaderboards info and test info. 
-                                    (you can hover over some values to get floating point numbers). You can also see a graph of your wpm and raw over the duration of the test.
-                                     Remember that the wpm line is a global average, while the raw wpm line is a local, momentary value. (meaning if you stop, the value is 0)
-                                    
+                                <li>
+                                    <h5>TEST SCREEN</h5>
+                                    <p>
+                                        In test screen there are options to choose language and time which you want to choose and as you type a single character from keyboard test will start and focus mode will be turned on and now you will be able to see only words to type, your cursor, live wpm speed, live accuracy, live timer and restart button only. 
+                                    </p>
                                 </li>
                                 <li>
-                                <p></p>STATS
-                                    <p></p><p></p>
-                                     wpm - total amount of characters in the correctly typed words (including spaces), divided by 5 and normalised to 60 seconds.
-
-                                        <p></p>raw wpm - calculated just like wpm, but also includes incorrect words.
-
-                                        <p></p>acc - percentage of correctly pressed keys.
-
-                                        <p></p> char - correct characters / incorrect characters. Calculated after the test has ended.
-
-                                        <p></p>consistency - based on the variance of your raw wpm. Closer to 100% is better. Calculated using the coefficient of variation of raw wpm and mapped onto a scale from 0 to 100.
-                                    
+                                    <h5>RESULTS SCREEN</h5>
+                                    <p>
+                                        After completing a test you will be able to see your test info. 
+                                    </p>
                                 </li>
-                                
+                                <li>
+                                    <h5>DATA USED</h5>
+                                    <p>
+                                        We have tried our best to give our users knowlege also, like in programming languages we have used many one liners code that will help them to learn many new short syntax and enjoy as well.
+                                    </p>
+                                </li>
+
                             </ul>
 
                         </div>
@@ -53,12 +50,18 @@ const About = () => {
                         <div className="accordion-body">
                         <ul>
                                 <li>Keybinds</li>
-                                    You can use TAB to restart the typing test.
+                                    <p>You can use TAB to focus on the restart button and you can press enter any time to restart the test.</p>
                                 <li>For English</li>
-                                Press spaces after each word. If the sentence is long press space after the last word you see on screen and the app will centre the rest of it accordingly.
+                                    <p>
+                                        Press SPACE after each word to jump on the next word.
+                                    </p>
                                 <li>For other languages</li>
-                                Press spaces after each word. If the sentence is long press space after the last word you see on screen and the app will centre the rest of it accordingly.
-                                <br></br>Press ENTER after every line to go to the next
+                                    <p>
+                                        Press SPACE after each word to jump on the next word.
+                                        <br/>
+                                        Press ENTER at the end of line to go to the next. In case you lost the cursor press SPACE it will take you to next word or line with focused cursor and if still you don't find cursor press ENTER it will take you to next line (this is for those users who have small screen).
+
+                                    </p>
                                 
                             </ul>
                         </div>
@@ -74,12 +77,13 @@ const About = () => {
                         <div className="accordion-body">
                             <ul>
                                 <li>Typing Race!</li>
-                                <p></p>Allowing users to have a typing race among themeselves by random, friend or intra-group options to choose from. <p></p>
+                                <p>Allowing users to have a typing race among themeselves by random, friend or intra-group options to choose from. </p>
                                 <li>Discord server</li>
-                                <p></p>Opening discord server to communicate to the users for future races and contests! <p></p>
+                                <p>Opening discord server to communicate to the users for future races and contests! </p>
  
                             </ul>
-                            Contact me in case of any query, or any suggestion of new feature
+                            Contact us in case of any query, or any suggestion of new feature.
+                            For code visit our github repository link in the footer.
                         </div>
                     </div>
                 </div>
