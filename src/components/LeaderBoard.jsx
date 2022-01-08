@@ -106,7 +106,7 @@ export default function LeaderBoard() {
     },[language,dispatch,history])
 
     return (
-        <>
+        <div className='mb-5'>
             <div className='row d-flex flex-row justify-content-around'>
                 <div className='col-12 col-md-9 p-3 align-self-center text-center text-md-start'>
                     <h1>Leader Board</h1>
@@ -144,6 +144,6 @@ export default function LeaderBoard() {
                     </div>
                 </Loader>
             </div>
-        </>
+        </div>
     )
 }

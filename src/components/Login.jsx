@@ -150,7 +150,7 @@ export default function Login() {
 
     
     return (
-        <div className="section bg-dark">
+        <div className="section bg-dark mb-5">
             <div className="container">
                 <div className="row full-height justify-content-center">
                     <div className="col-12 text-center align-self-center ">

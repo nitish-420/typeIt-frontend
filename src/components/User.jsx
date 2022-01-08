@@ -350,11 +350,19 @@ export default function User() {
         }
     },[dispatch,history,madeAllRequest])
 
+    const getTimeInMinutes=(seconds)=>{
+        let hours=Math.floor(seconds/3600)
+        seconds=seconds%3600
+        let minutes=Math.floor(seconds/60)
+        seconds=seconds%60
+        return hours+":"+minutes+":"+seconds
+    }
+
 
 
 
     return (
-        <Loader loaded={loaderState} className="spinner " color="#FFF" radius={10} width={3} trail={60} speed={1} position='relative' top='175px'>
+        <Loader loaded={loaderState} className="spinner pb-5" color="#FFF" radius={10} width={3} trail={60} speed={1} position='relative' top='175px'>
             {!guestState ? <div className='mb-3'>
                 <div className='row d-flex flex-row justify-content-around'>
                     <h2 className='col-12 text-center text-animation'>
@@ -368,7 +376,7 @@ export default function User() {
                             </div>
                             <div className="col text-center">
                             <h6 className="text-muted font-">Total Time Spends</h6>
-                            <h2>{userState.totalTimeSpend}</h2>              
+                            <h2>{getTimeInMinutes(userState.totalTimeSpend)}</h2>              
                             </div>
                             <div className="col text-center">
                             <h6 className="text-muted font-">Best Speed</h6>

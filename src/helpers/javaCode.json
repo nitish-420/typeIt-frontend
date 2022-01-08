@@ -1,5 +1,5 @@
 {
-    "javaLines":[
+    "javaLines": [
         "import java.util.*;",
         "public class Main{",
         "public static void main(String[] args){",
@@ -12,6 +12,26 @@
         "import java.io.*;",
         "static long[] factorial = new int[]{1,1,2,6};",
         "int digit = n % 10;",
-        "int arr[] = new int[len];"
+        "int arr[] = new int[len];",
+        "public class QuickSort {",
+        "public static int partition( int[] a , int h)",
+        "int p = a[h];",
+        "int temp = a[i];",
+        "int p = partition(a, l, h);",
+        "quickSort(a,l,p-1);",
+        "public static void main(String args[])",
+        "int[] a = {9,8,7,6,5,4,32,1};",
+        "int n = a.length;",
+        "System.out.print(a[i]+\" \");",
+        "public BinaryTrees getRight()",
+        "public static ArrayList<Integer>",
+        "Array<Integer> A = new ArrayList<>();",
+        "Stack<BinaryTrees> S = new Stack<>();",
+        "if(p==null||p.right==t||p.left==t){",
+        "import java.util.ArrayList;",
+        "import java.util.Stack;",
+        "System.out.print(T.data+\" \");",
+        "BinaryTrees T=new BinaryTrees(1);",
+        "T.left=new BinaryTrees(2);"
     ]
 }

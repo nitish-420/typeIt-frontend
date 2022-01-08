@@ -12,9 +12,9 @@ function App() {
 
 
 	return (
+		<>
 		<div className="root bg-dark container">
 			<Router>
-			<div>
 				<Navbar />
 				<Alert />
 					<Switch>
@@ -35,10 +35,10 @@ function App() {
 							<Leaderboard/>
 						</Route>
 					</Switch>
-				<Footer/>
-			</div>
 			</Router>
 		</div>
+		<Footer/>
+		</>
 	);
 }
 
