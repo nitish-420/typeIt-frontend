@@ -3,7 +3,7 @@ import {Link,useLocation,useHistory} from "react-router-dom"
 import { useDispatch ,useSelector} from "react-redux";
 
 
-import { showAlert,setTime,setLanguage,resetCurrentUser } from "../actions";
+import { showAlert,setTime,setLanguage,resetCurrentUser, setGuest } from "../actions";
 
 
 function Navbar(props) {
@@ -30,6 +30,7 @@ function Navbar(props) {
         localStorage.removeItem("token")
         dispatch(showAlert("Good Bye","danger"))
         dispatch(resetCurrentUser())
+        dispatch(setGuest())
         history.push("/login")
     }
     

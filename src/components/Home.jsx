@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import TestComplete from "./TestComplete"
 import Loader from "react-loader"
 
-import {startTest,nextActiveWord,stopTest, resetActiveState, getWords, updateWords, resetPresentWord, nextActiveLine, getLanguageWords, updateLanguageWords, activeWordEnd, setCurrentUser, showAlert} from "../actions/index"
+import {startTest,nextActiveWord,stopTest, resetActiveState, getWords, updateWords, resetPresentWord, nextActiveLine, getLanguageWords, updateLanguageWords, activeWordEnd, setCurrentUser, showAlert, removeGuest} from "../actions/index"
 import OtherLanguageEditor from './OtherLanguageEditor';
 
 import restart from '../Image/restart.png';
@@ -82,10 +82,10 @@ export default function Home() {
     
     useEffect(()=>{
 
-        if(!localStorage.getItem("token") && !guestState){
+        // if( ){
             
-            history.push("/login")
-        }
+        //     history.push("/login")
+        // }
 
         const getCurrentUser = async()=>{
             try{
@@ -101,6 +101,7 @@ export default function Home() {
                 const json=await response.json()
                 if(json.success){
                     dispatch(setCurrentUser(json.user))
+                    dispatch(removeGuest())
                 }
                 else{
                     dispatch(showAlert(json.error,"danger"))
@@ -110,13 +111,19 @@ export default function Home() {
                 setLoaderState(true)
             }
             catch(e){
+                setLoaderState(true)
                 history.push("/login")
-                dispatch(showAlert("Please login or select to play as a guest !","danger"))
+                dispatch(showAlert("Some error occured please try after some time, Sorry for the inconvenience","danger"))
+
 
             }
         }
-        if(userState.id==null && !guestState){
+        if(userState.id===null && localStorage.getItem("token")!==null){
+            dispatch(showAlert("Getting User data ...","warning"))
             getCurrentUser()
+        }
+        else if(localStorage.getItem("token")===null){
+            dispatch(showAlert("You are playing as a guest, Login for better experience !!!","warning"))
         }
 
         return ()=>{
@@ -444,7 +451,7 @@ export default function Home() {
         
         
         return (
-            <Loader loaded={loaderState} className="spinner" color="#FFF" radius={10} width={3} trail={60} speed={1} top="30%">
+            <Loader loaded={loaderState} className="spinner" color="#FFF" radius={10} width={3} trail={60} speed={1} position='relative' top="150px" >
             <div className='homePage'>
                 {!testCompleteState ? 
                 <div>

@@ -1,4 +1,4 @@
-let guestState=false;
+let guestState=true;
 
 const handleGuestState=(state=guestState,action)=>{
     switch(action.type){

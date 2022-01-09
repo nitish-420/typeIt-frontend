@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from "react"
-import {Link, useHistory} from 'react-router-dom'
-import { showAlert,setGuest,removeGuest } from "../actions"
+import {useHistory} from 'react-router-dom'
+import { showAlert,removeGuest } from "../actions"
 import { useDispatch } from "react-redux";
 import Loader from "react-loader"
 
@@ -13,6 +13,8 @@ export default function Login() {
     const dispatch=useDispatch()
 
     let history=useHistory()
+
+    localStorage.removeItem("token")
 
     const [loaderState,setLoaderState]=useState(true)
 
@@ -81,24 +83,32 @@ export default function Login() {
             
         }
         else{
-            setLoaderState(false)
-            const response=await fetch(`${backendUrl}api/auth/login`,{
-                method:"POST",
-                headers:{
-                    "Content-Type":"application/json"
-                },
-                body:JSON.stringify({email,password})
-            });
-            const json=await response.json()
-            if(json.success){
-                localStorage.setItem('token',json.authtoken)
-                dispatch(showAlert("Welcome back","success"))
-                dispatch(removeGuest())
-                history.push("/");
+            try{
+                setLoaderState(false)
+                const response=await fetch(`${backendUrl}api/auth/login`,{
+                    method:"POST",
+                    headers:{
+                        "Content-Type":"application/json"
+                    },
+                    body:JSON.stringify({email,password})
+                });
+                const json=await response.json()
+                if(json.success){
+                    localStorage.setItem('token',json.authtoken)
+                    dispatch(showAlert("Welcome back","success"))
+                    dispatch(removeGuest())
+                    history.push("/");
+                }
+                else{
+                    dispatch(showAlert("Invalid credentials","danger"))
+                    setLoaderState(true)
+                }
             }
-            else{
-                dispatch(showAlert("Invalid credentials","danger"))
+            catch(e){
+                // console.log(e)
                 setLoaderState(true)
+                dispatch(showAlert("Some error occured please try after some time, Sorry for the inconvenience","danger"))
+
             }
         }
         
@@ -124,24 +134,32 @@ export default function Login() {
             
         }
         else{
-            setLoaderState(false)
-            const response=await fetch(`${backendUrl}api/auth/createuser`,{
-                method:"POST",
-                headers:{
-                    "Content-Type":"application/json"
-                },
-                body:JSON.stringify({fName,lName,userName,email,password})
-            });
-            const json=await response.json()
-            if(json.success){
-                localStorage.setItem('token',json.authtoken)
-                dispatch(showAlert("Signed up successfully","success"))
-                dispatch(removeGuest())
-                history.push("/");
+            try{
+                setLoaderState(false)
+                const response=await fetch(`${backendUrl}api/auth/createuser`,{
+                    method:"POST",
+                    headers:{
+                        "Content-Type":"application/json"
+                    },
+                    body:JSON.stringify({fName,lName,userName,email,password})
+                });
+                const json=await response.json()
+                if(json.success){
+                    localStorage.setItem('token',json.authtoken)
+                    dispatch(showAlert("Signed up successfully","success"))
+                    dispatch(removeGuest())
+                    history.push("/");
+                }
+                else{
+                    dispatch(showAlert("Invalid credentials","danger"))
+                    setLoaderState(true)
+                }
             }
-            else{
-                dispatch(showAlert("Invalid credentials","danger"))
+            catch(e){
+                // console.log(e)
+                dispatch(showAlert("Some error occured please try after some time, Sorry for the inconvenience","danger"))
                 setLoaderState(true)
+
             }
         }
         
@@ -150,17 +168,17 @@ export default function Login() {
 
     
     return (
-        <div className="section bg-dark mb-5">
-            <div className="container">
-                <div className="row full-height justify-content-center">
-                    <div className="col-12 text-center align-self-center ">
-                        <div className="section pt-sm-2 text-center">
-                            <Link className="btn-2 no btn-2-outline-warning mb-3 text-decoration-none" onClick={()=>dispatch(setGuest())} to="/"> Continue as a guest !</Link>
-                            <h6 className="mb-0 pb-3"><span>Log In </span><span>Sign Up</span></h6>
+        <div className="section bg-dark mb-0">
+            <div className="container pt-0">
+                <div className="row  justify-content-center">
+                    <div className="col-12 text-center align-self-start ">
+                        <div className="section  pt-0 text-center">
+                            {/* <Link className="btn-2 no btn-2-outline-warning mb-3 text-decoration-none" onClick={()=>dispatch(setGuest())} to="/"> Continue as a guest !</Link> */}
+                            <h6 className="mb-0 pb-3 fs-4"><span>Log In </span>&nbsp; &nbsp; &nbsp;<span>Sign Up</span></h6>
                             <input className="checkbox" type="checkbox" id="reg-log" name="reg-log" />
                             <label htmlFor="reg-log"></label>
-                            <div className="card-3d-wrap mx-auto" style={{height:"475px"}}>
-                                <Loader loaded={loaderState}  className="spinner" color="#FFF" radius={10} width={3} trail={60} speed={1} top="20%">
+                            <div className="card-3d-wrap mx-auto my-4 py-0" style={{height:"475px"}}>
+                                <Loader loaded={loaderState}  className="spinner" color="#FFF" radius={10} width={3} trail={60} speed={1} position="relative" top="100px">
                                     <div className="card-3d-wrapper " >
                                         <div className="card-front ">
                                             <div className="center-wrap">

@@ -90,7 +90,7 @@ export default function TestComplete(props) {
                 dispatch(showAlert(json.error,"danger"))
             }
             
-        setLoaderState(true)
+            setLoaderState(true)
         }
         catch(e){
             dispatch(showAlert("Something went wrong this test case is not submitted, sorry for the inconvenience","danger"))
@@ -99,7 +99,7 @@ export default function TestComplete(props) {
     }
 
     const validTestCase=()=>{
-        if(props.speed*props.accuracy<500){
+        if(props.speed*props.accuracy<1000){
             dispatch(showAlert("Invalid Test Case, It will not be stored in database","warning",2500))
             return false
         }
@@ -120,7 +120,7 @@ export default function TestComplete(props) {
     },[resetButton])
 
     return (
-        <Loader loaded={loaderState} className="spinner" color="#FFF" radius={10} width={3} trail={60} speed={1} top="30%">
+        <Loader loaded={loaderState} className="spinner" color="#FFF" radius={10} width={3} trail={60} speed={1} position='relative' top="100px">
             {loaderState && <div>
                 <div>
                     {props.testTime}

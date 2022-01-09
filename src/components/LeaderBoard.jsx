@@ -4,11 +4,10 @@ import { useSelector ,useDispatch} from 'react-redux'
 import Loader from "react-loader"
 import LeaderBoardTable from "./LeaderBoardTable"
 import { useHistory } from 'react-router-dom'
-import { setCurrentUser,showAlert } from '../actions/index'
+import { removeGuest, setCurrentUser,showAlert } from '../actions/index'
 
 
 var userState
-var guestState
 var backendUrl="https://type-it-backend.herokuapp.com/"
 
 export default function LeaderBoard() {
@@ -20,10 +19,6 @@ export default function LeaderBoard() {
     const [language,setLanguage]=useState("English")
 
     const [leaderBoardData,setLeaderBoardData]=useState({success:false})
-
-    guestState=useSelector((state)=>{
-        return state.handleGuestState
-    })
     
     userState=useSelector((state)=>{
         return state.handleUserState
@@ -79,6 +74,7 @@ export default function LeaderBoard() {
                 const json=await response.json()
                 if(json.success){
                     dispatch(setCurrentUser(json.user))
+                    dispatch(removeGuest())
                 }
                 else{
                     dispatch(showAlert(json.error,"danger"))
@@ -88,13 +84,14 @@ export default function LeaderBoard() {
             }
             catch(e){
                 history.push("/login")
-    
+                dispatch(showAlert("Some error occured please try after some time, Sorry for the inconvenience","danger"))
+
             }
         }
 
         setLeaderBoardData({success:false})
 
-        if(userState.id===null && !guestState){
+        if(userState.id===null && localStorage.getItem("token")!==null){
             getCurrentUser()
         }
         else{

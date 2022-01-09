@@ -1,7 +1,7 @@
 import {React,useState,useEffect} from 'react'
 import { useSelector ,useDispatch} from 'react-redux'
 import Loader from "react-loader"
-import { setCurrentUser,showAlert } from '../actions/index'
+import { removeGuest, setCurrentUser,showAlert } from '../actions/index'
 import { useHistory } from 'react-router-dom'
 import BestTable from "./BestTable"
 import UserAllTestTable from './UserAllTestTable'
@@ -84,7 +84,7 @@ export default function User() {
                     success:true
                 }
             })
-            console.log(e)
+            // console.log(e)
         }
         
     }
@@ -122,7 +122,7 @@ export default function User() {
             }
         }
         catch(e){
-            console.log(e)
+            // console.log(e)
             setPythonBest((prev)=>{
                 return {
                     ...prev,
@@ -167,7 +167,7 @@ export default function User() {
             
         }
         catch(e){
-            console.log(e)
+            // console.log(e)
             setCBest((prev)=>{
                 return {
                     ...prev,
@@ -206,7 +206,7 @@ export default function User() {
             
         }
         catch(e){
-            console.log(e)
+            // console.log(e)
             setJavaBest((prev)=>{
                 return {
                     ...prev,
@@ -251,7 +251,7 @@ export default function User() {
                     success:true
                 }
             })
-            console.log(e)
+            // console.log(e)
         }
         
     }
@@ -285,7 +285,8 @@ export default function User() {
         }
         catch(e){
             setAllTests([null])
-            console.log(e)
+            // console.log(e)
+            
         }
     }
 
@@ -319,6 +320,7 @@ export default function User() {
             const json=await response.json()
             if(json.success){
                 dispatch(setCurrentUser(json.user))
+                dispatch(removeGuest())
             }
             else{
                 dispatch(showAlert(json.error,"danger"))
@@ -329,13 +331,13 @@ export default function User() {
         }
         catch(e){
             history.push("/login")
-
+            dispatch(showAlert("Some error occured please try after some time, Sorry for the inconvenience","danger"))
         }
     }
     
     if(madeAllRequest===false){
         setMadeAllRequest(true)
-        if(userState.id===null && !guestState){
+        if(userState.id===null && localStorage.getItem("token")!==null){
             getCurrentUser()
         }
         else if (!guestState){
