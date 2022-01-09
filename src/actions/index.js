@@ -56,6 +56,10 @@ export const nextActiveWord=()=>dispatch=>{
     dispatch({type:"ACTIVENEXTWORD"})
 }
 
+export const prevActiveWord=()=>dispatch=>{
+    dispatch({type:"ACTIVEPREVWORD"})
+}
+
 export const activeWordEnd=(presentWordLength)=>dispatch=>{
     dispatch({type:"ACTIVEWORDEND",payload:presentWordLength})
 }
@@ -85,4 +89,3 @@ export const resetCurrentUser=(user)=> dispatch=>{
     dispatch({type:"RESETUSER"})
 
 }
-

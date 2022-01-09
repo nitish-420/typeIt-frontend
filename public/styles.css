@@ -435,7 +435,7 @@ a:hover {
 
 #caret{
     position: absolute;
-    margin-left: -13px;
+    /* margin-left: -13px; */
     margin-top: -12px;
     transition: all 0.1s ease;
     font-size: 40px;

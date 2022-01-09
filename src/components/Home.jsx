@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import TestComplete from "./TestComplete"
 import Loader from "react-loader"
 
-import {startTest,nextActiveWord,stopTest, resetActiveState, getWords, updateWords, resetPresentWord, nextActiveLine, getLanguageWords, updateLanguageWords, activeWordEnd, setCurrentUser, showAlert, removeGuest} from "../actions/index"
+import {startTest,nextActiveWord,stopTest, resetActiveState, getWords, updateWords, resetPresentWord, nextActiveLine, getLanguageWords, updateLanguageWords, activeWordEnd, setCurrentUser, showAlert, removeGuest, prevActiveWord} from "../actions/index"
 import OtherLanguageEditor from './OtherLanguageEditor';
 
 import restart from '../Image/restart.png';
@@ -20,6 +20,7 @@ var codeLineWords
 var userState
 var currWordElement
 var typedWord=""
+var typedStack=[]
 var caret
 var liveAccuracy=0
 var liveWpm=0
@@ -133,6 +134,7 @@ export default function Home() {
             liveWpm=0
             liveAccuracy=0
             typedWord=""
+            typedStack=[]
             rightCount=0
             wrongCount=0
         }
@@ -200,6 +202,8 @@ export default function Home() {
             restartButton.current.blur()
             setFocusedStateOnRestartButton(false)
         }
+        typedStack=[]
+
         typedWord=""
         changeCarretPosition()
         try{
@@ -255,6 +259,7 @@ export default function Home() {
             dispatch(resetActiveState())
             document.querySelectorAll(".wrong, .right").forEach((el)=>el.classList.remove("wrong","right"))
             typedWord=""
+            typedStack=[]
             changeCarretPosition()
             setTimeout(()=>{
                 setFlag(()=>true)
@@ -275,7 +280,6 @@ export default function Home() {
         }
 
     }
-    
     
     window.onkeydown=(e)=>{
 
@@ -333,11 +337,16 @@ export default function Home() {
                     if(languageState==="English"){
                         // rightCount+=1
                         // removing counting of space as right character
-                        dispatch(nextActiveWord())
                         currWordElement.classList.add(typedWord===currWord ? "right" : "wrong")
                         wrongCount+=(currWord.length-typedWord.length)
+                        if (typedWord===currWord){
+                            typedStack=[]
+                        }
+                        else{
+                            typedStack.push(typedWord)
+                        }
                         typedWord=""
-                        changeCarretPosition()
+                        dispatch(nextActiveWord())
                     }
                     else{
                         currWordElement.classList.add(typedWord===currWord ? "right" : "wrong")
@@ -347,6 +356,7 @@ export default function Home() {
                             let tempLen=typedWord.length
                             for(let i=tempLen;i<currWord.length;i++){
                                 typedWord+="~"
+                                
                                 currWordElement.children[i+1].classList.add("wrong")
                                 
                             }
@@ -355,10 +365,15 @@ export default function Home() {
                         }
                         else{
                             // rightCount+=1
-                            dispatch(nextActiveWord())
                             wrongCount+=(currWord.length-typedWord.length)
+                            if (typedWord===currWord){
+                                typedStack=[]
+                            }
+                            else{
+                                typedStack.push(typedWord)
+                            }
                             typedWord=""
-                            changeCarretPosition()
+                            dispatch(nextActiveWord())
                         }
                     }
                 }
@@ -419,6 +434,37 @@ export default function Home() {
                     }
                     currWordElement.classList.remove("wrong")
                 }
+                else if(typedStack.length!==0){
+                    currWordElement.previousElementSibling.classList.remove(
+                        "right",
+                        "wrong"
+                    );
+                    typedWord=typedStack.pop()
+                    let prevWord= languageState==="English"? words[activeWordState.word-1]:codeLineWords[activeWordState.word-1]
+                    wrongCount-=(prevWord.length-typedWord.length)
+
+                    if(e.ctrlKey){
+                        currWordElement.previousElementSibling.childNodes.forEach(
+                            (char) => {
+                                if (char instanceof HTMLSpanElement)
+                                char.classList.remove("wrong", "right");
+                            }
+                        );
+
+                        for(let i =0;i<typedWord.length;i++){
+                            if(prevWord[i]===typedWord[i]){
+                                --rightCount;
+                            }
+                            else{
+                                --wrongCount;
+                            }
+                        }
+                        typedWord=""
+                    }
+
+                    dispatch(prevActiveWord())
+
+                }
                 break
             default :
                 e.preventDefault()
@@ -446,9 +492,8 @@ export default function Home() {
                     ++wrongCount;
                 }
 
-            }            
+            }   
         }
-        
         
         return (
             <Loader loaded={loaderState} className="spinner" color="#FFF" radius={10} width={3} trail={60} speed={1} position='relative' top="150px" >
@@ -468,8 +513,8 @@ export default function Home() {
                     </div>
 
                     <div >
-                        {languageState==="English"  && <EnglishEditor handleScroll={handleScroll} getProperWords={getProperWords}/>}
-                        {languageState!=="English"  &&  <OtherLanguageEditor handleScroll={handleScroll} getProperWords={getProperWords} />}
+                        {languageState==="English"  && <EnglishEditor handleScroll={handleScroll} getProperWords={getProperWords} caretLength={typedWord.length}/>}
+                        {languageState!=="English"  &&  <OtherLanguageEditor handleScroll={handleScroll} getProperWords={getProperWords} caretLength={typedWord.length} />}
                     </div>
                     <div className='restartButton'>
                         <button type="button" className="btn btn-outline-secondary no-border"  ref={restartButton} onClick={()=>{resetLiveTest()}} ><img src={restart} width="20" height="20"/></button>

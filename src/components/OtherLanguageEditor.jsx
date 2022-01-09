@@ -29,7 +29,7 @@ export default function OtherLanguageEditor(props) {
         <div className="textAreaCode mt-4" id="area" ref={scrollTargetRef} style={{position:"relative"}}>
             {lines.map((line, idx) => {
                 return (
-                    <Line key={idx} lineIdx={idx} line={line} />
+                    <Line key={idx} lineIdx={idx} line={line} caretLength={props.caretLength}/>
                 )
             })}
         </div>

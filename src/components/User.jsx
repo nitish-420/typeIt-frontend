@@ -357,7 +357,7 @@ export default function User() {
         seconds=seconds%3600
         let minutes=Math.floor(seconds/60)
         seconds=seconds%60
-        return hours+":"+minutes+":"+seconds
+        return ("0"+hours).slice(-2)+":"+("0"+minutes).slice(-2)+":"+("0"+seconds).slice(-2)
     }
 
 
