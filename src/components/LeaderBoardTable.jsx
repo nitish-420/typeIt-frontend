@@ -38,7 +38,7 @@ export default function LeaderBoardTable(props) {
 
     return (
         <div>
-            <h3 className='text-center'>
+            <h3 className='text-center' style={{color:"#ffeba7"}}>
                 {`${props.language} ${props.time}s`}
             </h3>
             <table className='table table-striped  table-dark table-hover '>

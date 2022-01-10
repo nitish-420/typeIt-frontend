@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import TestComplete from "./TestComplete"
 import Loader from "react-loader"
 
-import {startTest,nextActiveWord,stopTest, resetActiveState, getWords, updateWords, resetPresentWord, getLanguageWords, updateLanguageWords, activeWordEnd, setCurrentUser, showAlert, removeGuest, prevActiveWord} from "../actions/index"
+import {startTest,stopTest, getWords, updateWords, getLanguageWords, updateLanguageWords, setCurrentUser, showAlert, removeGuest} from "../actions/index"
 import OtherLanguageEditor from './OtherLanguageEditor';
 
 import restart from '../Image/restart.png';
@@ -24,7 +24,10 @@ var typedStack=[]
 var caret
 var liveAccuracy=0
 var liveWpm=0
+var currentTestTime
+
 var backendUrl="https://type-it-backend.herokuapp.com/"
+
 
 
 export default function Home() {
@@ -55,10 +58,6 @@ export default function Home() {
         return state.handleTimeState
     })
     
-    let activeWordState=useSelector((state)=>{
-        return state.handleActiveWordState
-    })
-    
     let words=useSelector((state)=>{
         return state.handleWordState
     })
@@ -80,13 +79,13 @@ export default function Home() {
     
     let [currWord,setCurrWord]=useState("")
 
+    let [activeWordIndex,setActiveWordIndex]=useState(0)
+
+    useEffect(()=>{
+        currentTestTime=timeState
+    },[])
     
     useEffect(()=>{
-
-        // if( ){
-            
-        //     history.push("/login")
-        // }
 
         const getCurrentUser = async()=>{
             try{
@@ -137,29 +136,30 @@ export default function Home() {
             typedStack=[]
             rightCount=0
             wrongCount=0
+            setActiveWordIndex(0)
         }
     },[dispatch,guestState,history])
 
     useEffect(()=>{
         if(languageState!=="English" && words.length!==0){
-            codeLineWords=words[activeWordState.line].split(" ")
+            codeLineWords=words[0].split(" ")
         }
         else{
             codeLineWords=[]
         }
 
         if(languageState==="English"){
-            setCurrWord(words[activeWordState.word])
+            setCurrWord(words[activeWordIndex])
         }
         else{
-            setCurrWord(codeLineWords[activeWordState.word])
+            setCurrWord(codeLineWords[activeWordIndex])
         }
 
         currWordElement= document.getElementById("activeWord")
         caret=document.getElementById('caret')
 
 
-    },[activeWordState,words,languageState])
+    },[activeWordIndex,words,languageState])
 
 
     const getProperWords=()=>{
@@ -174,7 +174,7 @@ export default function Home() {
     const updateProperWords=()=>{
         
         if(languageState==="English"){
-            dispatch(updateWords(activeWordState.word))
+            dispatch(updateWords(activeWordIndex))
         }
         else{
             
@@ -193,7 +193,7 @@ export default function Home() {
         }
         setLiveTimer(null)
         dispatch(stopTest())
-        dispatch(resetActiveState())
+        setActiveWordIndex(0)
         liveWpm=0
         liveAccuracy=0
         rightCount=0
@@ -253,14 +253,14 @@ export default function Home() {
 
     const handleScroll = () => {
         
-        if(flag && (activeWordState.word+activeWordState.line!==0)){
+        if(flag && (activeWordIndex!==0)){
             setFlag(()=> false)
             updateProperWords()
-            dispatch(resetActiveState())
-            document.querySelectorAll(".wrong, .right").forEach((el)=>el.classList.remove("wrong","right"))
             typedWord=""
-            typedStack=[]
+            setActiveWordIndex(0)
             changeCarretPosition()
+            typedStack=[]
+            document.querySelectorAll(".wrong, .right").forEach((el)=>el.classList.remove("wrong","right"))
             setTimeout(()=>{
                 setFlag(()=>true)
             },200)
@@ -273,7 +273,6 @@ export default function Home() {
             caret=document.getElementById('caret')
         }
         try{
-            // caret.style.marginLeft=`${-0.5+0.85*typedWord.length}ch`;
             caret.style.marginLeft=`${-11+20*typedWord.length}px`;
         }
         catch(e){
@@ -347,19 +346,16 @@ export default function Home() {
                             typedStack.push(typedWord)
                         }
                         typedWord=""
-                        dispatch(nextActiveWord())
+                        setActiveWordIndex(activeWordIndex+1);
                     }
                     else{
                         currWordElement.classList.add(typedWord===currWord ? "right" : "wrong")
-                        if(codeLineWords.length===activeWordState.word+1){
-                            dispatch(activeWordEnd(currWord.length))
+                        if(codeLineWords.length===activeWordIndex+1){
                             wrongCount+=(currWord.length-typedWord.length)
                             let tempLen=typedWord.length
                             for(let i=tempLen;i<currWord.length;i++){
                                 typedWord+="~"
-                                
                                 currWordElement.children[i+1].classList.add("wrong")
-                                
                             }
                             changeCarretPosition()
                             
@@ -374,7 +370,8 @@ export default function Home() {
                                 typedStack.push(typedWord)
                             }
                             typedWord=""
-                            dispatch(nextActiveWord())
+                            setActiveWordIndex(activeWordIndex+1);
+                            changeCarretPosition()
                         }
                     }
                 }
@@ -382,20 +379,20 @@ export default function Home() {
             
             case "Enter":
                 e.preventDefault()
-                if(languageState!=="English" && ((activeWordState.word+1)===codeLineWords.length) && typedWord.length===currWord.length){
+                if(languageState!=="English" && ((activeWordIndex)>=codeLineWords.length-2) && typedWord.length===currWord.length){
                     rightCount+=1
                     updateProperWords()
-                    dispatch(resetActiveState())
-                    document.querySelectorAll(".wrong, .right").forEach((el)=>el.classList.remove("wrong","right"))
                     typedWord=""
-                    typedStack=[]
+                    setActiveWordIndex(0)
                     changeCarretPosition()
+                    document.querySelectorAll(".wrong, .right").forEach((el)=>el.classList.remove("wrong","right"))
+                    typedStack=[]
                 }
 
                 if(focusedOnRestartButton && restartButton.current){
                     restartButton.current.click()
                 }
-                
+            
                 break
             
             case "Backspace":
@@ -419,7 +416,6 @@ export default function Home() {
                                 char.classList.remove("wrong","right")
                             }
                         })
-                        dispatch(resetPresentWord())
                         typedWord=""
                         changeCarretPosition()
 
@@ -441,12 +437,17 @@ export default function Home() {
                     currWordElement.classList.remove("wrong")
                 }
                 else if(typedStack.length!==0){
-                    currWordElement.previousElementSibling.classList.remove(
-                        "right",
-                        "wrong"
-                    );
+                    try{
+                        currWordElement.previousElementSibling.classList.remove(
+                            "right",
+                            "wrong"
+                        );
+                    }
+                    catch(e){
+                        // console.log(e)
+                    }
                     typedWord=typedStack.pop()
-                    let prevWord= languageState==="English"? words[activeWordState.word-1]:codeLineWords[activeWordState.word-1]
+                    let prevWord= languageState==="English"? words[activeWordIndex-1]:codeLineWords[activeWordIndex-1]
                     wrongCount-=(prevWord.length-typedWord.length)
 
                     if(e.ctrlKey){
@@ -468,7 +469,7 @@ export default function Home() {
                         typedWord=""
                     }
 
-                    dispatch(prevActiveWord())
+                    setActiveWordIndex(activeWordIndex-1)
 
                 }
                 break
@@ -506,7 +507,7 @@ export default function Home() {
             <div className='homePage'>
                 {!testCompleteState ? 
                 <div>
-                    <div className='d-flex flex-row justify-content-start fs-4 text-warning align-items-center' style={{marginLeft:"15px"}}>
+                    <div className='d-flex flex-row justify-content-start fs-4 align-items-center' style={{marginLeft:"15px",color:"#ffeba7"}}>
                         <div className='me-3'>
                             {liveTimer ? liveTimer : timeState}
                         </div >
@@ -519,8 +520,8 @@ export default function Home() {
                     </div>
 
                     <div >
-                        {languageState==="English"  && <EnglishEditor handleScroll={handleScroll} getProperWords={getProperWords} caretLength={typedWord.length}/>}
-                        {languageState!=="English"  &&  <OtherLanguageEditor handleScroll={handleScroll} getProperWords={getProperWords} caretLength={typedWord.length} />}
+                        {languageState==="English"  && <EnglishEditor handleScroll={handleScroll} getProperWords={getProperWords} caretLength={typedWord.length} activeWordIndex={activeWordIndex}/>}
+                        {languageState!=="English"  &&  <OtherLanguageEditor handleScroll={handleScroll} getProperWords={getProperWords} caretLength={typedWord.length} activeWordIndex={activeWordIndex}/>}
                     </div>
                     <div className='restartButton'>
                         <button type="button" className="btn btn-outline-secondary no-border"  ref={restartButton} onClick={()=>{resetLiveTest()}} ><img src={restart} width="20" height="20"/></button>
@@ -528,7 +529,7 @@ export default function Home() {
                 </div>
                 :
                 <div>
-                    <TestComplete resetLiveTest={resetLiveTest} testTime={timeState} speed={liveWpm} accuracy={liveAccuracy} language={languageState} />
+                    <TestComplete resetLiveTest={resetLiveTest} testTime={currentTestTime} speed={liveWpm} accuracy={liveAccuracy} language={languageState} />
                 </div> 
                 }
             </div>

@@ -13,10 +13,10 @@ export default function EnglishEditor(props){
     }
 
     return (
-        <div className="textArea mt-4" id="area"  onScroll={props.handleScroll} style={{position:"relative"}}>
+        <div className="textArea mt-4" id="area"   onScroll={props.handleScroll} style={{position:"relative"}}>
             {words.map((word,idx)=>{
                 return (
-                    <Word word={word} key={idx} idx={idx} lineIdx={0} caretLength={props.caretLength}/>
+                    <Word word={word} activeWordIndex={props.activeWordIndex} key={idx} idx={idx} lineIdx={0} caretLength={props.caretLength}/>
                 )
             })}
         </div>

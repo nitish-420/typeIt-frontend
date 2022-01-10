@@ -422,7 +422,7 @@ a:hover {
     white-space: nowrap;
 }
 
-.scrollbar-hidden::-webkit-scrollbar {
+::-webkit-scrollbar {
     width: 0;  /* Remove scrollbar space */
     background: transparent;  /* Optional: just make scrollbar invisible */
 }
@@ -481,12 +481,6 @@ a:hover {
 .wrong{
     color: red;
     text-decoration: underline 3px solid;
-}
-
-.bestRecords{
-    border: 1px solid black;
-    color: white;
-
 }
 
 .accordion-button::after{

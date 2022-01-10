@@ -1,4 +1,4 @@
-import {React,useRef,useEffect,useState} from 'react'
+import {React,useRef,useState} from 'react'
 import { useSelector ,useDispatch} from 'react-redux'
 import Loader from "react-loader"
 import { setCurrentUser, showAlert } from '../actions'
@@ -111,54 +111,36 @@ export default function TestComplete(props) {
         saveCurrentTestCase()
     }
 
-    useEffect(()=>{
-        setTimeout(()=>{
-            if(resetButton.current){
-                resetButton.current.focus()
-            }
-        },500)
-    },[resetButton])
-
     return (
-        <Loader loaded={loaderState} className="spinner" col text-centeror="#FFF" radius={10} width={3} trail={60} speed={1} position='relative' top="100px">
-            {loaderState && <div>
-                {/* <div>
-                    {props.testTime}
-                </div>
-                <div>
-                    {props.speed}
-                </div>
-                <div>
-                    {props.accuracy}
-                </div>
-                Test completed !!! */}
-
-                <div class="container d-flex flex-row justify-content-around">
-                <div class="row">
-                    <div className="t-card">                 
-                    <div class="col text-center mt-4">
-                    <h5 className="text-muted font-">Total Time</h5>
-                    <h2 className='display-1'>{props.testTime}</h2>
-                    </div>
-                    </div>   
-                    <div className="t-card">
-                    <div class="col text-center mt-4">
-                    <h5 className="text-muted font-">Speed</h5>
-                    <h2 className='display-1'>{props.speed}</h2>
-                    </div>
-                    </div>
-                    <div className="t-card">
-                    <div class="col text-center mt-4">
-                    <h5 className="text-muted font-">Accuracy</h5>
-                    <h2 className='display-1'>{props.accuracy}</h2>
-                    </div>
-                    </div>
-                </div>
+            <Loader loaded={loaderState} className="spinner" color="#FFF" radius={10} width={3} trail={60} speed={1} position='relative' top="100px">
+                <div style={{marginTop:"-50px",marginLeft:"-50px",marginRight:"-50px"}}>
+                    <h2 className='text-center ' style={{color:"#ffeba7"}}>Test Completed !!!</h2>
+                    <div className=" d-flex flex-row justify-content-around">
+                        <div className="t-card">                 
+                        <div className="col text-center mt-4">
+                        <h5 className="text-muted font-">Total Time</h5>
+                        <h2 className='display-1'>{props.testTime}</h2>
+                        </div>
+                        </div>   
+                        <div className="t-card">
+                        <div className="col text-center mt-4">
+                        <h5 className="text-muted font-">Speed (wpm)</h5>
+                        <h2 className='display-1'>{props.speed}{userState.bestSpeed===props.speed && userState.bestAccuracy===props.accuracy ? "*" : ""}</h2>
+                        <h5 className="text-muted font-">Avg {userState.averageSpeed}</h5>
+                        </div>
+                        </div>
+                        <div className="t-card">
+                        <div className="col text-center mt-4">
+                        <h5 className="text-muted font-">Accuracy (%)</h5>
+                        <h2 className='display-1'>{props.accuracy}</h2>
+                        <h5 className="text-muted font-">Avg {userState.averageAccuracy}</h5>
+                        </div>
+                        </div>
                 </div>
                 <div className="restartButton">
                 <button className='btn-2' ref={resetButton} onClick={()=>{resetLiveTest()}}>Next Test </button>
                 </div>
-            </div>}
+            </div>
         </Loader>
     )
 }

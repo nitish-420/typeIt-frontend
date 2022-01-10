@@ -15,7 +15,7 @@ export default function OtherLanguageEditor(props) {
         <div className="textAreaCode scrollbar-hidden mt-4" id="area" style={{position:"relative"}}>
             {lines.map((line, idx) => {
                 return (
-                    <Line key={idx} lineIdx={idx} line={line} caretLength={props.caretLength}/>
+                    <Line key={idx} activeWordIndex={props.activeWordIndex} lineIdx={idx} line={line} caretLength={props.caretLength}/>
                 )
             })}
         </div>

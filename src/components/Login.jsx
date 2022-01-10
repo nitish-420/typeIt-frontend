@@ -71,6 +71,24 @@ export default function Login() {
         return re.test(email);
     }
 
+    function validateName(fName,lName){
+        if(fName.length<3 || fName.length>20){
+            return false;
+        }
+        for(let i=0;i<fName.length;i++){
+            if(fName[i].toLowerCase()===fName[i].toUpperCase()){
+                return false;
+            }
+        }
+        for(let i=0;i<lName.length;i++){
+            if(lName[i].toLowerCase()===lName[i].toUpperCase()){
+                return false;
+            }
+        }
+        return true
+
+    }
+
     const clickedLogin=async (event)=>{
         event.preventDefault()
         let email=loginData.lemail.trim()
@@ -123,15 +141,18 @@ export default function Login() {
         let email=signUpData.email.trim()
         let password=signUpData.password.trim()
         
-        if(fName.length<3){
-            dispatch(showAlert("Name should be atleast three characters","danger"))
+        if(!validateName(fName,lName)){
+            dispatch(showAlert("Length of Name should be between 3-20 and should contains only alphabets","danger",2000))
+        }
+        else if(userName.length<3 || userName.length>15){
+            dispatch(showAlert("Length of username should be between 3-15","danger",2000))
+
         }
         else if(!validateEmail(email)){
-            dispatch(showAlert("Please enter a valid email","danger"))
+            dispatch(showAlert("Please enter a valid email","danger",2000))
         }
         else if(password.length<5){
-            dispatch(showAlert("Password should be atleast 5 characters","danger"))
-            
+            dispatch(showAlert("Password should be atleast 5 characters","danger",2000))  
         }
         else{
             try{
@@ -152,6 +173,7 @@ export default function Login() {
                 }
                 else{
                     dispatch(showAlert("Invalid credentials","danger"))
+                    // console.log(json)
                     setLoaderState(true)
                 }
             }

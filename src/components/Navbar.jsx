@@ -40,7 +40,7 @@ function Navbar(props) {
         <div className="container pt-4" id="navbar">
             <nav className="row navbar navbar-expand-lg navbar-dark">
                 <div  className={` col-11 col-md-10 col-lg-8 ${testState ? "d-none" : "d-flex"} flex-row p-0 m-0 align-items-center justify-content-between  mx-0 bg-dark fs-5`}>
-                    <div><Link className={`m-0 p-0 nav-link text-light `} data-toggle="tooltip" style={{fontSize:"2rem"}} title="TypeIt" to="/">TypeIt</Link></div>
+                    <div><Link className={`m-0 p-0 nav-link `} data-toggle="tooltip" style={{fontSize:"2rem",color:"#ffeba7"}} title="TypeIt" to="/">TypeIt</Link></div>
                     <div><Link className={`m-0 p-0 nav-link ${location.pathname==="/" ? "text-light navbar-brand " : "text-muted"}`} aria-current="page" to="/"  >Home</Link></div>
                     <div><Link className={`m-0 p-0 nav-link ${location.pathname==="/about" ? "text-light navbar-brand " : "text-muted"}`} to="/about" >About</Link></div>
                     <div><Link className={`m-0 p-0 nav-link ${location.pathname==="/user" ? "text-light navbar-brand " : "text-muted"}`} to="/user" >User</Link></div>

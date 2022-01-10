@@ -1,14 +1,14 @@
 {
     "cLines":[
-        "#include <stdio.h>",
-        "#include <stdlib.h>",
-        "#include <string.h>",
-        "int main(){",
-        "char s[100];",
-        "int len = strlen(s);",
-        "return 0;",
-        "FILE *fp;",
-        "fp = fopen(\"data.txt\",\"r\");",
-        "printf(\"%s\",s);"
+        "#include <stdio.h> ",
+        "#include <stdlib.h> ",
+        "#include <string.h> ",
+        "int main(){ ",
+        "char s[100]; ",
+        "int len = strlen(s); ",
+        "return 0; ",
+        "FILE *fp; ",
+        "fp = fopen(\"data.txt\",\"r\"); ",
+        "printf(\"%s\",s); "
     ]
 }

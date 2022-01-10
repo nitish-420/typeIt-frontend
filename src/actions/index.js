@@ -52,34 +52,6 @@ export const stopTest=()=>dispatch=>{
     dispatch({type:"STOPTEST"})
 }
 
-export const nextActiveWord=()=>dispatch=>{
-    dispatch({type:"ACTIVENEXTWORD"})
-}
-
-export const prevActiveWord=()=>dispatch=>{
-    dispatch({type:"ACTIVEPREVWORD"})
-}
-
-export const activeWordEnd=(presentWordLength)=>dispatch=>{
-    dispatch({type:"ACTIVEWORDEND",payload:presentWordLength})
-}
-
-export const nextActiveLine=()=>dispatch=>{
-    dispatch({type:"ACTIVENEXTLINE"})
-}
-
-
-export const resetPresentWord=()=>dispatch=>{
-    dispatch({type:"RESETPRESENTWORD"})
-}
-
-
-export const resetActiveState=()=>dispatch=>{
-    dispatch({type:"RESETACTIVESTATE"})
-}
-
-
-
 export const setCurrentUser=(user)=> dispatch=>{
     dispatch({type:"SETUSER",payload:user})
 

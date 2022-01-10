@@ -408,7 +408,7 @@ export default function User() {
                 <div className='row d-flex flex-row justify-content-around'>
 
                     <div className='col-10 col-lg-12 p-3' style={{minHeight:"300px"}}>
-                        <h1 className='text-center'>
+                        <h1 className='text-center' style={{color:"#ffeba7"}}>
                             English
                         </h1>
                         <Loader loaded={englishBest.success} className="spinner" color="#FFF" radius={10} width={3} trail={60} speed={1} position='relative' top='100px'/>
@@ -416,7 +416,7 @@ export default function User() {
                         {/* </Loader> */}
                     </div>
                     <div className='col-10 col-lg-6 p-3' style={{minHeight:"300px"}}>
-                        <h1 className='text-center'>
+                        <h1 className='text-center' style={{color:"#ffeba7"}}>
                             Python
                         </h1>
                         <Loader loaded={pythonBest.success} className="spinner" color="#FFF" radius={10} width={3} trail={60} speed={1} position='relative' top='100px'/>
@@ -424,7 +424,7 @@ export default function User() {
                         {/* </Loader> */}
                     </div>
                     <div className='col-10 col-lg-6 p-3' style={{minHeight:"300px"}}>
-                        <h1 className='text-center'>
+                        <h1 className='text-center' style={{color:"#ffeba7"}}>
                             C
                         </h1>
 
@@ -433,7 +433,7 @@ export default function User() {
                         {/* </Loader> */}
                     </div>
                     <div className='col-10 col-lg-6 p-3' style={{minHeight:"300px"}}>
-                        <h1 className='text-center'>
+                        <h1 className='text-center' style={{color:"#ffeba7"}}>
                             Java
                         </h1>
                         <Loader loaded={javaBest.success} className="spinner" color="#FFF" radius={10} width={3} trail={60} speed={1} position='relative' top='100px'/>
@@ -441,7 +441,7 @@ export default function User() {
                         {/* </Loader> */}
                     </div>
                     <div className='col-10 col-lg-6 p-3' style={{minHeight:"300px"}}>
-                        <h1 className='text-center'>
+                        <h1 className='text-center' style={{color:"#ffeba7"}}>
                             JavaScript
                         </h1>
                         <Loader loaded={javascriptBest.success} className="spinner" color="#FFF" radius={10} width={3} trail={60} speed={1} position='relative' top='100px'/>

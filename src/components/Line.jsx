@@ -9,7 +9,7 @@ export  default function Line(props){
         <div className='eachLineOfCode m-0 p-0' >
             {props.line.split(" ").map((word,idx)=>{
                 return (
-                    <Word word={word} key={idx} idx={idx} lineIdx={props.lineIdx} caretLength={props.caretLength}/>
+                    <Word word={word} key={idx} activeWordIndex={props.activeWordIndex} idx={idx} lineIdx={props.lineIdx} caretLength={props.caretLength}/>
                 )
             })}
         </div>

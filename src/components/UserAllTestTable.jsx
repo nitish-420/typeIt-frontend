@@ -25,7 +25,7 @@ export default function UserAllTestTable(props) {
             { (testData.length===0 || testData[0]===null)
             ?
             <div>
-                <h1 className='text-center'>
+                <h1 className='text-center' style={{color:"#ffeba7"}}>
                     Your all test details!!!
                 </h1>
                 <table className='table table-striped  table-dark table-hover '>
@@ -52,7 +52,7 @@ export default function UserAllTestTable(props) {
             </div>
             :
             <div>
-                <h1 className='text-center'>
+                <h1 className='text-center' style={{color:"#ffeba7"}}>
                     Your all test details!!!
                 </h1>
                 <table className='table table-striped  table-dark table-hover '>
