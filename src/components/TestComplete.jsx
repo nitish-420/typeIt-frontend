@@ -120,9 +120,9 @@ export default function TestComplete(props) {
     },[resetButton])
 
     return (
-        <Loader loaded={loaderState} className="spinner" color="#FFF" radius={10} width={3} trail={60} speed={1} position='relative' top="100px">
+        <Loader loaded={loaderState} className="spinner" col text-centeror="#FFF" radius={10} width={3} trail={60} speed={1} position='relative' top="100px">
             {loaderState && <div>
-                <div>
+                {/* <div>
                     {props.testTime}
                 </div>
                 <div>
@@ -131,10 +131,33 @@ export default function TestComplete(props) {
                 <div>
                     {props.accuracy}
                 </div>
-                Test completed !!!
-                <hr/>
-                <button className='btn btn-secondary' ref={resetButton} onClick={()=>{resetLiveTest()}}>Next Test </button>
+                Test completed !!! */}
 
+                <div class="container d-flex flex-row justify-content-around">
+                <div class="row">
+                    <div className="t-card">                 
+                    <div class="col text-center mt-4">
+                    <h5 className="text-muted font-">Total Time</h5>
+                    <h2 className='display-1'>{props.testTime}</h2>
+                    </div>
+                    </div>   
+                    <div className="t-card">
+                    <div class="col text-center mt-4">
+                    <h5 className="text-muted font-">Speed</h5>
+                    <h2 className='display-1'>{props.speed}</h2>
+                    </div>
+                    </div>
+                    <div className="t-card">
+                    <div class="col text-center mt-4">
+                    <h5 className="text-muted font-">Accuracy</h5>
+                    <h2 className='display-1'>{props.accuracy}</h2>
+                    </div>
+                    </div>
+                </div>
+                </div>
+                <div className="restartButton">
+                <button className='btn-2' ref={resetButton} onClick={()=>{resetLiveTest()}}>Next Test </button>
+                </div>
             </div>}
         </Loader>
     )

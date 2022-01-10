@@ -370,7 +370,7 @@ export default function User() {
                     <h2 className='col-12 text-center text-animation'>
                         Hii {userState.fName+" "+userState.lName } go down to trace your journey !!!
                     </h2>
-                    <div className="container p-5">
+                    <div className="container pb-4">
                         <div className="row p-4">
                             <div className="col text-center ">
                             <h6 className="text-muted font-">Total Test Given</h6>
