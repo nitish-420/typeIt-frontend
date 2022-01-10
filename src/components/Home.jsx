@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import TestComplete from "./TestComplete"
 import Loader from "react-loader"
 
-import {startTest,nextActiveWord,stopTest, resetActiveState, getWords, updateWords, resetPresentWord, nextActiveLine, getLanguageWords, updateLanguageWords, activeWordEnd, setCurrentUser, showAlert, removeGuest, prevActiveWord} from "../actions/index"
+import {startTest,nextActiveWord,stopTest, resetActiveState, getWords, updateWords, resetPresentWord, getLanguageWords, updateLanguageWords, activeWordEnd, setCurrentUser, showAlert, removeGuest, prevActiveWord} from "../actions/index"
 import OtherLanguageEditor from './OtherLanguageEditor';
 
 import restart from '../Image/restart.png';
@@ -273,7 +273,8 @@ export default function Home() {
             caret=document.getElementById('caret')
         }
         try{
-            caret.style.marginLeft=`${-13+20*typedWord.length}px`;
+            // caret.style.marginLeft=`${-0.5+0.85*typedWord.length}ch`;
+            caret.style.marginLeft=`${-11+20*typedWord.length}px`;
         }
         catch(e){
             // console.log(e)
@@ -383,7 +384,12 @@ export default function Home() {
                 e.preventDefault()
                 if(languageState!=="English" && ((activeWordState.word+1)===codeLineWords.length) && typedWord.length===currWord.length){
                     rightCount+=1
-                    dispatch(nextActiveLine())
+                    updateProperWords()
+                    dispatch(resetActiveState())
+                    document.querySelectorAll(".wrong, .right").forEach((el)=>el.classList.remove("wrong","right"))
+                    typedWord=""
+                    typedStack=[]
+                    changeCarretPosition()
                 }
 
                 if(focusedOnRestartButton && restartButton.current){
