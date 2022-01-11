@@ -1,18 +1,17 @@
 /* @import url("https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css"); */
+
+
 /* 
 @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700,800,900');
 
 @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400); */
 
 @import url("https://unicons.iconscout.com/release/v2.1.9/css/unicons.css");
-
-
-
 * {
     padding: 0px;
     margin: 0px;
     box-sizing: border-box;
-    scroll-behavior: smooth;    
+    scroll-behavior: smooth;
 }
 
 #root {
@@ -80,28 +79,38 @@ a:hover {
 }
 
 
-
 /* ************* text animation ************ */
-.text-animation{
+
+.text-animation {
     font: bold 2em monospace;
-  color: #ffeba7;
-	width: calc(0.55em * 14); 
-	width: 100ch;
-	white-space: nowrap;
-	overflow: hidden;
-	-webkit-animation: typing 4s steps(100, end), blink-caret .5s step-end infinite alternate;
+    color: #ffeba7;
+    width: calc(0.55em * 14);
+    width: 100ch;
+    white-space: nowrap;
+    overflow: hidden;
+    -webkit-animation: typing 4s steps(100, end), blink-caret .5s step-end infinite alternate;
 }
+
 
 /* ***************text animation end ************** */
 
-@-webkit-keyframes typing { from { width: 0; } }
-@-webkit-keyframes blink-caret { 50% { border-color: transparent; } }
+@-webkit-keyframes typing {
+    from {
+        width: 0;
+    }
+}
 
-.container h2:hover{
+@-webkit-keyframes blink-caret {
+    50% {
+        border-color: transparent;
+    }
+}
+
+.container h2:hover {
     color: #ffeba7;
 }
 
-.container{
+.container {
     padding: 10px 20px;
 }
 
@@ -346,7 +355,7 @@ a:hover {
     background-color: #ffeba7;
     color: #102770;
     box-shadow: 0 8px 24px 0 rgba(255, 235, 167, .2);
-} 
+}
 
 .btn-2:active,
 .btn-2:focus {
@@ -360,7 +369,6 @@ a:hover {
     color: #ffeba7;
     box-shadow: 0 8px 24px 0 rgba(16, 39, 112, .2);
 }
-
 
 .logo {
     position: absolute;
@@ -377,7 +385,7 @@ a:hover {
     display: block;
 }
 
-.homePage{
+.homePage {
     width: 85%;
     margin: auto;
     padding: 60px;
@@ -396,13 +404,14 @@ a:hover {
     resize: none;
     caret-color: #ffff4e;
     font-size: 30px;
-	outline: none;
-	color: white;
-	overflow: hidden;
+    outline: none;
+    color: white;
+    overflow: hidden;
     word-break: break-all;
     white-space: normal;
 }
-.textAreaCode{
+
+.textAreaCode {
     font-family: monospace;
     height: 110px;
     /* width: 80%; */
@@ -423,20 +432,22 @@ a:hover {
 }
 
 ::-webkit-scrollbar {
-    width: 0;  /* Remove scrollbar space */
-    background: transparent;  /* Optional: just make scrollbar invisible */
+    width: 0;
+    /* Remove scrollbar space */
+    background: transparent;
+    /* Optional: just make scrollbar invisible */
 }
-  
-  /* Hide scrollbar for IE, Edge add Firefox */
+
+
+/* Hide scrollbar for IE, Edge add Firefox */
+
 .scrollbar-hidden {
     -ms-overflow-style: none;
-    scrollbar-width: none; /* Firefox */
+    scrollbar-width: none;
+    /* Firefox */
 }
 
-
-
-
-#caret{
+#caret {
     position: absolute;
     /* margin-left: -13px; */
     margin-top: -12px;
@@ -445,51 +456,53 @@ a:hover {
     font-family: monospace;
     color: rgb(16, 147, 255);
 }
+
+
 /* #caret::after{
     content: "|";
 } */
 
-.blink{
+.blink {
     animation: blink 2s linear infinite alternate;
 }
-  
+
 @keyframes blink {
-    0%,100% {
+    0%,
+    100% {
         opacity: 1;
     }
-
     50% {
         opacity: 0;
     }
 }
 
-.word{
+.word {
     margin-left: 15px;
-    display: inline-block;   
+    display: inline-block;
 }
 
-
-.right{
+.right {
     /* color: rgb(255, 195, 29); */
-    color:#ffd651
+    color: #ffd651
 }
 
-.everyChar{
+.everyChar {
     font-size: 30px;
     padding-left: 1px;
     padding-right: 1px;
     width: 20px;
-    display: inline-block; 
+    display: inline-block;
 }
 
-.wrong{
+.wrong {
     color: red;
 }
-.word.wrong > .everyChar{
+
+.word.wrong>.everyChar {
     text-decoration: underline 3px solid red;
 }
 
-.accordion-button::after{
+.accordion-button::after {
     background-image: url("./down-arrow.png");
 }
 
@@ -497,7 +510,7 @@ a:hover {
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.55%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 }
 
-.nav-link:hover{
+.nav-link:hover {
     cursor: pointer;
 }
 
@@ -511,7 +524,10 @@ hr{
     opacity: .25;
 } */
 
+
 /* Navbar  */
+
+
 /*
 .nav-bar{
     display: flex;
@@ -555,7 +571,8 @@ hr{
 }
 
 */
-#navbar{
+
+#navbar {
     height: 100px;
 }
 
@@ -564,10 +581,10 @@ hr{
 
 .no-border {
     border: 0;
-    box-shadow: none; 
+    box-shadow: none;
 }
 
-.restartButton{
+.restartButton {
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -577,6 +594,7 @@ hr{
 
 /* ******* Footer ****** */
 
+
 /* .footer {
     position: absolute; 
     bottom: 0;
@@ -584,11 +602,11 @@ hr{
     height: 2.5rem; 
 } */
 
-
-.root{
+.root {
     min-height: 93vh;
     /* this is done to make footer in center */
 }
+
 
 /* test complete */
 
@@ -597,13 +615,11 @@ hr{
     width: 200px;
     height: 200px;
     /* background: cornflowerblue; */
-    box-shadow: inset 5px 5px 5px rgba(0, 0, 0, 0.05),
-      inset -5px -5px 5px rgba(255, 255, 255, 0.5),
-      5px 5px 5px rgba(0, 0, 0, 0.05), -5px -5px 5px rgba(255, 255, 255, 0.5);
+    box-shadow: inset 5px 5px 5px rgba(0, 0, 0, 0.05), inset -5px -5px 5px rgba(255, 255, 255, 0.5), 5px 5px 5px rgba(0, 0, 0, 0.05), -5px -5px 5px rgba(255, 255, 255, 0.5);
     border-radius: 15px;
     margin: 30px;
-  }
+}
 
-  .t-card h2{
-      color: #ffeba7;
-  }
+.t-card h2 {
+    color: #ffeba7;
+}
