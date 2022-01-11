@@ -572,6 +572,22 @@ hr{
 
 */
 
+/* test complete */
+
+.t-card{
+    position: relative;
+    width: 200px;
+    height: 200px;
+    /* background: cornflowerblue; */
+    box-shadow: inset 5px 5px 5px rgba(0, 0, 0, 0.05), inset -5px -5px 5px rgba(255, 255, 255, 0.5), 5px 5px 5px rgba(0, 0, 0, 0.05), -5px -5px 5px rgba(255, 255, 255, 0.5);
+    border-radius: 15px;
+    margin: 30px;
+}
+
+.t-card h2{
+    color: #ffeba7;
+}
+
 #navbar {
     height: 100px;
 }
@@ -602,24 +618,9 @@ hr{
     height: 2.5rem; 
 } */
 
+
 .root {
     min-height: 93vh;
     /* this is done to make footer in center */
 }
 
-
-/* test complete */
-
-.t-card {
-    position: relative;
-    width: 200px;
-    height: 200px;
-    /* background: cornflowerblue; */
-    box-shadow: inset 5px 5px 5px rgba(0, 0, 0, 0.05), inset -5px -5px 5px rgba(255, 255, 255, 0.5), 5px 5px 5px rgba(0, 0, 0, 0.05), -5px -5px 5px rgba(255, 255, 255, 0.5);
-    border-radius: 15px;
-    margin: 30px;
-}
-
-.t-card h2 {
-    color: #ffeba7;
-}
