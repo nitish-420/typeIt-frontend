@@ -110,12 +110,12 @@ export default function LeaderBoard() {
                 </div>
                 <div className="dropdown col-12 col-md-3  p-3 text-center text-md-end">
                     <button className="btn-2 dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                        {language}
+                        {language}{language==="C"?"/C++":""}
                     </button>
                     <ul className="dropdown-menu bg-dark" aria-labelledby="dropdownMenuButton1" >
                         <li> <a className='dropdown-item text-light bg-dark'  onClick={()=>setLanguage("English")}>English</a></li>
                         <li> <a className='dropdown-item text-light bg-dark'  onClick={()=>setLanguage("Python")}>Python</a></li>
-                        <li> <a className='dropdown-item text-light bg-dark'  onClick={()=>setLanguage("C")}>C</a></li>
+                        <li> <a className='dropdown-item text-light bg-dark'  onClick={()=>setLanguage("C")}>C/C++</a></li>
                         <li> <a className='dropdown-item text-light bg-dark'  onClick={()=>setLanguage("Java")}>Java</a></li>
                         <li> <a className='dropdown-item text-light bg-dark'  onClick={()=>setLanguage("Javascript")}>JavaScript</a></li>
                     </ul>

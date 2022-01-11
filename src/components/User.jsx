@@ -425,7 +425,7 @@ export default function User() {
                     </div>
                     <div className='col-10 col-lg-6 p-3' style={{minHeight:"300px"}}>
                         <h1 className='text-center' style={{color:"#ffeba7"}}>
-                            C
+                            C/C++
                         </h1>
 
                         <Loader loaded={cBest.success} className="spinner" color="#FFF" radius={10} width={3} trail={60} speed={1} position='relative' top='100px'/>

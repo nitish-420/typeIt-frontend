@@ -77,7 +77,7 @@ function Navbar(props) {
 
                                     <div className={`mx-1 p-0  nav-link ${languageState==="English" ? "text-light " : "text-muted"}`} onClick={()=>dispatch(setLanguage("English"))} >English</div>
                                     <div className={`mx-1 p-0  nav-link ${languageState==="Python" ? "text-light " : "text-muted"}`} onClick={()=>dispatch(setLanguage("Python"))} >Python</div>
-                                    <div className={`mx-1 p-0  nav-link ${languageState==="C" ? "text-light " : "text-muted"}`} onClick={()=>dispatch(setLanguage("C"))} >C</div>
+                                    <div className={`mx-1 p-0  nav-link ${languageState==="C" ? "text-light " : "text-muted"}`} onClick={()=>dispatch(setLanguage("C"))} >C/C++</div>
                                     <div className={`mx-1 p-0  nav-link ${languageState==="Javascript" ? "text-light " : "text-muted"}`} onClick={()=>dispatch(setLanguage("Javascript"))} >JavaScript</div>
                                     <div className={`mx-1 p-0  nav-link ${languageState==="Java" ? "text-light " : "text-muted"}`} onClick={()=>dispatch(setLanguage("Java"))} >Java</div>
                                     <div className="mt-auto p-2" style={{fontSize:"0.9rem"}}>For best experience use big screen</div>
@@ -97,7 +97,7 @@ function Navbar(props) {
                     <div className="d-flex flex-row justify-content-end align-items-center">
                         <div className={`mx-1 p-0  nav-link ${languageState==="English" ? "text-light fs-6" : "text-muted"}`} onClick={()=>dispatch(setLanguage("English"))} >English</div>
                         <div className={`mx-1 p-0  nav-link ${languageState==="Python" ? "text-light fs-6" : "text-muted"}`} onClick={()=>dispatch(setLanguage("Python"))} >Python</div>
-                        <div className={`mx-1 p-0  nav-link ${languageState==="C" ? "text-light fs-6" : "text-muted"}`} onClick={()=>dispatch(setLanguage("C"))} >C</div>
+                        <div className={`mx-1 p-0  nav-link ${languageState==="C" ? "text-light fs-6" : "text-muted"}`} onClick={()=>dispatch(setLanguage("C"))} >C/C++</div>
                         <div className={`mx-1 p-0  nav-link ${languageState==="Javascript" ? "text-light fs-6" : "text-muted"}`} onClick={()=>dispatch(setLanguage("Javascript"))} >JavaScript</div>
                         <div className={`mx-1 p-0  nav-link ${languageState==="Java" ? "text-light fs-6" : "text-muted"}`} onClick={()=>dispatch(setLanguage("Java"))} >Java</div>
                     </div>

@@ -507,7 +507,7 @@ export default function Home() {
             <div className='homePage'>
                 {!testCompleteState ? 
                 <div>
-                    <div className='d-flex flex-row justify-content-start fs-4 align-items-center' style={{marginLeft:"15px",color:"#ffeba7"}}>
+                    <div className='d-flex flex-row justify-content-start fs-4 align-items-center' style={{marginLeft:"15px",color:"#ffd651"}}>
                         <div className='me-3'>
                             {liveTimer ? liveTimer : timeState}
                         </div >

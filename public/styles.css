@@ -433,12 +433,7 @@ a:hover {
     scrollbar-width: none; /* Firefox */
 }
 
-.everyChar{
-    font-size: 30px;
-    padding-left: 1px;
-    padding-right: 1px;
-    width: 20px;
-}
+
 
 
 #caret{
@@ -470,17 +465,28 @@ a:hover {
 
 .word{
     margin-left: 15px;
-    display: inline-block;
-    
+    display: inline-block;   
 }
 
+
 .right{
-    color: rgb(255, 195, 29);
+    /* color: rgb(255, 195, 29); */
+    color:#ffd651
+}
+
+.everyChar{
+    font-size: 30px;
+    padding-left: 1px;
+    padding-right: 1px;
+    width: 20px;
+    display: inline-block; 
 }
 
 .wrong{
     color: red;
-    text-decoration: underline 3px solid;
+}
+.word.wrong > .everyChar{
+    text-decoration: underline 3px solid red;
 }
 
 .accordion-button::after{

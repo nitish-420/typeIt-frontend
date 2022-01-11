@@ -72,7 +72,7 @@ export default function UserAllTestTable(props) {
                             }
                             return (
                                 <tr key={idx}>
-                                    <td className='text-center'>{data.language}</td>
+                                    <td className='text-center'>{data.language}{data.language==="C"?"/C++":""}</td>
                                     <td className='text-center'>{data.testTime}</td>
                                     <td className='text-center'>{data.speed}</td>
                                     <td className='text-center'>{data.accuracy} %</td>

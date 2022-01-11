@@ -39,7 +39,7 @@ export default function LeaderBoardTable(props) {
     return (
         <div>
             <h3 className='text-center' style={{color:"#ffeba7"}}>
-                {`${props.language} ${props.time}s`}
+                {`${props.language}${props.language==="C"?"/C++":""} ${props.time}s`}
             </h3>
             <table className='table table-striped  table-dark table-hover '>
                 <thead>
@@ -58,7 +58,7 @@ export default function LeaderBoardTable(props) {
                             return null
                         }
                         return (
-                            <tr key={idx} className={`${idx+1===userIdx ? "text-warning":null}`}>
+                            <tr key={idx}  style={{color:idx+1===userIdx ? "#ffd651":"white"}}>
                                 <td className='text-center'>{idx+1}</td>
                                 <td className='text-center'>{data.userName}</td>
                                 <td className='text-center'>{data.speed}</td>
@@ -72,7 +72,7 @@ export default function LeaderBoardTable(props) {
                     {
                         userIdx!==0 
                         ?
-                        <tr className='text-warning'>
+                        <tr  style={{color:"#ffd651"}}>
                             <td className='text-center'>{userIdx}</td>
                             <td className='text-center'>{leaderBoardData[userIdx-1].userName}</td>
                             <td className='text-center'>{leaderBoardData[userIdx-1].speed}</td>
@@ -80,7 +80,7 @@ export default function LeaderBoardTable(props) {
                             <td className='text-center'>{getTimeString(leaderBoardData[userIdx-1].timeOfTest)}</td>
                         </tr>
                         :
-                        <tr className='text-warning'>
+                        <tr  style={{color:"#ffd651"}}>
                             <td className='text-center'>#</td>
                             <td className='text-center'>--</td>
                             <td className='text-center'>--</td>
