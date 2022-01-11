@@ -102,6 +102,9 @@ export default function Home() {
                 if(json.success){
                     dispatch(setCurrentUser(json.user))
                     dispatch(removeGuest())
+                    // if(json.user.status===0){
+                    //     dispatch(showAlert("Please verify your account, link has been sended again at your email, reload the page after verifing","danger",2000))
+                    // }
                 }
                 else{
                     dispatch(showAlert(json.error,"danger"))

@@ -10,7 +10,8 @@ const initialState={
     bestSpeed:null,
     averageSpeed:null,
     bestAccuracy:null,
-    averageAccuracy:null
+    averageAccuracy:null,
+    status:null
 }
 
 const handleUserState=(state=initialState,action)=>{

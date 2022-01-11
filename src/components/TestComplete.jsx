@@ -28,6 +28,10 @@ export default function TestComplete(props) {
     const [loaderState,setLoaderState]=useState(true)
     
     const saveCurrentTestCase=async ()=>{
+        // if(userState.status===0){
+        //     dispatch(showAlert("This test will not be stored, as your account is not verified yet please verify it, to get the link again re login or reload the page","danger",4000))
+        //     return;
+        // }
         try{
             setLoaderState(false)
             let response=await fetch(`${backendUrl}api/test/createtest`,{

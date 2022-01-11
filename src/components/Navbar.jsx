@@ -28,7 +28,7 @@ function Navbar(props) {
 
     const handleLogout=()=>{
         localStorage.removeItem("token")
-        dispatch(showAlert("Good Bye","danger"))
+        dispatch(showAlert("Good Bye, Looking forward to seeing you at TypeIt","warning"))
         dispatch(resetCurrentUser())
         dispatch(setGuest())
         history.push("/login")
