@@ -263,7 +263,7 @@ export default function Home() {
             document.querySelectorAll(".wrong, .right").forEach((el)=>el.classList.remove("wrong","right"))
             setTimeout(()=>{
                 setFlag(()=>true)
-            },200)
+            },1000)//this is done due to twice calling of handleScroll in firefox browser.
         }
 
     }
