@@ -4,7 +4,7 @@ import { useDispatch ,useSelector} from "react-redux";
 
 
 import { showAlert,setTime,setLanguage,resetCurrentUser, setGuest } from "../actions";
-
+import editUser from "../Image/editUser.png"
 
 function Navbar(props) {
 
@@ -59,7 +59,7 @@ function Navbar(props) {
                         }
                     </div>
                 </div>
-                <div className="col-1">
+                <div className={` ${(location.pathname==='/user' || location.pathname==="/updateuser") ? "d-none" : "col-1"}`}>
                     <div className={` ${(!testState && location.pathname==='/') ? "d-lg-none" : "d-none"} `}>
                         <button className="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" aria-expanded="false" aria-label="Toggle navigation">
                             <span className="navbar-toggler-icon "></span>
@@ -91,6 +91,11 @@ function Navbar(props) {
                         </div>
                     </div>
                 </div>
+                <div className={` col-1 col-md-2 col-lg-4 m-0 p-0 ${(!guestState && (location.pathname==='/user' || location.pathname==="/updateuser")) ? "d-flex justify-content-end" : "d-none"}`} >
+                    <Link to="/updateuser" >
+                    <img  src={editUser} alt="Edit" width="30" height="30"/>
+                    </Link>
+                </div>
                 <div className={`col-3 ${(!testState && location.pathname==='/') ? "d-none d-lg-flex" : "d-none"} flex-column justify-content-between`} style={{fontSize:"0.8rem"}}>
                     <div className="d-flex flex-row justify-content-end align-items-center ">
                         <div className={`mx-1 p-0  nav-link ${timeState===15 ? "text-light fs-6" : "text-muted"}`} onClick={()=>dispatch(setTime(15))} >15</div>
@@ -106,9 +111,7 @@ function Navbar(props) {
                         <div className={`mx-1 p-0  nav-link ${languageState==="Java" ? "text-light fs-6" : "text-muted"}`} onClick={()=>dispatch(setLanguage("Java"))} >Java</div>
                     </div>
                 </div>
-                <div className={`col-2 me-0 ${(!guestState && location.pathname==='/user') ? "fs-5" : "d-none"}`} >
-                    <Link className={`m-0 p-0 nav-link ${location.pathname==="/updateuser" ? "text-light navbar-brand " : "text-muted"}`} to="/updateUser" >Update User</Link>
-                </div>
+
             </nav>
         </div>
     )

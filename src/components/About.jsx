@@ -51,6 +51,7 @@ const About = () => {
                         <ul>
                                 <li>Keybinds</li>
                                     <p>You can use TAB to focus on the restart button and you can press enter any time to restart the test.</p>
+                                    <p>You can use BACKSPACE to get back on current word or the previous word (if it was wrong).</p>
                                 <li>For English</li>
                                     <p>
                                         Press SPACE after each word to jump on the next word.
@@ -59,7 +60,7 @@ const About = () => {
                                     <p>
                                         Press SPACE after each word to jump on the next word.
                                         <br/>
-                                        Press ENTER at the end of line to go to the next. In case you lost the cursor press SPACE it will take you to next word or line with focused cursor and if still you don't find cursor press ENTER it will take you to next line (this is for those users who have small screen).
+                                        Press ENTER at the end of line to go to the next line. In case you lost the cursor due to small screen size press SPACE it will take you to next word with focused cursor.
 
                                     </p>
                                 

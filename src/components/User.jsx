@@ -26,6 +26,11 @@ export default function User() {
     guestState=useSelector((state)=>{
         return state.handleGuestState
     })
+
+    if(guestState){
+        history.push("/login")
+        dispatch(showAlert("Please Log In first.","warning","2500"))
+    }
     
     userState=useSelector((state)=>{
         return state.handleUserState

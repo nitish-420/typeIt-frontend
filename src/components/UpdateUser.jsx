@@ -187,7 +187,10 @@ export default function UpdateUser() {
         }
         else if(userName.length<3 || userName.length>15){
             dispatch(showAlert("Length of username should be between 3-15","danger",2000))
-
+        }
+        else if(userState.userName===userName && userState.lName===lName && userState.fName===fName){
+            dispatch(showAlert("Updated name successfully","success"))
+            history.push("/user")
         }
         else{
             setLoaderState(false)

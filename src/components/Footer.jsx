@@ -8,8 +8,9 @@ export default function Footer() {
 	})
 
     return (
-        <div className={`${testState ? "d-none":" m-0 p-0 text-center"}`} >
-            <a rel="noreferrer" target="_blank" className='d-inline-block text-center fs-4 p-0' href="https://github.com/nitish-420/typeIt-frontend" style={{textDecoration:"none",cursor:"pointer",color:"#ffeba7"}}>{"</>"}Github</a>
+        <div className={`${testState ? "d-none":" m-0 p-0 d-flex flex-row justify-content-center"}`} >
+            <a rel="noreferrer"  target="_blank" className='d-inline-block text-center fs-4 p-0 mx-4' href="https://github.com/nitish-420/typeIt-frontend" style={{textDecoration:"none",cursor:"pointer",color:"#ffeba7"}}>{"</>"}Github</a>
+            <a rel="noreferrer"  target="_blank" className='d-inline-block text-center fs-4 p-0 mx-4' href = "mailto: teamTypeIt@outlook.com" style={{textDecoration:"none",cursor:"pointer",color:"#ffeba7"}}>@TypeIt</a>
         </div>
     )
 }
