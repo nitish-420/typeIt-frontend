@@ -146,8 +146,44 @@ export default function Login() {
             }
             setLoaderState(true)
         }
-        
-        
+    }
+    
+    const handleForgotPasswordRequest=async (event)=>{
+        event.preventDefault()
+        let email=loginData.lemail.trim()
+        if(!validateEmail(email)){
+            dispatch(showAlert("Please enter a valid email to reset password","danger"))
+        }
+        else{
+            setLoaderState(false)
+            try{
+                const response=await fetch(`${backendUrl}api/auth/forgotpassword`,{
+                    method:"POST",
+                    headers:{
+                        "Content-Type":"application/json"
+                    },
+                    body:JSON.stringify({email})
+                });
+                const json=await response.json()
+                if(json.success){
+                    dispatch(showAlert("New Password has been sent to your email, please check spam box too","success"))
+                }
+                else{
+                    if(json.error){
+                        dispatch(showAlert(json.error,"danger",4000));
+                    }
+                    else{
+                        dispatch(showAlert("Invalid credentials","danger"))
+                    }
+                }
+            }
+            catch(e){
+                // console.log(e)
+                dispatch(showAlert("Some error occured please try after some time, Sorry for the inconvenience","danger"))
+            }
+            setLoaderState(true)
+        }
+
     }
 
     const clickedSignUp=async (event)=>{
@@ -216,9 +252,7 @@ export default function Login() {
                 dispatch(showAlert("Some error occured please try after some time, Sorry for the inconvenience","danger"))
             }
             setLoaderState(true)
-        }
-        
-        
+        }  
     }
 
     
@@ -227,7 +261,7 @@ export default function Login() {
             <div className="container pt-0">
                 <div className="row  justify-content-center">
                     <div className="col-12 text-center align-self-start ">
-                        <div className="section  pt-0 text-center">
+                        <div className="section  pt-0 text-center" >
                             {/* <Link className="btn-2 no btn-2-outline-warning mb-3 text-decoration-none" onClick={()=>dispatch(setGuest())} to="/"> Continue as a guest !</Link> */}
                             <Loader loaded={loaderState}  className="spinner" color="#FFF" radius={10} width={3} trail={60} speed={1} position="relative" top="125px">
                                 <h6 className="mb-0 pb-3 fs-4"><span>Log In </span>&nbsp; &nbsp; &nbsp;<span>Sign Up</span></h6>
@@ -247,8 +281,9 @@ export default function Login() {
                                                         <input type="password" onChange={handleLoginChange} name="lpassword" className="form-style" placeholder="Your Password" id="lpassword"  value={loginData.lpassword} />
                                                         <i className="input-icons uil uil-lock-alt"></i>
                                                     </div>
-                                                    <button  className="btn-2 btn-2-outline-warning mt-4"  onClick={clickedLogin} >Submit</button>
+                                                    <button  className="btn-2 btn-2-outline-warning mt-4 mb-5"  onClick={clickedLogin} >Log In</button>
                                                 </div>
+                                                <button  type="button" className="btn-2 btn-2-outline-warning mt-5"  data-bs-toggle="modal" data-bs-target="#exampleModal" >Forgot password?</button>
                                             </div>
                                         </div>
                                         <div className="card-back">
@@ -275,13 +310,35 @@ export default function Login() {
                                                         <input type="password" onChange={handleSignUpChange} name="password" className="form-style" placeholder="Your Password" id="password" value={signUpData.password}  />
                                                         <i className="input-icons uil uil-lock-alt"></i>
                                                     </div>
-                                                    <button className="btn-2 btn-2-outline-warning mt-4" onClick={clickedSignUp} >Submit</button>
+                                                    <button className="btn-2 btn-2-outline-warning mt-4" onClick={clickedSignUp} >Sign Up</button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </Loader>
+                            <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div className="modal-dialog modal-dialog-centered">
+                                <div className="modal-content">
+                                <div className=" mx-auto my-auto">
+                                <div className="card-front">
+                                <div className="card-3d-wrapper  ">
+                                        <div className="center-wrap">
+                                            <div className="section text-center">
+                                                <h4 className="mb-4 pb-3">Email</h4>
+                                                <div className="form-group">
+                                                    <input type="email" onChange={handleLoginChange} name="lemail" className="form-style" placeholder="Your Email" id="lemail" value={loginData.lemail} />
+                                                    <i className="input-icons uil uil-at"></i>
+                                                </div>
+                                                <button  className="btn-2 btn-2-outline-warning mt-4 mb-5"  data-bs-dismiss="modal" onClick={handleForgotPasswordRequest} >Send Password</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                                </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

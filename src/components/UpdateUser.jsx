@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from "react"
 import {useHistory} from 'react-router-dom'
-import { setCurrentUser, showAlert } from "../actions"
+import { resetCurrentUser, setCurrentUser, setGuest, showAlert } from "../actions"
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "react-loader"
 
@@ -8,6 +8,7 @@ import Loader from "react-loader"
 var backendUrl="https://type-it-backend.herokuapp.com/"
 
 var userState;
+var guestState
 
 export default function UpdateUser() {
 
@@ -18,6 +19,10 @@ export default function UpdateUser() {
 
     userState=useSelector((state)=>{
         return state.handleUserState
+    })
+
+    guestState=useSelector((state)=>{
+        return state.handleGuestState
     })
     
     const [loaderState,setLoaderState]=useState(true)
@@ -30,6 +35,7 @@ export default function UpdateUser() {
         updatedPassword:""
         }
     )
+
     const [nameData,setNameData] =useState(
         {
         fName:userState.fName,
@@ -37,6 +43,8 @@ export default function UpdateUser() {
         userName:userState.userName
     }
     )
+
+
 
     useEffect(()=>{
         setLoaderState(true)
@@ -89,7 +97,7 @@ export default function UpdateUser() {
         let currPassword=passwordData.currPassword.trim()
         let updatedPassword=passwordData.updatedPassword.trim()
 
-        if(currPassword.length<5 || updatedPassword.length<5){
+        if(updatedPassword.length<5){
             dispatch(showAlert("Password should be atleast of 5 characters","danger"))
         }
         else{
@@ -122,9 +130,50 @@ export default function UpdateUser() {
                 dispatch(showAlert("Some error occured please try after some time, Sorry for the inconvenience","danger"))
             }
             setLoaderState(true)
+        }   
+    }
+
+    const handleDeleteAccount = async(event)=>{
+        event.preventDefault()
+        let currPassword=passwordData.currPassword.trim()
+
+        if(currPassword.length<5 || currPassword.length>15){
+            dispatch(showAlert("Invalid credentials","danger"))
         }
-        
-        
+        else{
+            setLoaderState(false)
+            try{
+                const response=await fetch(`${backendUrl}api/auth/deleteuser`,{
+                    method:"POST",
+                    headers:{
+                        "Content-Type":"application/json",
+                        "auth-token":`${localStorage.getItem("token")}`
+                    },
+                    body:JSON.stringify({currPassword})
+                });
+                const json=await response.json()
+                if(json.success){
+                    dispatch(showAlert("Account deleted successfully","warning"))
+                    localStorage.removeItem("token")
+                    dispatch(setGuest())
+                    dispatch(resetCurrentUser())
+                    history.push("/login");
+                }
+                else{
+                    if(json.error){
+                        dispatch(showAlert(json.error,"danger",4000));
+                    }
+                    else{
+                        dispatch(showAlert("Something went wrong","danger"))
+                    }
+                }
+            }
+            catch(e){
+                // console.log(e)
+                dispatch(showAlert("Some error occured please try after some time, Sorry for the inconvenience","danger"))
+            }
+            setLoaderState(true)
+        }   
     }
 
     const clickedChangeNames=async (event)=>{
@@ -184,7 +233,12 @@ export default function UpdateUser() {
 
     
     return (
-        <div className="section bg-dark mb-0">
+        <>
+        {guestState
+            ? 
+            <h1>You are playing as a guest !!!</h1>
+            :
+            <div className="section bg-dark mb-0">
             <div className="container pt-0">
                 <div className="row  justify-content-center">
                     <div className="col-12 text-center align-self-start ">
@@ -212,8 +266,9 @@ export default function UpdateUser() {
                                                         <input type="text" onChange={handleNamesChange} name="userName" className="form-style" placeholder="Your User Name" id="userName" value={nameData.userName}  />
                                                         <i className="input-icons uil uil-user"></i>
                                                     </div>
-                                                    <button className="btn-2 btn-2-outline-warning mt-4" onClick={clickedChangeNames} >Change Names</button>
+                                                    <button className="btn-2 btn-2-outline-warning mt-4 mb-4" onClick={clickedChangeNames} >Change Names</button>
                                                 </div>
+                                                <button  type="button" className="btn-2 btn-2-outline-warning mt-5"  data-bs-toggle="modal" data-bs-target="#exampleModal" >Delete Account</button>
                                             </div>
                                         </div>
                                         <div className="card-back ">
@@ -221,7 +276,7 @@ export default function UpdateUser() {
                                                 <div className="section text-center">
                                                     <h4 className="mb-4 pb-3">Change Password</h4>
                                                     <div className="form-group">
-                                                        <input type="password" onChange={handlePasswordChange} name="currPassword" className="form-style" placeholder="Old Password" id="currPassword" value={passwordData.currPassword} />
+                                                        <input type="password" onChange={handlePasswordChange} name="currPassword" className="form-style" placeholder="Current Password" id="currPassword" value={passwordData.currPassword} />
                                                         <i className="input-icons uil uil-lock-alt"></i>
                                                     </div>
                                                     <div className="form-group mt-4">
@@ -235,10 +290,34 @@ export default function UpdateUser() {
                                     </div>
                                 </div>
                             </Loader>
+                            <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div className="modal-dialog modal-dialog-centered">
+                                <div className="modal-content">
+                                <div className=" mx-auto my-auto">
+                                <div className="card-front">
+                                <div className="card-3d-wrapper  ">
+                                        <div className="center-wrap">
+                                            <div className="section text-center">
+                                                <h4 className="mb-4 pb-3">Password</h4>
+                                                <div className="form-group">
+                                                    <input type="password" onChange={handlePasswordChange} name="currPassword" className="form-style" placeholder="Enter Your Password" id="currPassword" value={passwordData.currPassword} />
+                                                    <i className="input-icons uil uil-lock-alt"></i>
+                                                </div>
+                                                <button  className="btn-2 btn-2-outline-warning mt-4 mb-5"  data-bs-dismiss="modal" onClick={handleDeleteAccount}  >Delete My Account</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                                </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    }
+    </>
     );
 }

@@ -215,6 +215,10 @@ a:hover {
     transform: rotateY(180deg);
 }
 
+.modal-backdrop {
+    opacity: 0.95!important;
+}
+
 .checkbox:checked~.card-3d-wrap .card-3d-wrapper {
     transform: rotateY(180deg);
 }
