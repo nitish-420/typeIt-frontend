@@ -1,7 +1,7 @@
 import {React,useState,useEffect} from 'react'
 import { useSelector ,useDispatch} from 'react-redux'
 import Loader from "react-loader"
-import { removeGuest, setCurrentUser,showAlert } from '../actions/index'
+import { removeGuest, resetCurrentUser, setCurrentUser,setGuest,showAlert } from '../actions/index'
 import { useHistory } from 'react-router-dom'
 import BestTable from "./BestTable"
 import UserAllTestTable from './UserAllTestTable'
@@ -293,17 +293,28 @@ export default function User() {
 
 
     const getBestForAll=async()=>{
-        await getBestForEnglish()
-        await getBestForPython()
-        await getBestForC()
-        await getBestForJava()
-        await getBestForJavaScript()
+        try{
+            await getBestForEnglish()
+            await getBestForPython()
+            await getBestForC()
+            await getBestForJava()
+            await getBestForJavaScript()
+        }
+        catch(e){
+            // console.log(e)
+            
+        }
 
     }
 
     const makeAllRequests = async()=>{
-        await getBestForAll()
-        await getAllTestDetailOfUser()
+        try{
+            await getBestForAll()
+            await getAllTestDetailOfUser()
+        }
+        catch(e){
+            // console.log(e)
+        }
     }
 
     const getCurrentUser = async()=>{
@@ -327,13 +338,16 @@ export default function User() {
             }
             else{
                 dispatch(showAlert(json.error,"danger"))
+                dispatch(setGuest())
+                dispatch(resetCurrentUser())
+                localStorage.removeItem("token")
                 history.push("/login")
             }
             setLoaderState(true)
             makeAllRequests()
         }
         catch(e){
-            history.push("/login")
+            // history.push("/login")
             dispatch(showAlert("Some error occured please try after some time, Sorry for the inconvenience","danger"))
         }
     }

@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import TestComplete from "./TestComplete"
 import Loader from "react-loader"
 
-import {startTest,stopTest, getWords, updateWords, getLanguageWords, updateLanguageWords, setCurrentUser, showAlert, removeGuest} from "../actions/index"
+import {startTest,stopTest, getWords, updateWords, getLanguageWords, updateLanguageWords, setCurrentUser, showAlert, removeGuest, resetCurrentUser, setGuest} from "../actions/index"
 import OtherLanguageEditor from './OtherLanguageEditor';
 
 import restart from '../Image/restart.png';
@@ -108,18 +108,20 @@ export default function Home() {
                 }
                 else{
                     dispatch(showAlert(json.error,"danger"))
+                    dispatch(setGuest())
+                    dispatch(resetCurrentUser())
+                    localStorage.removeItem("token")
                     history.push("/login")
                 }
 
-                setLoaderState(true)
             }
             catch(e){
-                setLoaderState(true)
-                history.push("/login")
+                // history.push("/login")
                 dispatch(showAlert("Some error occured please try after some time, Sorry for the inconvenience","danger"))
-
-
+                
+                
             }
+            setLoaderState(true)
         }
         if(userState.id===null && localStorage.getItem("token")!==null){
             dispatch(showAlert("Getting User data ...","warning"))

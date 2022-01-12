@@ -7,6 +7,7 @@ import About from "./components/About"
 import User from "./components/User"
 import Footer from "./components/Footer";
 import Leaderboard from "./components/LeaderBoard"
+import UpdateUser from "./components/UpdateUser";
 
 function App() {
 
@@ -33,6 +34,9 @@ function App() {
 						</Route>
 						<Route exact path="/leaderboard">
 							<Leaderboard/>
+						</Route>
+						<Route exact path="/updateuser">
+							<UpdateUser/>
 						</Route>
 					</Switch>
 			</Router>

@@ -4,7 +4,7 @@ import { useSelector ,useDispatch} from 'react-redux'
 import Loader from "react-loader"
 import LeaderBoardTable from "./LeaderBoardTable"
 import { useHistory } from 'react-router-dom'
-import { removeGuest, setCurrentUser,showAlert } from '../actions/index'
+import { removeGuest, resetCurrentUser, setCurrentUser,setGuest,showAlert } from '../actions/index'
 
 
 var userState
@@ -78,12 +78,15 @@ export default function LeaderBoard() {
                 }
                 else{
                     dispatch(showAlert(json.error,"danger"))
+                    dispatch(setGuest())
+                    dispatch(resetCurrentUser())
+                    localStorage.removeItem("token")
                     history.push("/login")
                 }
                 getLeaderBoardForLanguage()
             }
             catch(e){
-                history.push("/login")
+                // history.push("/login")
                 dispatch(showAlert("Some error occured please try after some time, Sorry for the inconvenience","danger"))
 
             }

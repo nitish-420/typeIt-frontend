@@ -25,6 +25,10 @@ function Navbar(props) {
 		return state.handleTestState
 	})
 
+    let guestState=useSelector((state)=>{
+        return state.handleGuestState
+    })
+
 
     const handleLogout=()=>{
         localStorage.removeItem("token")
@@ -101,6 +105,9 @@ function Navbar(props) {
                         <div className={`mx-1 p-0  nav-link ${languageState==="Javascript" ? "text-light fs-6" : "text-muted"}`} onClick={()=>dispatch(setLanguage("Javascript"))} >JavaScript</div>
                         <div className={`mx-1 p-0  nav-link ${languageState==="Java" ? "text-light fs-6" : "text-muted"}`} onClick={()=>dispatch(setLanguage("Java"))} >Java</div>
                     </div>
+                </div>
+                <div className={`col-2 me-0 ${(!guestState && location.pathname==='/user') ? "fs-5" : "d-none"}`} >
+                    <Link className={`m-0 p-0 nav-link ${location.pathname==="/updateuser" ? "text-light navbar-brand " : "text-muted"}`} to="/updateUser" >Update User</Link>
                 </div>
             </nav>
         </div>
