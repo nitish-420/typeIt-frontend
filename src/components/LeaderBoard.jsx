@@ -96,7 +96,7 @@ export default function LeaderBoard() {
 
                     setLeaderBoardData(()=>{
                         return {
-                            ...json.final,
+                            ...final,
                             success:true
                         }
                     })
@@ -104,7 +104,6 @@ export default function LeaderBoard() {
                 else{
                     setLeaderBoardData({success:false})
                 }
-
             }
             catch(e){
                 // console.log(e)
