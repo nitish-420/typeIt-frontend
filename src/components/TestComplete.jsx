@@ -130,14 +130,14 @@ export default function TestComplete(props) {
                         <div className="col text-center mt-4">
                         <h5 className="text-muted font-">Speed (wpm)</h5>
                         <h2 className='display-1'>{props.speed}{userState.bestSpeed===props.speed && userState.bestAccuracy===props.accuracy ? "*" : ""}</h2>
-                        <h5 className="text-muted font-">Avg {userState.averageSpeed}</h5>
+                        <h5 className={`text-muted font- ${userState.averageSpeed!==null?"":"d-none"}`}>Avg {userState.averageSpeed}</h5>
                         </div>
                         </div>
                         <div className="t-card">
                         <div className="col text-center mt-4">
                         <h5 className="text-muted font-">Accuracy (%)</h5>
                         <h2 className='display-1'>{props.accuracy}</h2>
-                        <h5 className="text-muted font-">Avg {userState.averageAccuracy}</h5>
+                        <h5 className={`text-muted font- ${userState.averageAccuracy!==null?"":"d-none"}`}>Avg {userState.averageAccuracy}</h5>
                         </div>
                         </div>
                 </div>

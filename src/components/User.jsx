@@ -409,7 +409,7 @@ export default function User() {
                         </div>
                         <div className="row">
                             <div className="col text-center">
-                            <h6 className="text-muted font-">Acuuracy with Best Speed</h6>
+                            <h6 className="text-muted font-">Accuracy with Best Speed</h6>
                             <h2>{userState.bestAccuracy}</h2>   
                             </div>
                             <div className="col text-center">
