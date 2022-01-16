@@ -47,7 +47,15 @@ export default function LeaderBoard() {
 
                 if(json.success){
                     // console.log(json)
-                    await json.final.time15.sort((a,b)=>{
+                    var final={
+                        time15:[],
+                        time30:[],
+                        time60:[],
+                        time120:[]
+                    }
+                    await json.leaderboardData.forEach((data)=>final[`time${data.time}`]=data.tests)
+
+                    final.time15.sort((a,b)=>{
                         if(a.speed===b.speed){
                             if(a.accuracy===b.accuracy){
                                 let datea=new Date(a.timeOfTest).getTime()
@@ -58,7 +66,7 @@ export default function LeaderBoard() {
                         }
                         return b.speed-a.speed
                     })
-                    await json.final.time30.sort((a,b)=>{
+                    final.time30.sort((a,b)=>{
                         if(a.speed===b.speed){
                             if(a.accuracy===b.accuracy){
                                 return a.timeOfTest-b.timeOfTest
@@ -67,7 +75,7 @@ export default function LeaderBoard() {
                         }
                         return b.speed-a.speed
                     })
-                    await json.final.time60.sort((a,b)=>{
+                    final.time60.sort((a,b)=>{
                         if(a.speed===b.speed){
                             if(a.accuracy===b.accuracy){
                                 return a.timeOfTest-b.timeOfTest
@@ -76,7 +84,7 @@ export default function LeaderBoard() {
                         }
                         return b.speed-a.speed
                     })
-                    await json.final.time120.sort((a,b)=>{
+                    final.time120.sort((a,b)=>{
                         if(a.speed===b.speed){
                             if(a.accuracy===b.accuracy){
                                 return a.timeOfTest-b.timeOfTest
