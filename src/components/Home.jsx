@@ -230,7 +230,7 @@ export default function Home(props) {
             })
             if(rightCount>0){
                 liveWpm=Math.ceil(((rightCount)*12)/(timeState-tempLiveTimer))
-                liveAccuracy=Math.ceil(((rightCount)*100)/(wrongCount+rightCount))
+                liveAccuracy=Math.floor(((rightCount)*100)/(wrongCount+rightCount))
             }
             else{
                 liveWpm=0
