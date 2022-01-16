@@ -11,7 +11,9 @@ const initialState={
     averageSpeed:null,
     bestAccuracy:null,
     averageAccuracy:null,
-    status:null
+    status:null,
+    tests:[],
+    bests:[]
 }
 
 const handleUserState=(state=initialState,action)=>{

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Loader from "react-loader"
 
 
-var backendUrl="https://type-it-backend.herokuapp.com/"
+var backendUrl
 
 var userState;
 var guestState
@@ -21,8 +21,16 @@ export default function UpdateUser() {
         return state.handleUserState
     })
 
+    if(userState.userName===null){
+        history.push("/user")
+    }
+
     guestState=useSelector((state)=>{
         return state.handleGuestState
+    })
+
+    backendUrl=useSelector((state)=>{
+        return state.handleBackendUrlState
     })
     
     const [loaderState,setLoaderState]=useState(true)
@@ -33,6 +41,12 @@ export default function UpdateUser() {
         {
         currPassword:"",
         updatedPassword:""
+        }
+    )
+
+    const [deleteData,setDeleteData] =useState(
+        {
+        delPassword:"",
         }
     )
 
@@ -66,6 +80,17 @@ export default function UpdateUser() {
     function handleNamesChange(event){
         const {name,value}=event.target
         setNameData((prev)=>{
+            return {
+                ...prev,
+                [name]:value
+            }
+
+        })
+    }
+
+    function handleDeleteChange(event){
+        const {name,value}=event.target
+        setDeleteData((prev)=>{
             return {
                 ...prev,
                 [name]:value
@@ -135,7 +160,7 @@ export default function UpdateUser() {
 
     const handleDeleteAccount = async(event)=>{
         event.preventDefault()
-        let currPassword=passwordData.currPassword.trim()
+        let currPassword=deleteData.delPassword.trim()
 
         if(currPassword.length<5 || currPassword.length>15){
             dispatch(showAlert("Invalid credentials","danger"))
@@ -154,10 +179,10 @@ export default function UpdateUser() {
                 const json=await response.json()
                 if(json.success){
                     dispatch(showAlert("Account deleted successfully","warning"))
+                    history.push("/login");
                     localStorage.removeItem("token")
                     dispatch(setGuest())
                     dispatch(resetCurrentUser())
-                    history.push("/login");
                 }
                 else{
                     if(json.error){
@@ -257,16 +282,16 @@ export default function UpdateUser() {
                                             <div className="center-wrap">
                                                 <div className="section text-center">
                                                     <h4 className="mb-4 pb-3" >Change Names</h4>
-                                                    <div className="form-group">
+                                                    <div className="form-group ">
+                                                        <input type="text" onChange={handleNamesChange} name="userName" className="form-style" placeholder="Your User Name" id="userName" value={nameData.userName}  />
+                                                        <i className="input-icons uil uil-user"></i>
+                                                    </div>
+                                                    <div className="form-group mt-2">
                                                         <input type="text" onChange={handleNamesChange} name="fName" className="form-style" placeholder="Your First Name" id="fName" value={nameData.fName} />
                                                         <i className="input-icons uil uil-user"></i>
                                                     </div>
                                                     <div className="form-group mt-2">
                                                         <input type="text" onChange={handleNamesChange} name="lName" className="form-style" placeholder="Your Last Name" id="lName" value={nameData.lName}  />
-                                                        <i className="input-icons uil uil-user"></i>
-                                                    </div>
-                                                    <div className="form-group mt-2">
-                                                        <input type="text" onChange={handleNamesChange} name="userName" className="form-style" placeholder="Your User Name" id="userName" value={nameData.userName}  />
                                                         <i className="input-icons uil uil-user"></i>
                                                     </div>
                                                     <button className="btn-2 btn-2-outline-warning mt-4 mb-4" onClick={clickedChangeNames} >Change Names</button>
@@ -303,7 +328,7 @@ export default function UpdateUser() {
                                             <div className="section text-center">
                                                 <h4 className="mb-4 pb-3">Password</h4>
                                                 <div className="form-group">
-                                                    <input type="password" onChange={handlePasswordChange} name="currPassword" className="form-style" placeholder="Enter Your Password" id="currPassword" value={passwordData.currPassword} />
+                                                    <input type="password" onChange={handleDeleteChange} name="delPassword" className="form-style" placeholder="Enter Your Password" id="delPassword" value={deleteData.delPassword} />
                                                     <i className="input-icons uil uil-lock-alt"></i>
                                                 </div>
                                                 <button  className="btn-2 btn-2-outline-warning mt-4 mb-5"  data-bs-dismiss="modal" onClick={handleDeleteAccount}  >Delete My Account</button>

@@ -22,7 +22,7 @@ export default function UserAllTestTable(props) {
 
     return (
         <>
-            { (testData.length===0 || testData[0]===null)
+            { (testData.length===0)
             ?
             <div>
                 <h1 className='text-center' style={{color:"#ffeba7"}}>

@@ -15,7 +15,7 @@ var initialBestState={
     time60:null,
     time120:null
 }
-var backendUrl="https://type-it-backend.herokuapp.com/"
+var backendUrl
 
 export default function User() {
     
@@ -27,13 +27,19 @@ export default function User() {
         return state.handleGuestState
     })
 
-    if(guestState){
+
+    if(guestState && !localStorage.getItem("token")){
         history.push("/login")
         dispatch(showAlert("Please Log In first.","warning","2500"))
     }
     
     userState=useSelector((state)=>{
         return state.handleUserState
+    })
+
+
+    backendUrl=useSelector((state)=>{
+        return state.handleBackendUrlState
     })
     
     const [loaderState,setLoaderState]=useState(true)
@@ -44,255 +50,188 @@ export default function User() {
     const [javaBest,setJavaBest]=useState({...initialBestState})
     const [javascriptBest,setJavaScriptBest]=useState({...initialBestState})
     const [allTests,setAllTests]=useState([])
+    const [allTestsLoader,setAllTestsLoader]=useState(false)
 
     const [madeAllRequest,setMadeAllRequest]=useState(false)
 
     useEffect(()=>{
     
     const getBestForEnglish=async()=>{
-        try{
-            
-            const response= await fetch(`${backendUrl}api/test/getbest`,{
-                method:"POST",
-                headers:{
-                    "Content-Type":"application/json",
-                    "auth-token":`${localStorage.getItem("token")}`
-                },
-                body:JSON.stringify({
-                    "language":"English"
-                })
-            })
-    
-            const json=await response.json()
-            if(json.success){
 
-                setEnglishBest(()=>{
-                    return {
-                        ...json.final,
-                        success:true
-                    }
-                })
-            }
-            else{
-                setEnglishBest((prev)=>{
-                    return {
-                        ...prev,
-                        success:true
-                    }
-                })
-            }
+        let finalBestState={
+            success:true,
+            time15:null,
+            time30:null,
+            time60:null,
+            time120:null
         }
-        catch(e){
-            setEnglishBest((prev)=>{
-                return {
-                    ...prev,
-                    success:true
+
+        userState.bests.forEach((data)=>{
+            if(data.language==="English"){
+                if(data.testTime===15){
+                    finalBestState.time15=data
                 }
-            })
-            // console.log(e)
-        }
+                else if(data.testTime===30){
+                    finalBestState.time30=data
+                }
+                else if(data.testTime===60){
+                    finalBestState.time60=data
+                }
+                else if(data.testTime===120){
+                    finalBestState.time120=data
+                }
+            }
+            return;
+        })
+
+        setEnglishBest((prev)=>{
+            return{...finalBestState}
+        })
         
     }
     const getBestForPython=async()=>{
-        try{
-            
-            const response= await fetch(`${backendUrl}api/test/getbest`,{
-                method:"POST",
-                headers:{
-                    "Content-Type":"application/json",
-                    "auth-token":`${localStorage.getItem("token")}`
-                },
-                body:JSON.stringify({
-                    "language":"Python"
-                })
-            })
-            
-            const json=await response.json()
-            if(json.success){
+        
+        let finalBestState={
+            success:true,
+            time15:null,
+            time30:null,
+            time60:null,
+            time120:null
+        }
 
-                setPythonBest(()=>{
-                    return {
-                        ...json.final,
-                        success:true
-                    }
-                })
-            }
-            else{
-                setPythonBest((prev)=>{
-                    return {
-                        ...prev,
-                        success:true
-                    }
-                })
-            }
-        }
-        catch(e){
-            // console.log(e)
-            setPythonBest((prev)=>{
-                return {
-                    ...prev,
-                    success:true
+        userState.bests.forEach((data)=>{
+            if(data.language==="Python"){
+                if(data.testTime===15){
+                    finalBestState.time15=data
                 }
-            })
-            
-        }
+                else if(data.testTime===30){
+                    finalBestState.time30=data
+                }
+                else if(data.testTime===60){
+                    finalBestState.time60=data
+                }
+                else if(data.testTime===120){
+                    finalBestState.time120=data
+                }
+            }
+            return;
+        })
+
+        setPythonBest((prev)=>{
+            return{...finalBestState}
+        })
         
     }
     const getBestForC=async()=>{
-        try{
-            const response= await fetch(`${backendUrl}api/test/getbest`,{
-                method:"POST",
-                headers:{
-                    "Content-Type":"application/json",
-                    "auth-token":`${localStorage.getItem("token")}`
-                },
-                body:JSON.stringify({
-                    "language":"C"
-                })
-            })
         
-            const json=await response.json()
-            if(json.success){
+        let finalBestState={
+            success:true,
+            time15:null,
+            time30:null,
+            time60:null,
+            time120:null
+        }
 
-                setCBest(()=>{
-                    return {
-                        ...json.final,
-                        success:true
-                    }
-                })
-            }
-            else{
-                setCBest((prev)=>{
-                    return {
-                        ...prev,
-                        success:true
-                    }
-                })
-            }
-            
-        }
-        catch(e){
-            // console.log(e)
-            setCBest((prev)=>{
-                return {
-                    ...prev,
-                    success:true
+        userState.bests.forEach((data)=>{
+            if(data.language==="C"){
+                if(data.testTime===15){
+                    finalBestState.time15=data
                 }
-            })
-        }
+                else if(data.testTime===30){
+                    finalBestState.time30=data
+                }
+                else if(data.testTime===60){
+                    finalBestState.time60=data
+                }
+                else if(data.testTime===120){
+                    finalBestState.time120=data
+                }
+            }
+            return;
+        })
+
+        setCBest((prev)=>{
+            return{...finalBestState}
+        })
         
     }
 
     const getBestForJava=async()=>{
-        try{
-            const response= await fetch(`${backendUrl}api/test/getbest`,{
-                method:"POST",
-                headers:{
-                    "Content-Type":"application/json",
-                    "auth-token":`${localStorage.getItem("token")}`
-                },
-                body:JSON.stringify({
-                    "language":"Java"
-                })
-            })
         
-            const json=await response.json()
-            if(json.success){
+        let finalBestState={
+            success:true,
+            time15:null,
+            time30:null,
+            time60:null,
+            time120:null
+        }
 
-                setJavaBest(()=>{
-                    return {
-                        ...json.final,
-                        success:true
-                    }
-                })
-            }
-            else{
-            }
-            
-        }
-        catch(e){
-            // console.log(e)
-            setJavaBest((prev)=>{
-                return {
-                    ...prev,
-                    success:true
+        userState.bests.forEach((data)=>{
+            if(data.language==="Java"){
+                if(data.testTime===15){
+                    finalBestState.time15=data
                 }
-            })
-        }
+                else if(data.testTime===30){
+                    finalBestState.time30=data
+                }
+                else if(data.testTime===60){
+                    finalBestState.time60=data
+                }
+                else if(data.testTime===120){
+                    finalBestState.time120=data
+                }
+            }
+            return;
+        })
+
+        setJavaBest((prev)=>{
+            return{...finalBestState}
+        })
         
     }
 
     const getBestForJavaScript=async()=>{
-        try{
-            const response= await fetch(`${backendUrl}api/test/getbest`,{
-                method:"POST",
-                headers:{
-                    "Content-Type":"application/json",
-                    "auth-token":`${localStorage.getItem("token")}`
-                },
-                body:JSON.stringify({
-                    "language":"Javascript"
-                })
-            })
         
-            const json=await response.json()
-            if(json.success){
+        let finalBestState={
+            success:true,
+            time15:null,
+            time30:null,
+            time60:null,
+            time120:null
+        }
 
-                setJavaScriptBest(()=>{
-                    return {
-                        ...json.final,
-                        success:true
-                    }
-                })
-            }
-            else{
-            }
-            
-        }
-        catch(e){
-            setJavaScriptBest((prev)=>{
-                return {
-                    ...prev,
-                    success:true
+        userState.bests.forEach((data)=>{
+            if(data.language==="Javascript"){
+                if(data.testTime===15){
+                    finalBestState.time15=data
                 }
-            })
-            // console.log(e)
-        }
+                else if(data.testTime===30){
+                    finalBestState.time30=data
+                }
+                else if(data.testTime===60){
+                    finalBestState.time60=data
+                }
+                else if(data.testTime===120){
+                    finalBestState.time120=data
+                }
+            }
+            return;
+        })
+
+        setJavaScriptBest((prev)=>{
+            return{...finalBestState}
+        })
         
     }
     
     const getAllTestDetailOfUser= async ()=>{
-        
-        try{
-            const response= await fetch(`${backendUrl}api/test/getuserall`,{
-                method:"POST",
-                headers:{
-                    "Content-Type":"application/json",
-                    "auth-token":`${localStorage.getItem("token")}`
-                }
-            })
-        
-            const json=await response.json()
-            if(json.success){
-                if(json.result.length===0){
-                    setAllTests([null])
-                }
-                else{
-                    setAllTests(()=>{
-                        return json.result
-                    })
-                }
-            }
-            else{
-                setAllTests([null])
-            }
-            
-        }
-        catch(e){
-            setAllTests([null])
-            // console.log(e)
-            
-        }
+
+        let temp=[...userState.tests]
+
+        setAllTests((prev)=>{
+            return temp.reverse()
+        })
+        setAllTestsLoader(true)
     }
 
 
@@ -302,8 +241,8 @@ export default function User() {
             await getBestForEnglish()
             await getBestForPython()
             await getBestForC()
-            await getBestForJava()
             await getBestForJavaScript()
+            await getBestForJava()
         }
         catch(e){
             // console.log(e)
@@ -337,9 +276,6 @@ export default function User() {
             if(json.success){
                 dispatch(setCurrentUser(json.user))
                 dispatch(removeGuest())
-                // if(json.user.status===0){
-                //     dispatch(showAlert("Please verify your account, link has been sended again at your email, reload the page after verifing","danger",2000))
-                // }
             }
             else{
                 dispatch(showAlert(json.error,"danger"))
@@ -403,21 +339,21 @@ export default function User() {
                             <h2>{getTimeInMinutes(userState.totalTimeSpend)}</h2>              
                             </div>
                             <div className="col text-center">
-                            <h6 className="text-muted font-">Best Speed</h6>
-                            <h2>{userState.bestSpeed}</h2>   
+                            <h6 className="text-muted font-">Average Speed (wpm)</h6>
+                            <h2>{userState.averageSpeed}</h2> 
                             </div>
                         </div>
                         <div className="row">
                             <div className="col text-center">
-                            <h6 className="text-muted font-">Accuracy with Best Speed</h6>
+                            <h6 className="text-muted font-">Best Speed (wpm)</h6>
+                            <h2>{userState.bestSpeed}</h2>   
+                            </div>
+                            <div className="col text-center">
+                            <h6 className="text-muted font-">Accuracy with Best Speed (%)</h6>
                             <h2>{userState.bestAccuracy}</h2>   
                             </div>
                             <div className="col text-center">
-                            <h6 className="text-muted font-">Average Speed</h6>
-                            <h2>{userState.averageSpeed}</h2> 
-                            </div>
-                            <div className="col text-center">
-                            <h6 className="text-muted font-">Average Accuracy</h6>
+                            <h6 className="text-muted font-">Average Accuracy (%)</h6>
                             <h2>{userState.averageAccuracy}</h2>  
                             </div>
                         </div>
@@ -456,26 +392,24 @@ export default function User() {
                     </div>
                     <div className='col-10 col-lg-6 p-3' style={{minHeight:"300px"}}>
                         <h1 className='text-center' style={{color:"#ffeba7"}}>
+                            JavaScript
+                        </h1>
+                        <Loader loaded={javascriptBest.success} className="spinner" color="#FFF" radius={10} width={3} trail={60} speed={1} position='relative' top='100px'/>
+                            <BestTable  bestData={javascriptBest}/>
+
+                    </div>
+                    <div className='col-10 col-lg-6 p-3' style={{minHeight:"300px"}}>
+                        <h1 className='text-center' style={{color:"#ffeba7"}}>
                             Java
                         </h1>
                         <Loader loaded={javaBest.success} className="spinner" color="#FFF" radius={10} width={3} trail={60} speed={1} position='relative' top='100px'/>
                             <BestTable  bestData={javaBest}/>
                         {/* </Loader> */}
                     </div>
-                    <div className='col-10 col-lg-6 p-3' style={{minHeight:"300px"}}>
-                        <h1 className='text-center' style={{color:"#ffeba7"}}>
-                            JavaScript
-                        </h1>
-                        <Loader loaded={javascriptBest.success} className="spinner" color="#FFF" radius={10} width={3} trail={60} speed={1} position='relative' top='100px'/>
-                            <BestTable  bestData={javascriptBest}/>
-                        {/* </Loader> */}
-
-                    </div>
                 </div>
                 <div className='p-4' style={{minHeight:"300px"}}>
-                    <Loader loaded={allTests.length!==0} className="spinner" color="#FFF" radius={10} width={3} trail={60} speed={1} position='relative' top='200px'  />
+                    <Loader loaded={allTestsLoader} className="spinner" color="#FFF" radius={10} width={3} trail={60} speed={1} position='relative' top='200px'  />
                         <UserAllTestTable  testData={allTests}/>
-                    {/* </Loader> */}
                 </div>
             </div> :
             <div>

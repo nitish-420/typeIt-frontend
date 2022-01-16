@@ -1,11 +1,11 @@
-import React,{useState,useEffect} from "react"
+import React,{useState,useEffect,useRef} from "react"
 import {useHistory} from 'react-router-dom'
 import { showAlert,removeGuest, setCurrentUser } from "../actions"
 import { useDispatch } from "react-redux";
 import Loader from "react-loader"
+import { useSelector } from "react-redux";
 
-
-var backendUrl="https://type-it-backend.herokuapp.com/"
+var backendUrl
 
 export default function Login() {
 
@@ -16,14 +16,29 @@ export default function Login() {
 
     localStorage.removeItem("token")
 
+
+    backendUrl=useSelector((state)=>{
+        return state.handleBackendUrlState
+    })
+
+    const loginPasswordInputReference=useRef(null)
+    const signupPasswordInputReference=useRef(null)
+    const loginButtonReference=useRef(null)
+    const signupButtonReference=useRef(null)
     
     const [loaderState,setLoaderState]=useState(true)
 
 
     const [loginData,setLoginData] =useState(
         {
-        lemail:"",
+        luserName:"",
         lpassword:""
+        }
+    )
+
+    const [forgotData,setForgotData] =useState(
+        {
+        forgotemail:""
         }
     )
     const [signUpData,setSignUpData] =useState(
@@ -42,17 +57,6 @@ export default function Login() {
 
         return ()=>{
             setLoaderState(true)
-            // setLoginData({
-            //     lemail:"",
-            //     lpassword:""
-            //     })
-            // setSignUpData({
-            //     fName:"",
-            //     lName:"",
-            //     userName:"",
-            //     email:"",
-            //     password:""
-            // })
         }
     },[])
 
@@ -75,6 +79,18 @@ export default function Login() {
             }
 
         })
+    }
+    
+    function handleForgotEmailChange(event){
+        const {name,value}=event.target
+        setForgotData((prev)=>{
+            return {
+                ...prev,
+                [name]:value
+            }
+    
+        })
+        
     }
 
 
@@ -102,12 +118,20 @@ export default function Login() {
 
     }
 
+    function validateUserName(userName){
+        if(userName.length<3 || userName.length>20){
+            return false;
+        }
+        return true
+
+    }
+
     const clickedLogin=async (event)=>{
         event.preventDefault()
-        let email=loginData.lemail.trim()
+        let userName=loginData.luserName.trim()
         let password=loginData.lpassword.trim()
-        if(!validateEmail(email)){
-            dispatch(showAlert("Please enter a valid email","danger"))
+        if(!validateUserName(userName)){
+            dispatch(showAlert("Length of userName should be between 3-20","danger"))
         }
         else if(password.length<5){
             dispatch(showAlert("Invalid credentials","danger"))
@@ -121,12 +145,12 @@ export default function Login() {
                     headers:{
                         "Content-Type":"application/json"
                     },
-                    body:JSON.stringify({email,password})
+                    body:JSON.stringify({userName,password})
                 });
                 const json=await response.json()
                 if(json.success){
                     localStorage.setItem('token',json.authtoken)
-                    dispatch(showAlert("Welcome back","success"))
+                    dispatch(showAlert(`Welcome ${json.user.userName}` ,"success"))
                     dispatch(removeGuest())
                     dispatch(setCurrentUser(json.user))
                     history.push("/");
@@ -150,7 +174,7 @@ export default function Login() {
     
     const handleForgotPasswordRequest=async (event)=>{
         event.preventDefault()
-        let email=loginData.lemail.trim()
+        let email=forgotData.forgotemail.trim()
         if(!validateEmail(email)){
             dispatch(showAlert("Please enter a valid email to reset password","danger"))
         }
@@ -197,8 +221,8 @@ export default function Login() {
         if(!validateName(fName,lName)){
             dispatch(showAlert("Length of Name should be between 3-20 and should contains only alphabets","danger",2000))
         }
-        else if(userName.length<3 || userName.length>15){
-            dispatch(showAlert("Length of username should be between 3-15","danger",2000))
+        else if(!validateUserName(userName)){
+            dispatch(showAlert("Length of username should be between 3-20","danger",2000))
 
         }
         else if(!validateEmail(email)){
@@ -223,7 +247,7 @@ export default function Login() {
                     dispatch(showAlert("Signed up successfully, please verify your email by clicking on link sended at your email and then login","success",4000))
                     setLoginData((prev)=>{
                         return {
-                            "lemail":email,
+                            "luserName":userName,
                             "lpassword":password
                         }
                     })
@@ -236,15 +260,13 @@ export default function Login() {
                         password:""
                         }
                     })
-                    // dispatch(removeGuest())
-                    // history.push("/login");
-                    // setTimeout(()=>{
-                    //     window.location.reload(true)
-                    // },2000)
+                }
+                else if(json.error){
+                    dispatch(showAlert(json.error,"danger"))
+                    // console.log(json)
                 }
                 else{
-                    dispatch(showAlert("Invalid credentials","danger"))
-                    // console.log(json)
+                    dispatch(showAlert("Something went wrong","danger"))
                 }
             }
             catch(e){
@@ -274,14 +296,14 @@ export default function Login() {
                                                 <div className="section text-center">
                                                     <h4 className="mb-4 pb-3">Log In</h4>
                                                     <div className="form-group">
-                                                        <input type="email" onChange={handleLoginChange} name="lemail" className="form-style" placeholder="Your Email" id="lemail" value={loginData.lemail} />
-                                                        <i className="input-icons uil uil-at"></i>
+                                                        <input type="text" onChange={handleLoginChange} name="luserName" className="form-style" placeholder="Your User name" id="luserName" value={loginData.luserName} />
+                                                        <i className="input-icons uil uil-user"></i>
                                                     </div>
                                                     <div className="form-group mt-4">
-                                                        <input type="password" onChange={handleLoginChange} name="lpassword" className="form-style" placeholder="Your Password" id="lpassword"  value={loginData.lpassword} />
+                                                        <input ref={loginPasswordInputReference} type="password" onChange={handleLoginChange} name="lpassword" className="form-style" placeholder="Your Password" id="lpassword"  value={loginData.lpassword} onKeyPress={(key)=>(key.code==="Enter" && loginButtonReference.current.click() )}/>
                                                         <i className="input-icons uil uil-lock-alt"></i>
                                                     </div>
-                                                    <button  className="btn-2 btn-2-outline-warning mt-4 mb-5"  onClick={clickedLogin} >Log In</button>
+                                                    <button ref={loginButtonReference}  className="btn-2 btn-2-outline-warning mt-4 mb-5"  onClick={clickedLogin} >Log In</button>
                                                 </div>
                                                 <button  type="button" className="btn-2 btn-2-outline-warning mt-5"  data-bs-toggle="modal" data-bs-target="#exampleModal" >Forgot password?</button>
                                             </div>
@@ -290,16 +312,16 @@ export default function Login() {
                                             <div className="center-wrap">
                                                 <div className="section text-center">
                                                     <h4 className="mb-4 pb-3" >Sign Up</h4>
-                                                    <div className="form-group">
+                                                    <div className="form-group ">
+                                                        <input type="text" onChange={handleSignUpChange} name="userName" className="form-style" placeholder="Your User Name" id="userName" value={signUpData.userName}  />
+                                                        <i className="input-icons uil uil-user"></i>
+                                                    </div>
+                                                    <div className="form-group mt-2">
                                                         <input type="text" onChange={handleSignUpChange} name="fName" className="form-style" placeholder="Your First Name" id="fName" value={signUpData.fName} />
                                                         <i className="input-icons uil uil-user"></i>
                                                     </div>
                                                     <div className="form-group mt-2">
-                                                        <input type="text" onChange={handleSignUpChange} name="lName" className="form-style" placeholder="Your Last Name" id="lName" value={signUpData.lName}  />
-                                                        <i className="input-icons uil uil-user"></i>
-                                                    </div>
-                                                    <div className="form-group mt-2">
-                                                        <input type="text" onChange={handleSignUpChange} name="userName" className="form-style" placeholder="Your User Name" id="userName" value={signUpData.userName}  />
+                                                        <input type="text" onChange={handleSignUpChange} name="lName" className="form-style" placeholder="Your Last Name (optional)" id="lName" value={signUpData.lName}  />
                                                         <i className="input-icons uil uil-user"></i>
                                                     </div>
                                                     <div className="form-group mt-2">
@@ -307,10 +329,10 @@ export default function Login() {
                                                         <i className="input-icons uil uil-at"></i>
                                                     </div>
                                                     <div className="form-group mt-2">
-                                                        <input type="password" onChange={handleSignUpChange} name="password" className="form-style" placeholder="Your Password" id="password" value={signUpData.password}  />
+                                                        <input ref={signupPasswordInputReference} type="password" onChange={handleSignUpChange} name="password" className="form-style" placeholder="Your Password" id="password" value={signUpData.password} onKeyPress={(key)=>(key.code==="Enter" && signupButtonReference.current.click() )} />
                                                         <i className="input-icons uil uil-lock-alt"></i>
                                                     </div>
-                                                    <button className="btn-2 btn-2-outline-warning mt-4" onClick={clickedSignUp} >Sign Up</button>
+                                                    <button ref={signupButtonReference} className="btn-2 btn-2-outline-warning mt-4" onClick={clickedSignUp} >Sign Up</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -327,7 +349,7 @@ export default function Login() {
                                             <div className="section text-center">
                                                 <h4 className="mb-4 pb-3">Email</h4>
                                                 <div className="form-group">
-                                                    <input type="email" onChange={handleLoginChange} name="lemail" className="form-style" placeholder="Your Email" id="lemail" value={loginData.lemail} />
+                                                    <input type="email" onChange={handleForgotEmailChange} name="forgotemail" className="form-style" placeholder="Your Email" id="forgotemail" value={forgotData.forgotemail} />
                                                     <i className="input-icons uil uil-at"></i>
                                                 </div>
                                                 <button  className="btn-2 btn-2-outline-warning mt-4 mb-5"  data-bs-dismiss="modal" onClick={handleForgotPasswordRequest} >Send Password</button>

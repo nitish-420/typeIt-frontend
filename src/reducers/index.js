@@ -6,6 +6,7 @@ import handleLanguageState from "./setLanguage";
 import handleTestState from "./startTest";
 import handleWordState from "./getWords";
 import handleUserState from "./userState";
+import handleBackendUrlState from "./backendUrl";
 
 const rootReducer=combineReducers({
     showTheAlert,
@@ -14,7 +15,8 @@ const rootReducer=combineReducers({
     handleLanguageState,
     handleTestState,
     handleWordState,
-    handleUserState
+    handleUserState,
+    handleBackendUrlState
 });
 
 export default rootReducer

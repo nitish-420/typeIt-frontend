@@ -25,12 +25,11 @@ var caret
 var liveAccuracy=0
 var liveWpm=0
 var currentTestTime
+var currentTestLanguage
+var backendUrl
 
-var backendUrl="https://type-it-backend.herokuapp.com/"
+export default function Home(props) {
 
-
-
-export default function Home() {
     
     const dispatch=useDispatch()
     
@@ -40,6 +39,10 @@ export default function Home() {
     
     let guestState=useSelector((state)=>{
         return state.handleGuestState
+    })
+
+    backendUrl=useSelector((state)=>{
+        return state.handleBackendUrlState
     })
 
 
@@ -80,10 +83,6 @@ export default function Home() {
     let [currWord,setCurrWord]=useState("")
 
     let [activeWordIndex,setActiveWordIndex]=useState(0)
-
-    useEffect(()=>{
-        currentTestTime=timeState
-    },[])
     
     useEffect(()=>{
 
@@ -102,9 +101,6 @@ export default function Home() {
                 if(json.success){
                     dispatch(setCurrentUser(json.user))
                     dispatch(removeGuest())
-                    // if(json.user.status===0){
-                    //     dispatch(showAlert("Please verify your account, link has been sended again at your email, reload the page after verifing","danger",2000))
-                    // }
                 }
                 else{
                     dispatch(showAlert(json.error,"danger"))
@@ -113,7 +109,6 @@ export default function Home() {
                     localStorage.removeItem("token")
                     history.push("/login")
                 }
-
             }
             catch(e){
                 // history.push("/login")
@@ -226,14 +221,16 @@ export default function Home() {
         catch(e){
             // console.log(e)
         }
+        currentTestTime=timeState
+        currentTestLanguage=languageState
         let intervalId=setInterval(()=>{
             setLiveTimer((prev)=>{
                 tempLiveTimer=prev-1
                 return prev-1
             })
             if(rightCount>0){
-                liveWpm=Math.floor(((rightCount)*12)/(timeState-tempLiveTimer))
-                liveAccuracy=Math.floor(((rightCount)*100)/(wrongCount+rightCount))
+                liveWpm=Math.ceil(((rightCount)*12)/(timeState-tempLiveTimer))
+                liveAccuracy=Math.ceil(((rightCount)*100)/(wrongCount+rightCount))
             }
             else{
                 liveWpm=0
@@ -339,46 +336,20 @@ export default function Home() {
             case " ":
                 e.preventDefault()
                 if(typedWord.length!==0){
-                    if(languageState==="English"){
-                        // rightCount+=1
-                        // removing counting of space as right character
-                        currWordElement.classList.add(typedWord===currWord ? "right" : "wrong")
-                        wrongCount+=(currWord.length-typedWord.length)
-                        if (typedWord===currWord){
-                            typedStack=[]
-                        }
-                        else{
-                            typedStack.push(typedWord)
-                        }
-                        typedWord=""
-                        setActiveWordIndex(activeWordIndex+1);
+                    currWordElement.classList.add(typedWord===currWord ? "right" : "wrong")
+                    if(currWord.length===typedWord.length){
+                        rightCount++;
+                    }
+                    wrongCount+=(currWord.length-typedWord.length)
+                    if (typedWord===currWord){
+                        typedStack=[]
                     }
                     else{
-                        currWordElement.classList.add(typedWord===currWord ? "right" : "wrong")
-                        if(codeLineWords.length===activeWordIndex+1){
-                            wrongCount+=(currWord.length-typedWord.length)
-                            let tempLen=typedWord.length
-                            for(let i=tempLen;i<currWord.length;i++){
-                                typedWord+="~"
-                                currWordElement.children[i+1].classList.add("wrong")
-                            }
-                            changeCarretPosition()
-                            
-                        }
-                        else{
-                            // rightCount+=1
-                            wrongCount+=(currWord.length-typedWord.length)
-                            if (typedWord===currWord){
-                                typedStack=[]
-                            }
-                            else{
-                                typedStack.push(typedWord)
-                            }
-                            typedWord=""
-                            setActiveWordIndex(activeWordIndex+1);
-                            changeCarretPosition()
-                        }
+                        typedStack.push(typedWord)
                     }
+                    typedWord=""
+                    setActiveWordIndex(activeWordIndex+1);
+                    changeCarretPosition()
                 }
                 break
             
@@ -534,7 +505,7 @@ export default function Home() {
                 </div>
                 :
                 <div>
-                    <TestComplete resetLiveTest={resetLiveTest} testTime={currentTestTime} speed={liveWpm} accuracy={liveAccuracy} language={languageState} />
+                    <TestComplete resetLiveTest={resetLiveTest} testTime={currentTestTime} speed={liveWpm} accuracy={liveAccuracy} language={currentTestLanguage} />
                 </div> 
                 }
             </div>

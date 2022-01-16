@@ -1,11 +1,12 @@
 import {React,useRef,useState} from 'react'
 import { useSelector ,useDispatch} from 'react-redux'
-import Loader from "react-loader"
+// import Loader from "react-loader"
+//removed loader from here will add if needed in future 
 import { setCurrentUser, showAlert } from '../actions'
 
 var userState
 var guestState
-var backendUrl="https://type-it-backend.herokuapp.com/"
+var backendUrl
 
 export default function TestComplete(props) {
     
@@ -17,6 +18,8 @@ export default function TestComplete(props) {
     
     const [savedThisTest,setSavedThisTest]=useState(false)
 
+    const [isHighScore,setIsHighScore]=useState(false)
+
     guestState=useSelector((state)=>{
         return state.handleGuestState
     })
@@ -24,81 +27,85 @@ export default function TestComplete(props) {
     userState=useSelector((state)=>{
         return state.handleUserState
     })
+
+    backendUrl=useSelector((state)=>{
+        return state.handleBackendUrlState
+    })
     
-    const [loaderState,setLoaderState]=useState(true)
+    // const [loaderState,setLoaderState]=useState(true)
     
     const saveCurrentTestCase=async ()=>{
-        // if(userState.status===0){
-        //     dispatch(showAlert("This test will not be stored, as your account is not verified yet please verify it, to get the link again re login or reload the page","danger",4000))
-        //     return;
-        // }
         try{
-            setLoaderState(false)
+            // setLoaderState(false)
+            // this is done in order just show result instantly
+            
+            let updatedUser={...userState}
+            updatedUser.numberOfTestsGiven+=1
+            updatedUser.totalTimeSpend+=props.testTime
+            if (userState.bestSpeed<props.speed){
+                updatedUser.bestAccuracy=props.accuracy
+                updatedUser.bestSpeed=props.speed
+            }
+            else if (userState.bestSpeed===props.speed && updatedUser.bestAccuracy<props.accuracy){
+                updatedUser.bestAccuracy=props.accuracy
+            }
+            updatedUser.averageSpeed=parseFloat((userState.averageSpeed*userState.numberOfTestsGiven+props.speed)/updatedUser.numberOfTestsGiven).toFixed(2)
+            updatedUser.averageAccuracy=parseFloat((userState.averageAccuracy*userState.numberOfTestsGiven+props.accuracy)/updatedUser.numberOfTestsGiven).toFixed(2)
+            
             let response=await fetch(`${backendUrl}api/test/createtest`,{
                 method:"POST",
                 headers:{
                     "Content-Type":"application/json",
                     "auth-token":`${localStorage.getItem("token")}`
                 },
+
                 body:JSON.stringify({
                     "testTime":`${props.testTime}`,
                     "speed":`${props.speed}`,
                     "accuracy":`${props.accuracy}`,
-                    "language":`${props.language}`
+                    "language":`${props.language}`,
+                    "numberOfTestsGiven":`${updatedUser.numberOfTestsGiven}`,
+                    "totalTimeSpend":`${updatedUser.totalTimeSpend}`,
+                    "bestSpeed":`${updatedUser.bestSpeed}`,
+                    "averageSpeed":`${updatedUser.averageSpeed}`,
+                    "bestAccuracy":`${updatedUser.bestAccuracy}`,
+                    "averageAccuracy":`${updatedUser.averageAccuracy}`
                 })
 
             })
 
             let json=await response.json()
 
-            if(json.success){
-                let updatedUser={...userState}
-                updatedUser.numberOfTestsGiven+=1
-                updatedUser.totalTimeSpend+=props.testTime
-                if (userState.bestSpeed<props.speed){
-                    updatedUser.bestAccuracy=props.accuracy
-                    updatedUser.bestSpeed=props.speed
+            if(json.success===1){
+                updatedUser.tests.push(json.savedTest)
+                dispatch(setCurrentUser(updatedUser))
+                setIsHighScore(false)
+            }
+            else if(json.success===2){
+                setIsHighScore(true)
+                let bestIndex=-1;
+                for(let i=0;i<updatedUser.bests.length;i++){
+                    if(updatedUser.bests[i].testTime===props.testTime && updatedUser.bests[i].language===props.language){
+                        bestIndex=i;
+                        break;
+                    }
                 }
-                else if (userState.bestSpeed===props.speed && updatedUser.bestAccuracy<props.accuracy){
-                    updatedUser.bestAccuracy=props.accuracy
+                if(bestIndex!==-1){
+                    updatedUser.bests.splice(bestIndex,1)
                 }
-                updatedUser.averageSpeed=parseFloat((userState.averageSpeed*userState.numberOfTestsGiven+props.speed)/updatedUser.numberOfTestsGiven).toFixed(2)
-                updatedUser.averageAccuracy=parseFloat((userState.averageAccuracy*userState.numberOfTestsGiven+props.accuracy)/updatedUser.numberOfTestsGiven).toFixed(2)
-                
-                response=await fetch(`${backendUrl}api/auth/updateuser`,{
-                    method:"POST",
-                    headers:{
-                        "Content-Type":"application/json",
-                        "auth-token":`${localStorage.getItem("token")}`
-                    },
-                    body:JSON.stringify({
-                        "numberOfTestsGiven":`${updatedUser.numberOfTestsGiven}`,
-                        "totalTimeSpend":`${updatedUser.totalTimeSpend}`,
-                        "bestSpeed":`${updatedUser.bestSpeed}`,
-                        "averageSpeed":`${updatedUser.averageSpeed}`,
-                        "bestAccuracy":`${updatedUser.bestAccuracy}`,
-                        "averageAccuracy":`${updatedUser.averageAccuracy}`
-                    })
-                    
-                }) 
-
-                json=await response.json();
-                if(json.success){
-                    dispatch(setCurrentUser(updatedUser))
-                }
-                else{
-                    dispatch(showAlert(json.error,"danger"))
-                }
+                updatedUser.bests.push(json.savedTest)
+                updatedUser.tests.push(json.savedTest)
+                dispatch(setCurrentUser(updatedUser))
             }
             else{
                 dispatch(showAlert(json.error,"danger"))
             }
             
-            setLoaderState(true)
+            // setLoaderState(true)
         }
         catch(e){
             dispatch(showAlert("Something went wrong this test case is not submitted, sorry for the inconvenience","danger"))
-            setLoaderState(true)
+            // setLoaderState(true)
         }
     }
 
@@ -116,7 +123,8 @@ export default function TestComplete(props) {
     }
 
     return (
-            <Loader loaded={loaderState} className="spinner" color="#FFF" radius={10} width={3} trail={60} speed={1} position='relative' top="100px">
+        <>
+            {/* <Loader loaded={loaderState} className="spinner" color="#FFF" radius={10} width={3} trail={60} speed={1} position='relative' top="100px"> */}
                 <div style={{marginTop:"-50px",marginLeft:"-50px",marginRight:"-50px"}}>
                     <h2 className='text-center ' style={{color:"#ffeba7"}}>Test Completed !!!</h2>
                     <div className=" d-flex flex-row justify-content-around">
@@ -124,12 +132,13 @@ export default function TestComplete(props) {
                         <div className="col text-center mt-4">
                         <h5 className="text-muted font-">Total Time</h5>
                         <h2 className='display-1'>{props.testTime}</h2>
+                        <h5 className="text-muted font-">{props.language}</h5>
                         </div>
                         </div>   
                         <div className="t-card">
                         <div className="col text-center mt-4">
                         <h5 className="text-muted font-">Speed (wpm)</h5>
-                        <h2 className='display-1'>{props.speed}{userState.bestSpeed===props.speed && userState.bestAccuracy===props.accuracy ? "*" : ""}</h2>
+                        <h2 className='display-1'>{props.speed}{isHighScore ? "*" : ""}</h2>
                         <h5 className={`text-muted font- ${userState.averageSpeed!==null?"":"d-none"}`}>Avg {userState.averageSpeed}</h5>
                         </div>
                         </div>
@@ -145,6 +154,7 @@ export default function TestComplete(props) {
                 <button className='btn-2' ref={resetButton} onClick={()=>{resetLiveTest()}}>Next Test </button>
                 </div>
             </div>
-        </Loader>
+        {/* </Loader> */}
+        </>
     )
 }

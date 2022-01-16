@@ -17,9 +17,9 @@ export default function LeaderBoardTable(props) {
         return state.handleUserState
     })
 
-    if(userState.id!==null){
+    if(userState.userName!==null){
         for(let i=0;i<leaderBoardData.length;i++){
-            if(leaderBoardData[i].id===userState.id){
+            if(leaderBoardData[i].userName===userState.userName){
                 userIdx=i+1;
                 break;
             }

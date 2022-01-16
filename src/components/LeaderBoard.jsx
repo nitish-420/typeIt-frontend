@@ -8,7 +8,7 @@ import { removeGuest, resetCurrentUser, setCurrentUser,setGuest,showAlert } from
 
 
 var userState
-var backendUrl="https://type-it-backend.herokuapp.com/"
+var backendUrl
 
 export default function LeaderBoard() {
 
@@ -22,6 +22,11 @@ export default function LeaderBoard() {
     
     userState=useSelector((state)=>{
         return state.handleUserState
+    })
+
+
+    backendUrl=useSelector((state)=>{
+        return state.handleBackendUrlState
     })
 
     useEffect(()=>{
@@ -42,6 +47,45 @@ export default function LeaderBoard() {
 
                 if(json.success){
                     // console.log(json)
+                    await json.final.time15.sort((a,b)=>{
+                        if(a.speed===b.speed){
+                            if(a.accuracy===b.accuracy){
+                                let datea=new Date(a.timeOfTest).getTime()
+                                let dateb=new Date(b.timeOfTest).getTime()
+                                return datea-dateb
+                            }
+                            return b.accuracy-a.accuracy
+                        }
+                        return b.speed-a.speed
+                    })
+                    await json.final.time30.sort((a,b)=>{
+                        if(a.speed===b.speed){
+                            if(a.accuracy===b.accuracy){
+                                return a.timeOfTest-b.timeOfTest
+                            }
+                            return b.accuracy-a.accuracy
+                        }
+                        return b.speed-a.speed
+                    })
+                    await json.final.time60.sort((a,b)=>{
+                        if(a.speed===b.speed){
+                            if(a.accuracy===b.accuracy){
+                                return a.timeOfTest-b.timeOfTest
+                            }
+                            return b.accuracy-a.accuracy
+                        }
+                        return b.speed-a.speed
+                    })
+                    await json.final.time120.sort((a,b)=>{
+                        if(a.speed===b.speed){
+                            if(a.accuracy===b.accuracy){
+                                return a.timeOfTest-b.timeOfTest
+                            }
+                            return b.accuracy-a.accuracy
+                        }
+                        return b.speed-a.speed
+                    })
+
                     setLeaderBoardData(()=>{
                         return {
                             ...json.final,
@@ -119,8 +163,8 @@ export default function LeaderBoard() {
                         <li> <a className='dropdown-item text-light bg-dark'  onClick={()=>setLanguage("English")}>English</a></li>
                         <li> <a className='dropdown-item text-light bg-dark'  onClick={()=>setLanguage("Python")}>Python</a></li>
                         <li> <a className='dropdown-item text-light bg-dark'  onClick={()=>setLanguage("C")}>C/C++</a></li>
-                        <li> <a className='dropdown-item text-light bg-dark'  onClick={()=>setLanguage("Java")}>Java</a></li>
                         <li> <a className='dropdown-item text-light bg-dark'  onClick={()=>setLanguage("Javascript")}>JavaScript</a></li>
+                        <li> <a className='dropdown-item text-light bg-dark'  onClick={()=>setLanguage("Java")}>Java</a></li>
                     </ul>
                 </div>
             </div>
