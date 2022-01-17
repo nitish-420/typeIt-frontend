@@ -27,6 +27,7 @@ var liveWpm=0
 var currentTestTime
 var currentTestLanguage
 var backendUrl
+var testChartStates=[]
 
 export default function Home(props) {
 
@@ -136,6 +137,7 @@ export default function Home(props) {
             typedStack=[]
             rightCount=0
             wrongCount=0
+            testChartStates=[]
             setActiveWordIndex(0)
         }
     },[dispatch,guestState,history])
@@ -206,6 +208,7 @@ export default function Home(props) {
 
         typedWord=""
         changeCarretPosition()
+        testChartStates=[]
         try{
             caret.classList.add("blink")
         }
@@ -223,6 +226,14 @@ export default function Home(props) {
         }
         currentTestTime=timeState
         currentTestLanguage=languageState
+        testChartStates=[]
+        testChartStates.push({
+            rightCount:0,
+            wrongCount:0,
+            speed:0,
+            accuracy:0,
+            time:0
+        })
         let intervalId=setInterval(()=>{
             setLiveTimer((prev)=>{
                 tempLiveTimer=prev-1
@@ -236,6 +247,14 @@ export default function Home(props) {
                 liveWpm=0
                 liveAccuracy=0
             }
+            testChartStates.push({
+                rightCount:rightCount,
+                wrongCount:wrongCount,
+                speed:liveWpm,
+                accuracy:liveAccuracy,
+                time:timeState-tempLiveTimer
+            })
+
             if(tempLiveTimer===0 && intervalId){
                 clearInterval(intervalId)
                 setLiveTimer(null)
@@ -505,7 +524,7 @@ export default function Home(props) {
                 </div>
                 :
                 <div>
-                    <TestComplete resetLiveTest={resetLiveTest} testTime={currentTestTime} speed={liveWpm} accuracy={liveAccuracy} language={currentTestLanguage} />
+                    <TestComplete resetLiveTest={resetLiveTest} testTime={currentTestTime} speed={liveWpm} accuracy={liveAccuracy} language={currentTestLanguage} testChartStates={testChartStates} />
                 </div> 
                 }
             </div>

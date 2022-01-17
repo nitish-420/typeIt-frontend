@@ -24,10 +24,10 @@ export default function BestTable(props) {
                 <thead>
 
                     <tr>
-                        <th className='text-center'>Time</th>
-                        <th className='text-center'>Best Speed</th>
-                        <th className='text-center'>Best Accuracy</th>
-                        <th className='text-center'>Date</th>
+                        <th className='w-20 text-center'>time</th>
+                        <th className='w-20 text-center'>wpm</th>
+                        <th className='w-20 text-center'>accuracy</th>
+                        <th className='w-40 text-center'>date</th>
                     </tr>
                 </thead>
                 <tbody>

@@ -32,11 +32,11 @@ export default function UserAllTestTable(props) {
                     <thead>
 
                         <tr>
-                            <th className='text-center'>Language</th>
-                            <th className='text-center'>Time </th>
-                            <th className='text-center'>Speed(wpm)</th>
-                            <th className='text-center'>Accuracy</th>
-                            <th className='text-center'>Date</th>
+                            <th className='text-center'>language</th>
+                            <th className='text-center'>time </th>
+                            <th className='text-center'>wpm</th>
+                            <th className='text-center'>accuracy</th>
+                            <th className='text-center'>date</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -58,11 +58,11 @@ export default function UserAllTestTable(props) {
                 <table className='table table-striped  table-dark table-hover '>
                     <thead>
                         <tr>
-                            <th className='text-center'>Language</th>
-                            <th className='text-center'>Time </th>
-                            <th className='text-center'>Speed(wpm)</th>
-                            <th className='text-center'>Accuracy</th>
-                            <th className='text-center'>Date</th>
+                            <th className='text-center'>language</th>
+                            <th className='text-center'>time </th>
+                            <th className='text-center'>wpm</th>
+                            <th className='text-center'>accuracy</th>
+                            <th className='text-center'>date</th>
                         </tr>
                     </thead>
                     <tbody>

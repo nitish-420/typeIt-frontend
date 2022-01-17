@@ -24,6 +24,7 @@
     "react-scroll-into-view-if-needed": "^3.0.1",
     "react-use-scroll-direction": "^0.1.0",
     "react-window": "^1.8.6",
+    "recharts": "^2.1.8",
     "redux": "^4.1.2",
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.4.1",

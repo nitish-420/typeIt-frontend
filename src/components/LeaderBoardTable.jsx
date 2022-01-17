@@ -45,11 +45,11 @@ export default function LeaderBoardTable(props) {
                 <thead>
 
                     <tr>
-                        <th className='text-center'>Rank</th>
-                        <th className='text-center'>By</th>
-                        <th className='text-center'>Speed(wpm)</th>
-                        <th className='text-center'>Accuracy</th>
-                        <th className='text-center'>Date</th>
+                        <th className='w-10 text-center'>#</th>
+                        <th className='w-30 text-center'>by</th>
+                        <th className='w-10 text-center'>wpm</th>
+                        <th className='w-10 text-center'>acc</th>
+                        <th className='w-40 text-center'>date</th>
                     </tr>
                 </thead>
                 <tbody>

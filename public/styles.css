@@ -50,7 +50,7 @@ code {
 body {
     font-family: 'Poppins', sans-serif;
     font-weight: 300;
-    font-size: 14px;
+    font-size: 15px;
     line-height: 1.7;
     color: #c4c3ca;
     background-color: #212529;
@@ -455,7 +455,7 @@ a:hover {
     position: absolute;
     /* margin-left: -13px; */
     margin-top: -12px;
-    transition: all 0.15s ease;
+    transition: all 0.08s linear 0s;
     font-size: 40px;
     font-family: monospace;
     color: rgb(16, 147, 255);

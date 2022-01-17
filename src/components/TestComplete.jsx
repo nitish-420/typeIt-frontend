@@ -3,6 +3,7 @@ import { useSelector ,useDispatch} from 'react-redux'
 // import Loader from "react-loader"
 //removed loader from here will add if needed in future 
 import { setCurrentUser, showAlert } from '../actions'
+import CurrentTestChart from './CurrentTestChart'
 
 var userState
 var guestState
@@ -33,7 +34,7 @@ export default function TestComplete(props) {
     })
     
     // const [loaderState,setLoaderState]=useState(true)
-    
+
     const saveCurrentTestCase=async ()=>{
         try{
             // setLoaderState(false)
@@ -125,33 +126,36 @@ export default function TestComplete(props) {
     return (
         <>
             {/* <Loader loaded={loaderState} className="spinner" color="#FFF" radius={10} width={3} trail={60} speed={1} position='relative' top="100px"> */}
-                <div style={{marginTop:"-50px",marginLeft:"-50px",marginRight:"-50px"}}>
-                    <h2 className='text-center ' style={{color:"#ffeba7"}}>Test Completed !!!</h2>
+                <div style={{marginTop:"-50px",marginLeft:"-100px",marginRight:"-100px"}}>
+                    {/* <h2 className='text-center ' style={{color:"#ffeba7"}}>Test Completed !!!</h2> */}
+                    <div>
+                        <CurrentTestChart testChartStates={props.testChartStates} testTime={props.testTime} language={props.language}/>
+                    </div>
                     <div className=" d-flex flex-row justify-content-around">
-                        <div className="t-card">                 
+                        {/* <div className="t-card">                 
                         <div className="col text-center mt-4">
                         <h5 className="text-muted font-">Total Time</h5>
-                        <h2 className='display-1'>{props.testTime}</h2>
+                        <h3 className='display-5'>{props.testTime}</h3>
                         <h5 className="text-muted font-">{props.language}</h5>
                         </div>
-                        </div>   
+                        </div>    */}
                         <div className="t-card">
                         <div className="col text-center mt-4">
-                        <h5 className="text-muted font-">Speed (wpm)</h5>
-                        <h2 className='display-1'>{props.speed}{isHighScore ? "*" : ""}</h2>
-                        <h5 className={`text-muted font- ${userState.averageSpeed!==null?"":"d-none"}`}>Avg {userState.averageSpeed}</h5>
+                        <h5 className="text-muted font-">wpm</h5>
+                        <h2 className='display-3'>{props.speed}{isHighScore ? "*" : ""}</h2>
+                        <h5 className={`text-muted font- ${userState.averageSpeed!==null?"":"d-none"}`}>avg {userState.averageSpeed}</h5>
                         </div>
+                        </div>
+                        <div className="restartButton">
+                        <button className='btn-2' ref={resetButton} onClick={()=>{resetLiveTest()}}>Next Test </button>
                         </div>
                         <div className="t-card">
                         <div className="col text-center mt-4">
-                        <h5 className="text-muted font-">Accuracy (%)</h5>
-                        <h2 className='display-1'>{props.accuracy}</h2>
-                        <h5 className={`text-muted font- ${userState.averageAccuracy!==null?"":"d-none"}`}>Avg {userState.averageAccuracy}</h5>
+                        <h5 className="text-muted font-">accuracy</h5>
+                        <h2 className='display-3'>{props.accuracy}%</h2>
+                        <h5 className={`text-muted font- ${userState.averageAccuracy!==null?"":"d-none"}`}>avg {userState.averageAccuracy}%</h5>
                         </div>
                         </div>
-                </div>
-                <div className="restartButton">
-                <button className='btn-2' ref={resetButton} onClick={()=>{resetLiveTest()}}>Next Test </button>
                 </div>
             </div>
         {/* </Loader> */}

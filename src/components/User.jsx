@@ -5,6 +5,7 @@ import { removeGuest, resetCurrentUser, setCurrentUser,setGuest,showAlert } from
 import { useHistory } from 'react-router-dom'
 import BestTable from "./BestTable"
 import UserAllTestTable from './UserAllTestTable'
+import AllTestsChart from './AllTestsChart'
 
 var userState
 var guestState
@@ -358,55 +359,57 @@ export default function User() {
                             </div>
                         </div>
                         </div>
-                    {/* <div>
-                        {userState.email} is your email
-                    </div> */}
                 </div>
+                <div>
+                    <AllTestsChart/>
+                </div>
+                <hr/>
 
                 <div className='row d-flex flex-row justify-content-around'>
 
                     <div className='col-10 col-lg-12 p-3' style={{minHeight:"300px"}}>
-                        <h1 className='text-center' style={{color:"#ffeba7"}}>
-                            English
-                        </h1>
+                        <h2 className='text-center' style={{color:"#ffeba7"}}>
+                            English bests
+                        </h2>
                         <Loader loaded={englishBest.success} className="spinner" color="#FFF" radius={10} width={3} trail={60} speed={1} position='relative' top='100px'/>
                             <BestTable  bestData={englishBest}/>
                         {/* </Loader> */}
                     </div>
                     <div className='col-10 col-lg-6 p-3' style={{minHeight:"300px"}}>
-                        <h1 className='text-center' style={{color:"#ffeba7"}}>
-                            Python
-                        </h1>
+                        <h2 className='text-center' style={{color:"#ffeba7"}}>
+                            Python bests
+                        </h2>
                         <Loader loaded={pythonBest.success} className="spinner" color="#FFF" radius={10} width={3} trail={60} speed={1} position='relative' top='100px'/>
                             <BestTable  bestData={pythonBest}/>
                         {/* </Loader> */}
                     </div>
                     <div className='col-10 col-lg-6 p-3' style={{minHeight:"300px"}}>
-                        <h1 className='text-center' style={{color:"#ffeba7"}}>
-                            C/C++
-                        </h1>
+                        <h2 className='text-center' style={{color:"#ffeba7"}}>
+                            C/C++ bests
+                        </h2>
 
                         <Loader loaded={cBest.success} className="spinner" color="#FFF" radius={10} width={3} trail={60} speed={1} position='relative' top='100px'/>
                             <BestTable  bestData={cBest}/>
                         {/* </Loader> */}
                     </div>
                     <div className='col-10 col-lg-6 p-3' style={{minHeight:"300px"}}>
-                        <h1 className='text-center' style={{color:"#ffeba7"}}>
-                            JavaScript
-                        </h1>
+                        <h2 className='text-center' style={{color:"#ffeba7"}}>
+                            JavaScript bests
+                        </h2>
                         <Loader loaded={javascriptBest.success} className="spinner" color="#FFF" radius={10} width={3} trail={60} speed={1} position='relative' top='100px'/>
                             <BestTable  bestData={javascriptBest}/>
 
                     </div>
                     <div className='col-10 col-lg-6 p-3' style={{minHeight:"300px"}}>
-                        <h1 className='text-center' style={{color:"#ffeba7"}}>
-                            Java
-                        </h1>
+                        <h2 className='text-center' style={{color:"#ffeba7"}}>
+                            Java bests
+                        </h2>
                         <Loader loaded={javaBest.success} className="spinner" color="#FFF" radius={10} width={3} trail={60} speed={1} position='relative' top='100px'/>
                             <BestTable  bestData={javaBest}/>
                         {/* </Loader> */}
                     </div>
                 </div>
+                <hr/>
                 <div className='p-4' style={{minHeight:"300px"}}>
                     <Loader loaded={allTestsLoader} className="spinner" color="#FFF" radius={10} width={3} trail={60} speed={1} position='relative' top='200px'  />
                         <UserAllTestTable  testData={allTests}/>
