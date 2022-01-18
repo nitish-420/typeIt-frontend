@@ -1,5 +1,5 @@
 import React from 'react'
-import { AreaChart,Label ,Area,XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import {ComposedChart,Label,Area,XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 const time120=[0,6, 12, 18, 24, 30, 36, 42, 48, 54, 60, 66, 72, 78, 84, 90, 96, 102, 108, 114,120]
 const time60=[0, 4, 8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60]
@@ -12,6 +12,7 @@ const CurrentTestChart = (props) => {
         if (active && payload && payload.length) {
             return (
                 <div className="custom-tooltip px-2" style={{ backgroundColor: 'black', opacity: "0.7" }}>
+                    <p className="m-0 p-0">{`${label}`}</p>
                     <p className="desc m-0 p-0">{`wpm: ${payload[0].value}`}</p>
                     <p className="desc m-0 p-0">{`acc: ${props.testChartStates[label].accuracy}`}</p>
                     <p className="desc m-0 p-0">{`right: ${props.testChartStates[label].rightCount}`}</p>
@@ -22,6 +23,7 @@ const CurrentTestChart = (props) => {
 
         return null;
     };
+
 
     const MAX=props.testTime
     var tickArray
@@ -40,7 +42,7 @@ const CurrentTestChart = (props) => {
 
     return (
         <ResponsiveContainer width="100%" aspect={3.8}>
-            <AreaChart
+            <ComposedChart
                 width={500}
                 height={300}
                 data={props.testChartStates}
@@ -56,6 +58,10 @@ const CurrentTestChart = (props) => {
                         <stop offset="1%" stopColor="#8884d8" stopOpacity={0.3} />
                         <stop offset="99%" stopColor="#8884d8" stopOpacity={0} />
                     </linearGradient>
+                    <linearGradient id="colorWrong" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="1%" stopColor="red" stopOpacity={0.5} />
+                        <stop offset="99%" stopColor="red" stopOpacity={0} />
+                    </linearGradient>
                 </defs>
                 <CartesianGrid opacity={0.07} horizontal="true" vertical="" />
                 <XAxis ticks={tickArray} dataKey="time"  interval="preserveStartEnd">
@@ -64,9 +70,10 @@ const CurrentTestChart = (props) => {
                 <YAxis >
                     <Label value="WPM" position="outsideCenter" fill='#ffeba7' angle={-90} dx={-20} fontSize={22}/>
                 </YAxis>
-                <Tooltip content={<CustomTooltip />} />                
-                <Area type="monotone" dataKey="speed" stroke="#8884d8" activeDot={{ r: 5 }} dot={{ r: 4 }} fillOpacity={1} fill="url(#colorSpeed)" />
-            </AreaChart>
+                <Tooltip content={<CustomTooltip />} />
+                <Area type="monotone" stackId={1} dataKey="speed" stroke="#8884d8" activeDot={{ r: 5 }} dot={{ r: 4 }} fillOpacity={1} fill="url(#colorSpeed)" />
+                <Area type="monotone" stackId={0} dataKey="wrongCount" stroke="none" activeDot={{ r: 4,opacity:"0.3" }}  fillOpacity={1} fill="url(#colorWrong)" />
+            </ComposedChart>
         </ResponsiveContainer>
     );
 }

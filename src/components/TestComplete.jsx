@@ -4,10 +4,12 @@ import { useSelector ,useDispatch} from 'react-redux'
 //removed loader from here will add if needed in future 
 import { setCurrentUser, showAlert } from '../actions'
 import CurrentTestChart from './CurrentTestChart'
+import nextButton from "../Image/next-button.png"
 
 var userState
 var guestState
 var backendUrl
+
 
 export default function TestComplete(props) {
     
@@ -146,8 +148,11 @@ export default function TestComplete(props) {
                         <h5 className={`text-muted font- ${userState.averageSpeed!==null?"":"d-none"}`}>avg {userState.averageSpeed}</h5>
                         </div>
                         </div>
-                        <div className="restartButton">
+                        {/* <div className="restartButton">
                         <button className='btn-2' ref={resetButton} onClick={()=>{resetLiveTest()}}>Next Test </button>
+                        </div> */}
+                        <div className='restartButton'>
+                        <button type="button" className="btn btn-outline-secondary no-border"  ref={resetButton} onClick={()=>{resetLiveTest()}} ><img alt='Next Test' src={nextButton} width="70" height="70"/></button>
                         </div>
                         <div className="t-card">
                         <div className="col text-center mt-4">

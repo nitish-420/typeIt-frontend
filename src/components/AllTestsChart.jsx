@@ -28,8 +28,7 @@ const AllTestsChart = () => {
                 <div className="custom-tooltip px-2" style={{ backgroundColor: 'black', opacity: "0.7" }}>
                     <p className="desc m-0 p-0">{`wpm: ${payload[0].value}`}</p>
                     <p className="desc m-0 p-0">{`accuracy: ${userState.tests[label].accuracy}`}</p>
-                    <p className="desc m-0 p-0">{`time: ${userState.tests[label].testTime}`}</p>
-                    <p className="desc m-0 p-0">{`language: ${userState.tests[label].language}`}</p>
+                    <p className="desc m-0 p-0">{`type: ${userState.tests[label].language} ${userState.tests[label].testTime}`}</p>
                     <p className="desc m-0 p-0">{`date: ${getTimeString(userState.tests[label].timeOfTest)}`}</p>
                 </div>
             );
@@ -62,7 +61,7 @@ const AllTestsChart = () => {
                     <Label value="Words per Minute" position="outsideCenter" fill='#ffeba7' angle={-90} dx={-20} fontSize={17}/>
                 </YAxis>
                 <Tooltip content={<CustomTooltip />} />                
-                <Area dataKey="speed" stroke="#8884d8" activeDot={{ r: 5 }} dot={{ r: 4 }} fillOpacity={1} fill="url(#colorSpeed)" />
+                <Area type="linear" dataKey="speed" stroke="#8884d8" activeDot={{ r: 5 }} dot={{ r: 4 }} fillOpacity={1} fill="url(#colorSpeed)" />
             </AreaChart>
         </ResponsiveContainer>
     );
