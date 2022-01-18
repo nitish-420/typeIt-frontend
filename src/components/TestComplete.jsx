@@ -5,6 +5,8 @@ import { useSelector ,useDispatch} from 'react-redux'
 import { setCurrentUser, showAlert } from '../actions'
 import CurrentTestChart from './CurrentTestChart'
 import nextButton from "../Image/next-button.png"
+import { UilArrowCircleRight } from '@iconscout/react-unicons'
+import { UisArrowCircleRight } from '@iconscout/react-unicons-solid'
 
 var userState
 var guestState
@@ -152,7 +154,7 @@ export default function TestComplete(props) {
                         <button className='btn-2' ref={resetButton} onClick={()=>{resetLiveTest()}}>Next Test </button>
                         </div> */}
                         <div className='restartButton'>
-                        <button type="button" className="btn btn-outline-secondary no-border"  ref={resetButton} onClick={()=>{resetLiveTest()}} ><img alt='Next Test' src={nextButton} width="70" height="70"/></button>
+                        <button type="button" className="btn btn-outline-secondary no-border"  ref={resetButton} onClick={()=>{resetLiveTest()}} ><UisArrowCircleRight size="70" color="#FFD750" /></button>
                         </div>
                         <div className="t-card">
                         <div className="col text-center mt-4">
