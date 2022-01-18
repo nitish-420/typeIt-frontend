@@ -161,7 +161,7 @@ export default function LeaderBoard() {
         <div className='mb-5'>
             <div className='row d-flex flex-row justify-content-around'>
                 <div className='col-12 col-md-9 p-3 align-self-center text-center text-md-start'>
-                    <h1 style={{color:"#ffeba7"}}><UilClock size="45" color="#FFD651" />Leader Board</h1>
+                    <h1 style={{color:"#ffeba7"}}>Leader Board</h1>
                 </div>
                 <div className="dropdown col-12 col-md-3  p-3 text-center text-md-end">
                     <button className="btn-2 dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
