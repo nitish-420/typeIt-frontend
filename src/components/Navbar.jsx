@@ -2,7 +2,6 @@ import React from "react";
 import {Link,useLocation,useHistory} from "react-router-dom"
 import { useDispatch ,useSelector} from "react-redux";
 import { UilClock } from '@iconscout/react-unicons'
-import { UilLanguage } from '@iconscout/react-unicons'
 
 import { showAlert,setTime,setLanguage,resetCurrentUser, setGuest } from "../actions";
 import editUser from "../Image/editUser.png"

@@ -4,8 +4,7 @@ import { useSelector ,useDispatch} from 'react-redux'
 //removed loader from here will add if needed in future 
 import { setCurrentUser, showAlert } from '../actions'
 import CurrentTestChart from './CurrentTestChart'
-import nextButton from "../Image/next-button.png"
-import { UilArrowCircleRight } from '@iconscout/react-unicons'
+// import { UilArrowCircleRight } from '@iconscout/react-unicons'
 import { UisArrowCircleRight } from '@iconscout/react-unicons-solid'
 
 var userState
@@ -125,6 +124,13 @@ export default function TestComplete(props) {
     if(!guestState && savedThisTest===false && validTestCase()){
         setSavedThisTest(true)
         saveCurrentTestCase()
+    }
+
+    window.onkeydown=(e)=>{
+        if(e.key==="Tab"){
+            e.preventDefault()
+            resetButton.current.focus();
+        }
     }
 
     return (

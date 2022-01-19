@@ -5,7 +5,6 @@ import Loader from "react-loader"
 import LeaderBoardTable from "./LeaderBoardTable"
 import { useHistory } from 'react-router-dom'
 import { removeGuest, resetCurrentUser, setCurrentUser,setGuest,showAlert } from '../actions/index'
-import { UilClock } from '@iconscout/react-unicons'
 
 
 var userState
