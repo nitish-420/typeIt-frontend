@@ -327,7 +327,7 @@ export default function User() {
             {!guestState ? <div className='mb-3'>
                 <div className='row d-flex flex-row justify-content-around'>
                     <h2 className='col-12 text-center text-animation'>
-                        Hii {userState.fName+" "+userState.lName } go down to trace your journey !!!
+                        Hii {userState.fName+" "+userState.lName } scroll down to trace your journey !!!
                     </h2>
                     <div className="container pb-4">
                         <div className="row p-4">
